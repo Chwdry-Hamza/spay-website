@@ -39,7 +39,7 @@ export default function BottomNav() {
           left: '50%',
           transform: 'translateX(-50%)',
           zIndex: 2147483647,
-          backgroundColor: 'rgba(24, 24, 27, 0.95)',
+          backgroundColor: 'transparent',
           backdropFilter: 'blur(12px)',
           WebkitBackdropFilter: 'blur(12px)',
           borderRadius: '16px',
@@ -51,7 +51,7 @@ export default function BottomNav() {
         }}
       >
         <div className="flex items-center justify-between px-5 py-3 w-full">
-          <span className="text-amber-100 font-black text-lg tracking-tight">SICASH</span>
+          <img src="/Spay.png" alt="SiCash" style={{ height: '3rem', width: 'auto' }} />
           <a href="https://apps.apple.com/app/sicash" target="_blank" rel="noopener noreferrer" className="px-5 py-2.5 bg-linear-to-b from-zinc-200 to-zinc-400 text-zinc-900 font-bold text-xs tracking-wider rounded-lg shadow-md hover:from-zinc-100 hover:to-zinc-300 transition-all">
             GET THE APP
           </a>
@@ -59,17 +59,17 @@ export default function BottomNav() {
       </nav>
 
       {/* Desktop Bottom Nav */}
-      <div className="hidden md:flex fixed bottom-6 left-0 right-0 items-center justify-center gap-4 px-6 z-50">
-        <nav className="w-full max-w-380 bg-zinc-900/90 backdrop-blur-md rounded-2xl px-8 py-5 flex items-center justify-between">
+      <div className="hidden md:flex fixed bottom-5 lg:bottom-6 xl:bottom-8 left-0 right-0 items-center justify-center gap-4 px-4 lg:px-6 z-50">
+        <nav className="w-full max-w-[900px] lg:max-w-[1100px] xl:max-w-[1300px] bg-transparent backdrop-blur-md rounded-2xl px-4 py-3.5 lg:px-8 lg:py-5 xl:px-10 xl:py-6 flex items-center justify-between gap-3 lg:gap-4">
           {/* Logo */}
-          <div className="text-amber-100 font-bold text-xl tracking-tight">
-            <Link href="/" className="text-amber-100 font-bold text-2xl tracking-tight hover:text-white transition-colors">
-              SICASH
+          <div className="shrink-0">
+            <Link href="/">
+              <img src="/Spay.png" alt="SiCash" className="h-8 lg:h-9 xl:h-11 w-auto" style={{ transform: 'scale(1.0)', transformOrigin: 'left center' }} />
             </Link>
           </div>
 
           {/* Navigation Items */}
-          <div className="flex items-center gap-32">
+          <div className="flex items-center gap-6 lg:gap-8 xl:gap-14">
             <NavItem icon={<CardIcon />} label="How to pay" href="#payment" isActive={activeSection === "payment"} />
             <NavItem icon={<SendIcon />} label="Send" href="#transfer" isActive={activeSection === "transfer"} />
             <NavItem icon={<CryptoIcon />} label="Crypto" href="#crypto" isActive={activeSection === "crypto"} />
@@ -78,7 +78,7 @@ export default function BottomNav() {
           </div>
 
           {/* CTA Button */}
-          <a href="https://apps.apple.com/app/sicash" target="_blank" rel="noopener noreferrer" className="bg-linear-to-b from-zinc-200 to-zinc-400 text-black font-semibold px-8 py-3.5 text-base rounded-xl hover:from-zinc-100 hover:to-zinc-300 transition-all">
+          <a href="https://apps.apple.com/app/sicash" target="_blank" rel="noopener noreferrer" className="shrink-0 bg-linear-to-b from-zinc-200 to-zinc-400 text-black font-semibold px-4 py-2.5 text-xs lg:px-7 lg:py-3 lg:text-sm xl:px-10 xl:py-4 xl:text-base rounded-xl hover:from-zinc-100 hover:to-zinc-300 transition-all whitespace-nowrap">
             GET SICASH APP
           </a>
         </nav>
@@ -89,9 +89,9 @@ export default function BottomNav() {
 
 function NavItem({ icon, label, href, isActive }: { icon: React.ReactNode; label: string; href: string; isActive: boolean }) {
   return (
-    <a href={href} className={`flex flex-col items-center gap-2 transition-colors cursor-pointer ${isActive ? "text-white" : "text-zinc-300 hover:text-white"}`}>
-      <span className="w-7 h-7">{icon}</span>
-      <span className={`text-sm ${isActive ? "font-bold" : "font-medium"}`}>{label}</span>
+    <a href={href} className={`flex flex-col items-center gap-1.5 lg:gap-2 transition-colors cursor-pointer ${isActive ? "text-white" : "text-zinc-300 hover:text-white"}`}>
+      <span className="w-7 h-7 lg:w-7 lg:h-7 xl:w-8 xl:h-8">{icon}</span>
+      <span className={`text-sm lg:text-sm xl:text-base whitespace-nowrap ${isActive ? "font-bold" : "font-medium"}`}>{label}</span>
     </a>
   );
 }

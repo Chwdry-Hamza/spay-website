@@ -1,5 +1,6 @@
 import HomeHero from "@/components/HomeHero";
 import FeaturesSection from "@/components/FeaturesSection";
+import Currencies from "@/components/currencies";
 import PaymentSection from "@/components/PaymentSection";
 import TransferSection from "@/components/TransferSection";
 import LinkedAccountsSection from "@/components/LinkedAccountsSection";
@@ -15,6 +16,7 @@ export default function Home() {
     <main className="pb-0">
       <HomeHero />
       <FeaturesSection />
+      <Currencies />
       <PaymentSection />
       <TransferSection />
       <LinkedAccountsSection />
