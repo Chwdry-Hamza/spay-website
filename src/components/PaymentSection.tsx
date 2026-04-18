@@ -99,11 +99,14 @@ export default function PaymentSection() {
     >
       {/* Soft teal radial glow center */}
       <div
-        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[500px] pointer-events-none"
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1100px] h-[820px] pointer-events-none"
         style={{
-          background: 'radial-gradient(ellipse at center, #0e2e2e 50%, transparent 70%)',
+          background:
+            'radial-gradient(ellipse 460px 340px at 50% 55%, #0e2e2e 0%, #0e2e2e 28%, rgba(14,46,46,0.8) 48%, rgba(14,46,46,0.45) 65%, rgba(14,46,46,0.18) 82%, transparent 100%)',
         }}
       />
+
+      
 
       <div className="relative z-10 w-full max-w-3xl mx-auto px-6 flex flex-col items-center">
 
@@ -130,22 +133,8 @@ export default function PaymentSection() {
           style={{ transform: 'scale(1.4)' }}
         />
 
-        {/* Switch button */}
-        <button
-          className="mt-10 md:mt-12 flex items-center gap-3 rounded-full pl-6 pr-1.5 py-1.5 transition-all hover:opacity-90"
-          style={{
-            background: 'linear-gradient(180deg, #1a1a1a 0%, #0a0a0a 100%)',
-            border: '1px solid rgba(255,255,255,0.08)',
-          }}
-        >
-          <span className="text-white text-sm md:text-base">Switch to EUR</span>
-          <div
-            className="w-9 h-9 rounded-full flex items-center justify-center text-white font-bold text-sm"
-            style={{ background: 'linear-gradient(135deg, #1fc98a, #0fa86e)' }}
-          >
-            €
-          </div>
-        </button>
+        
+       
       </div>
     </section>
   );

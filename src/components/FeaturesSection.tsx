@@ -243,8 +243,8 @@ export default function FeaturesSection() {
       </div>{/* Tab indicator */}
       
 
-      {/* Cards grid — ADAPTIVE: 1col mobile, 3col tablet+desktop */}
-      <div className="relative z-10 w-full max-w-6xl mx-auto px-4 sm:px-4 lg:px-6 grid grid-cols-1 sm:grid-cols-3 gap-8 sm:gap-3 lg:gap-6 items-center">
+      {/* Cards grid — outer card edges aligned vertically with HomeHero appbar (SPay logo / GET SPAY APP button) */}
+      <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 grid grid-cols-1 sm:grid-cols-3 gap-8 sm:gap-3 lg:gap-6 items-center">
         {/* CRYPTO Card — left, shorter */}
         <FeatureCard
           title="CRYPTO"

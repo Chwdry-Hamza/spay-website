@@ -177,74 +177,35 @@ export default function HomeHero() {
           borderBottom: "1px solid rgba(255,255,255,0.05)",
         }}
       >
-        {/* ADAPTIVE nav layout
-            - Desktop: SPAY left-aligned (matches text-left heading)
-            - Mobile/Tablet: SPAY uses an invisible heading clone to size a
-              w-fit wrapper, then sits at the wrapper's left edge — so it lands
-              directly above where "THE" starts in the centered heading below. */}
-        <div className="relative w-full max-w-7xl mx-auto px-4 sm:px-8 lg:px-16 flex items-center">
-          {bp === "desktop" ? (
-            <div className="w-full flex items-center justify-between">
-              <Link href="/" className="shrink-0">
-                <img
-                  src="/Spay.png"
-                  alt="SiCash"
-                  style={{ height: "2.2rem", width: "auto" }}
-                />
-              </Link>
-              <a
-                href="https://apps.apple.com/app/sicash"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="font-semibold px-6 py-2.5 rounded-xl text-sm transition-all hover:opacity-90"
-                style={{
-                  background:
-                    "linear-gradient(180deg, #46F1C5 0%, #288B72 100%)",
-                  color: "#0a2a23",
-                }}
-              >
-                GET SPAY APP
-              </a>
-            </div>
-          ) : (
-            <>
-              <div className="relative w-fit max-w-full mx-auto">
-                {/* Invisible heading clone: same font/size as hero heading,
-                    sets this wrapper's width to match. SPAY then aligns to
-                    the wrapper's left edge, which is the same x as "THE". */}
-                <span
-                  aria-hidden="true"
-                  className="invisible block h-0 overflow-hidden text-3xl sm:text-5xl font-bold leading-none"
-                  style={{ fontFamily: "var(--font-space-grotesk)" }}
-                >
-                  THE MONEY APP
-                </span>
-                <Link href="/" className="block" style={{ marginLeft: bp === "mobile" ? "-28px" : "-44px" }}>
-                  <img
-                    src="/Spay.png"
-                    alt="SiCash"
-                    style={{
-                      height: bp === "mobile" ? "1.6rem" : "2rem",
-                      width: "auto",
-                    }}
-                  />
-                </Link>
-              </div>
-              <a
-                href="https://apps.apple.com/app/sicash"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="absolute right-4 sm:right-8 top-1/2 -translate-y-1/2 font-semibold px-3 py-2 sm:px-5 sm:py-2.5 rounded-lg text-xs sm:text-sm transition-all hover:opacity-90"
-                style={{
-                  background:
-                    "linear-gradient(180deg, #46F1C5 0%, #288B72 100%)",
-                  color: "#0a2a23",
-                }}
-              >
-                {bp === "mobile" ? "GET APP" : "GET SPAY APP"}
-              </a>
-            </>
-          )}
+        {/* Nav layout — SPAY logo always left-aligned, CTA on the right */}
+        <div className="relative w-full max-w-7xl mx-auto px-4 sm:px-8 lg:px-16 flex items-center justify-between">
+          <Link href="/" className="shrink-0">
+            <img
+              src="/Spay.png"
+              alt="SiCash"
+              style={{
+                height:
+                  bp === "mobile"
+                    ? "1.6rem"
+                    : bp === "tablet"
+                    ? "2rem"
+                    : "2.2rem",
+                width: "auto",
+              }}
+            />
+          </Link>
+          <a
+            href="https://apps.apple.com/app/sicash"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="font-semibold px-3 py-2 sm:px-5 sm:py-2.5 lg:px-6 lg:py-2.5 rounded-lg lg:rounded-xl text-xs sm:text-sm transition-all hover:opacity-90"
+            style={{
+              background: "#04babf",
+              color: "#0a2a23",
+            }}
+          >
+            {bp === "mobile" ? "GET APP" : "GET SPAY APP"}
+          </a>
         </div>
       </nav>
 

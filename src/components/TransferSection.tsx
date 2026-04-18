@@ -1,28 +1,70 @@
 "use client";
 
 export default function TransferSection() {
+  const fontFamily = 'var(--font-space-grotesk)';
+
   return (
-    <section id="transfer" className="relative bg-[#f5f0e6] py-12 md:py-32 overflow-hidden">
+    <section
+      id="transfer"
+      className="relative py-12 md:py-32 overflow-hidden"
+      style={{ background: '#090e1c', fontFamily }}
+    >
+      {/* Mobile glow behind phone — sharper top fade so it doesn't bleed into the section above */}
+      <div
+        className="md:hidden absolute pointer-events-none"
+        style={{
+          left: '50%',
+          bottom: '5%',
+          transform: 'translateX(-50%)',
+          width: '480px',
+          height: '460px',
+          background:
+            'radial-gradient(ellipse 220px 260px at 50% 60%, #0e2e2e 0%, #0e2e2e 25%, rgba(14,46,46,0.7) 48%, rgba(14,46,46,0.3) 70%, transparent 92%)',
+        }}
+      />
+
+      {/* Soft teal radial glow center — fades fully to the section bg #090e1c on all edges so no seam shows */}
+      <div
+        className="hidden md:block absolute pointer-events-none"
+        style={{
+          right: '-260px',
+          top: '50%',
+          transform: 'translateY(-50%)',
+          width: '1400px',
+          height: '820px',
+          background:
+            'radial-gradient(ellipse 620px 420px at 62% 50%, #0e2e2e 0%, #0e2e2e 26%, rgba(14,46,46,0.75) 48%, rgba(14,46,46,0.4) 65%, rgba(14,46,46,0.15) 82%, transparent 96%)',
+        }}
+      />
+
       {/* Mobile Layout */}
-      <div className="md:hidden relative z-10 w-full px-6">
+      <div className="md:hidden relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-8">
         {/* Header */}
-        <p className="text-zinc-600 text-xs tracking-[0.2em] uppercase mb-6">
+        <p
+          className="text-[10px] sm:text-xs uppercase mb-5 sm:mb-6 text-center"
+          style={{ fontFamily: 'var(--font-inter)', fontWeight: 400, color: '#A6AABE', letterSpacing: '6px' }}
+        >
           TRANSFERS WITHOUT BARRIERS
         </p>
 
         {/* Main Heading */}
-        <h2 className="text-4xl font-bold text-zinc-900 leading-tight mb-6 text-center">
-          SEND MONEY EASILY, ANYWHERE, TO ANYONE
+        <h2
+          className="text-2xl sm:text-3xl font-bold text-white leading-tight mb-5 sm:mb-6 text-center"
+          style={{ fontFamily }}
+        >
+          SEND <span style={{ color: '#46F1C5' }}>CRYPTO</span> EASILY, ANYWHERE, TO ANYONE
         </h2>
 
         {/* Subtitle */}
-        <p className="text-base text-zinc-600 mb-10 leading-relaxed text-center">
+        <p
+          className="text-[11px] sm:text-xs mb-8 sm:mb-10 leading-relaxed text-center"
+          style={{ fontFamily: 'var(--font-inter)', fontWeight: 400, color: '#FFFFFF' }}
+        >
           Instantly transfer funds to Visa/MasterCard cards worldwide, SEPA bank accounts, and seamlessly send crypto assets with a single tap.
         </p>
 
         {/* Contacts Row */}
         <div className="flex items-center justify-center gap-3 mb-6">
-          {/* Avatars */}
           <div className="flex -space-x-2">
             <AvatarMobile img="👨" />
             <AvatarMobile img="👩" />
@@ -31,8 +73,13 @@ export default function TransferSection() {
             <AvatarMobile img="👱‍♀️" />
           </div>
 
-          {/* All Contacts Button */}
-          <a href="https://apps.apple.com/app/sicash" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 bg-zinc-800 text-white rounded-full px-5 py-3 hover:bg-zinc-700 transition-colors">
+          <a
+            href="https://apps.apple.com/app/sicash"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-2 bg-zinc-800 text-white rounded-full px-5 py-3 hover:bg-zinc-700 transition-colors"
+            style={{ fontFamily }}
+          >
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
             </svg>
@@ -40,92 +87,52 @@ export default function TransferSection() {
           </a>
         </div>
 
-        <p className="text-zinc-600 text-sm text-center mb-10">
+        <p
+          className="text-sm text-center mb-10"
+          style={{ fontFamily: 'var(--font-inter)', fontWeight: 400, color: '#A6AABE' }}
+        >
           Skip the numbers – send money straight to your contacts instantly
         </p>
 
         {/* Phone Mockup - Mobile */}
         <div className="relative w-full flex justify-center">
-          <div className="relative w-64 h-100">
-            {/* Phone */}
-            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-56 h-95 bg-zinc-900 rounded-[40px] border-4 border-zinc-800 shadow-2xl overflow-hidden transform rotate-3">
-              <div className="w-full h-full bg-zinc-900 p-3">
-                {/* Floating avatars */}
-                <div className="absolute top-3 left-3 flex flex-col gap-1">
-                  <div className="w-8 h-8 bg-amber-200 rounded-full border-2 border-zinc-700" />
-                  <div className="w-8 h-8 bg-zinc-400 rounded-full border-2 border-zinc-700" />
-                  <div className="w-6 h-6 bg-green-500 rounded-full border-2 border-zinc-700 text-[8px] flex items-center justify-center text-white font-bold">99+</div>
-                </div>
-
-                {/* Contact pill */}
-                <div className="absolute top-3 left-12 bg-zinc-800 rounded-full px-2 py-1 flex items-center gap-1">
-                  <span className="text-white text-[8px]">CONTACTS</span>
-                  <span className="text-zinc-500 text-[8px]">→</span>
-                </div>
-
-                {/* Transaction Cards */}
-                <div className="mt-16 space-y-2 px-2">
-                  <div className="bg-zinc-800 rounded-xl p-3">
-                    <div className="flex items-center gap-2">
-                      <div className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center text-white text-sm">€</div>
-                      <div>
-                        <div className="text-zinc-500 text-[10px]">You Sent</div>
-                        <div className="text-white font-bold text-sm">55 EUR</div>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="bg-zinc-800 rounded-xl p-3">
-                    <div className="text-white text-xl font-bold">55 EUR</div>
-                  </div>
-
-                  <div className="bg-zinc-800 rounded-xl p-3">
-                    <div className="flex items-center gap-2">
-                      <div className="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center text-white text-sm font-bold">₮</div>
-                      <div>
-                        <div className="text-zinc-500 text-[10px]">You Received</div>
-                        <div className="text-white font-bold text-sm">1001 USDT</div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Floating messages */}
-                <div className="absolute bottom-16 right-2 bg-zinc-700 rounded-lg px-2 py-1">
-                  <span className="text-zinc-300 text-[8px]">thank you!</span>
-                </div>
-                <div className="absolute bottom-8 left-2 bg-zinc-700 rounded-lg px-2 py-1">
-                  <span className="text-zinc-300 text-[8px]">thanx!</span>
-                </div>
-              </div>
-              {/* Notch */}
-              <div className="absolute top-1 left-1/2 -translate-x-1/2 w-16 h-4 bg-black rounded-full" />
-            </div>
-          </div>
+          <img
+            src="/paymentMobile.png"
+            alt="SPay transfer mockup"
+            className="w-52 sm:w-60 h-auto object-contain"
+          />
         </div>
       </div>
 
-      {/* Desktop Layout - Unchanged */}
-      <div className="hidden md:block relative z-10 w-full max-w-380 mx-auto px-8">
-        <div className="flex items-center justify-between">
+      {/* Desktop Layout */}
+      <div className="hidden md:block relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-8 lg:px-16">
+        <div className="flex items-center justify-between gap-6">
           {/* Left Content */}
-          <div className="max-w-xl">
-            <p className="text-zinc-600 text-sm tracking-widest uppercase mb-4">
+          <div className="max-w-md lg:max-w-lg xl:max-w-xl">
+            <p
+              className="text-[11px] lg:text-xs xl:text-sm uppercase mb-3 lg:mb-4"
+              style={{ fontFamily: 'var(--font-inter)', fontWeight: 400, color: '#A6AABE', letterSpacing: '6px' }}
+            >
               TRANSFERS WITHOUT BARRIERS
             </p>
-            <h2 className="text-5xl md:text-6xl font-bold text-zinc-900 leading-tight mb-6">
-              SEND MONEY EASILY,
+            <h2
+              className="text-3xl lg:text-5xl xl:text-6xl font-bold text-white leading-tight mb-5 lg:mb-6"
+              style={{ fontFamily }}
+            >
+              SEND <span style={{ color: '#46F1C5' }}>CRYPTO</span> EASILY,
               <br />
               ANYWHERE, TO ANYONE
             </h2>
-            <p className="text-lg text-zinc-600 mb-10 leading-relaxed">
+            <p
+              className="text-xs lg:text-sm mb-8 lg:mb-10 leading-relaxed"
+              style={{ fontFamily: 'var(--font-inter)', fontWeight: 400, color: '#FFFFFF' }}
+            >
               Instantly transfer funds to Visa/MasterCard cards worldwide, SEPA
               bank accounts, and seamlessly send crypto assets with a single tap.
             </p>
 
             {/* Contacts Row */}
-            <div className="flex items-center gap-4 mb-6">
-              {/* Avatars */}
+            <div className="flex items-center gap-3 lg:gap-4 mb-5 lg:mb-6">
               <div className="flex -space-x-3">
                 <Avatar bg="bg-amber-200" />
                 <Avatar bg="bg-zinc-300" />
@@ -134,83 +141,36 @@ export default function TransferSection() {
                 <Avatar bg="bg-amber-100" />
               </div>
 
-              {/* All Contacts Button */}
-              <a href="https://apps.apple.com/app/sicash" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 bg-zinc-800 text-white rounded-full px-6 py-3 hover:bg-zinc-700 transition-colors">
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <a
+                href="https://apps.apple.com/app/sicash"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 lg:gap-3 bg-zinc-800 text-white rounded-full px-4 py-2.5 lg:px-6 lg:py-3 hover:bg-zinc-700 transition-colors"
+                style={{ fontFamily }}
+              >
+                <svg className="w-4 h-4 lg:w-5 lg:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
                 </svg>
-                <span className="text-sm font-medium tracking-wide">ALL CONTACTS</span>
+                <span className="text-xs lg:text-sm font-medium tracking-wide">ALL CONTACTS</span>
               </a>
             </div>
 
-            <p className="text-zinc-500 text-sm">
+            <p
+              className="text-xs lg:text-sm"
+              style={{ fontFamily: 'var(--font-inter)', fontWeight: 400, color: '#A6AABE' }}
+            >
               Skip the numbers – send money straight to your contacts instantly
             </p>
           </div>
 
           {/* Right Content - Phone Mockup */}
-          <div className="relative w-150 h-150">
-            {/* Main Phone */}
-            <div className="absolute top-0 right-0 w-72 h-145 bg-zinc-900 rounded-[50px] border-8 border-zinc-800 shadow-2xl overflow-hidden transform rotate-6">
-              {/* Screen Content */}
-              <div className="w-full h-full bg-zinc-900 p-4">
-                {/* Contact pill */}
-                <div className="absolute -top-2 -right-8 bg-zinc-800 rounded-full px-4 py-2 flex items-center gap-2 transform -rotate-12">
-                  <span className="text-white text-xs">CONTACTS</span>
-                  <span className="text-zinc-400">×</span>
-                </div>
-
-                {/* User avatars floating */}
-                <div className="absolute top-4 right-4 flex flex-col gap-1">
-                  <div className="w-10 h-10 bg-amber-200 rounded-full border-2 border-white" />
-                  <div className="w-10 h-10 bg-zinc-300 rounded-full border-2 border-white" />
-                  <div className="w-8 h-8 bg-green-400 rounded-full border-2 border-white text-xs flex items-center justify-center text-white">99+</div>
-                </div>
-
-                {/* Transaction Cards */}
-                <div className="mt-20 space-y-3">
-                  <div className="bg-zinc-800 rounded-2xl p-4">
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center text-white">€</div>
-                        <div>
-                          <div className="text-zinc-400 text-xs">You Sent</div>
-                          <div className="text-white font-bold">55 EUR</div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="bg-zinc-800 rounded-2xl p-4">
-                    <div className="text-white text-2xl font-bold">55 EUR</div>
-                  </div>
-
-                  <div className="bg-zinc-800 rounded-2xl p-4">
-                    <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 bg-green-500 rounded-full flex items-center justify-center text-white font-bold">₮</div>
-                      <div>
-                        <div className="text-zinc-400 text-xs">You Received</div>
-                        <div className="text-white font-bold">1001 USDT</div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Floating labels */}
-                <div className="absolute bottom-20 right-4 text-zinc-400 text-xs transform rotate-45">
-                  thank you! See ya
-                </div>
-                <div className="absolute bottom-40 left-4 text-zinc-400 text-xs">
-                  thanx!
-                </div>
-              </div>
-
-              {/* Notch */}
-              <div className="absolute top-2 left-1/2 -translate-x-1/2 w-24 h-6 bg-black rounded-full" />
-            </div>
-
-            {/* Hand silhouette effect */}
-            <div className="absolute bottom-0 right-10 w-64 h-48 bg-linear-to-t from-zinc-400/20 to-transparent rounded-full blur-2xl" />
+          <div className="relative shrink-0 w-[320px] lg:w-[420px] xl:w-[500px] h-[420px] lg:h-[520px] xl:h-[580px] flex items-center justify-center">
+            <img
+              src="/paymentMobile.png"
+              alt="SPay transfer mockup"
+              className="w-52 lg:w-64 xl:w-72 h-auto object-contain"
+              />
+            <div className="absolute bottom-0 right-10 w-48 lg:w-64 h-36 lg:h-48 bg-linear-to-t from-zinc-400/20 to-transparent rounded-full blur-2xl pointer-events-none" />
           </div>
         </div>
       </div>
@@ -220,13 +180,13 @@ export default function TransferSection() {
 
 function Avatar({ bg }: { bg: string }) {
   return (
-    <div className={`w-14 h-14 ${bg} rounded-full border-4 border-white shadow-md`} />
+    <div className={`w-10 h-10 lg:w-12 lg:h-12 xl:w-14 xl:h-14 ${bg} rounded-full border-[3px] lg:border-4 border-white shadow-md`} />
   );
 }
 
 function AvatarMobile({ img }: { img: string }) {
   return (
-    <div className="w-12 h-12 bg-zinc-200 rounded-full border-3 border-white shadow-md flex items-center justify-center text-2xl">
+    <div className="w-10 h-10 sm:w-11 sm:h-11 bg-zinc-200 rounded-full border-[3px] border-white shadow-md flex items-center justify-center text-xl sm:text-2xl">
       {img}
     </div>
   );

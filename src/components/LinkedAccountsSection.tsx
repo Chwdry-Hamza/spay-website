@@ -2,7 +2,7 @@
 
 export default function LinkedAccountsSection() {
   return (
-    <section className="relative bg-[#f5f0e6] pt-0 pb-24 md:pb-48 overflow-hidden">
+    <section className="relative pt-0 pb-24 md:pb-48 overflow-hidden" style={{ background: '#090e1c' }}>
       {/* Animation styles */}
       <style jsx>{`
         @keyframes float1 {
@@ -31,34 +31,67 @@ export default function LinkedAccountsSection() {
         .card-float-4 { animation: float4 3.5s ease-in-out infinite 0.6s; }
         .card-float-5 { animation: float5 4s ease-in-out infinite 0.8s; }
       `}</style>
-      {/* Black section with rounded top corners */}
-      <div className="absolute top-0 left-0 right-0 bottom-0 bg-black rounded-t-[80px]" />
+      {/* Section background with rounded top corners */}
+      <div className="absolute top-0 left-0 right-0 bottom-0 rounded-t-[80px]" style={{ background: '#090e1c' }} />
 
       {/* Content */}
       <div className="relative z-10 w-full max-w-380 mx-auto px-8 pt-32">
         {/* Header */}
-        <div className="text-center mb-16">
-          <p className="text-zinc-400 text-base tracking-widest uppercase mb-4">
-            LINKED ACCOUNTS
-          </p>
-          <h2 className="text-5xl md:text-6xl font-bold text-white leading-tight mb-6">
-            USE YOUR <span className="text-amber-100">OTHER</span>
-            <br />
-            <span className="text-amber-100">BANK ACCOUNTS</span>
-          </h2>
-          <p className="text-xl text-zinc-400 max-w-2xl mx-auto">
-            Safely connect your bank accounts to the app and manage
-            them all from one secure access point.
-          </p>
+        <div className="relative text-center mb-16">
+          {/* Soft teal radial glow behind heading */}
+          <div
+            className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none"
+            style={{
+              width: '1100px',
+              height: '520px',
+              background:
+                'radial-gradient(ellipse 480px 220px at 50% 50%, #0f242c 0%, #0f242c 25%, rgba(15,36,44,0.8) 48%, rgba(15,36,44,0.45) 65%, rgba(15,36,44,0.18) 82%, transparent 100%)',
+            }}
+          />
+          <div className="relative">
+            <p
+              className="text-xs md:text-sm uppercase mb-4"
+              style={{ fontFamily: 'var(--font-inter)', fontWeight: 400, color: '#A6AABE', letterSpacing: '6px' }}
+            >
+              LINKED ACCOUNTS
+            </p>
+            <h2
+              className="text-5xl md:text-6xl font-bold text-white leading-tight mb-6"
+              style={{ fontFamily: 'var(--font-space-grotesk)' }}
+            >
+              USE YOUR <span style={{ color: '#46F1C5' }}>OTHER</span>
+              <br />
+              <span style={{ color: '#46F1C5' }}>BANK ACCOUNTS</span>
+            </h2>
+            <p
+              className="text-base md:text-lg max-w-2xl mx-auto"
+              style={{ fontFamily: 'var(--font-inter)', fontWeight: 400, color: '#A6AABE' }}
+            >
+              Safely connect your bank accounts to the app and manage
+              them all from one secure access point.
+            </p>
+          </div>
         </div>
 
         {/* Bank Cards Display */}
         <div className="relative flex items-center justify-center mt-16 h-150">
+          {/* Soft teal radial glow behind cards */}
+          <div
+            className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none"
+            style={{
+              width: '1400px',
+              height: '900px',
+              background:
+                'radial-gradient(ellipse 620px 380px at 50% 55%, #0f242c 0%, #0f242c 28%, rgba(15,36,44,0.8) 48%, rgba(15,36,44,0.45) 66%, rgba(15,36,44,0.18) 82%, transparent 100%)',
+            }}
+          />
+
           {/* Bank 2 Card - Far Left */}
-          <div className="card-float-1 absolute left-1/2 -ml-130 w-72 h-96 bg-zinc-900 rounded-3xl p-5">
+          {/* old: bg-zinc-900 */}
+          <div className="card-float-1 absolute left-1/2 -ml-130 w-72 h-96 rounded-3xl p-5" style={{ background: '#04babf' }}>
             <div className="flex items-center justify-between mb-6">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-zinc-600 rounded-full" />
+                <div className="w-10 h-10 bg-zinc-500 rounded-full" />
                 <div>
                   <div className="text-white text-sm font-medium">Marcel Wisniewski</div>
                   <div className="text-zinc-500 text-xs">Online</div>
@@ -71,7 +104,7 @@ export default function LinkedAccountsSection() {
                 </svg>
               </div>
             </div>
-            <div className="text-zinc-500 text-xs mb-2">BANK 2</div>
+            <div className="text-black text-xs mb-2">BANK 2</div>
             <div className="text-white text-4xl font-bold">€ 8,724</div>
             {/* Dotted globe pattern */}
             <div className="absolute bottom-0 left-0 right-0 h-44 opacity-60 overflow-hidden">
@@ -106,10 +139,11 @@ export default function LinkedAccountsSection() {
           </div>
 
           {/* Bank Card - Left */}
-          <div className="card-float-2 absolute left-1/2 -ml-80 w-72 h-96 bg-zinc-800 rounded-3xl p-5 z-10">
+          {/* old: bg-zinc-800 */}
+          <div className="card-float-2 absolute left-1/2 -ml-80 w-72 h-96 rounded-3xl p-5 z-10" style={{ background: '#04babf' }}>
             <div className="flex items-center justify-between mb-6">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-zinc-600 rounded-full" />
+                <div className="w-10 h-10 bg-zinc-500 rounded-full" />
                 <div>
                   <div className="text-white text-sm font-medium">Marcel Wisniewski</div>
                   <div className="text-zinc-500 text-xs">Online</div>
@@ -122,7 +156,7 @@ export default function LinkedAccountsSection() {
                 </svg>
               </div>
             </div>
-            <div className="text-zinc-500 text-xs mb-2">BANK</div>
+            <div className="text-black text-xs mb-2">BANK</div>
             <div className="text-white text-4xl font-bold">€ 9,824</div>
             {/* Dotted globe pattern */}
             <div className="absolute bottom-0 left-0 right-0 h-44 opacity-60 overflow-hidden">
@@ -208,7 +242,11 @@ export default function LinkedAccountsSection() {
           </div>
 
           {/* Successful Linked Popup */}
-          <div className="absolute left-1/2 -translate-x-1/2 -bottom-16 z-30 bg-zinc-800/90 backdrop-blur-md rounded-2xl px-8 py-6 text-center w-80">
+          {/* old: bg-zinc-800/90 */}
+          <div
+            className="absolute left-1/2 -translate-x-1/2 -bottom-16 z-30 backdrop-blur-md rounded-2xl px-8 py-6 text-center w-80"
+            style={{ background: 'rgba(4,186,191,0.9)' }}
+          >
             {/* Link Icon */}
             <div className="absolute -top-5 left-1/2 -translate-x-1/2 w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-lg">
               <svg className="w-5 h-5 text-zinc-700" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -217,17 +255,18 @@ export default function LinkedAccountsSection() {
               </svg>
             </div>
             <h3 className="text-white font-bold text-lg mt-4 mb-2">SUCCESSFUL LINKED</h3>
-            <p className="text-zinc-400 text-sm mb-4">You have successfully connected your external bank account. Thank you for using us.</p>
+            <p className="text-black text-sm mb-4">You have successfully connected your external bank account. Thank you for using us.</p>
             <a href="https://apps.apple.com/app/sicash" target="_blank" rel="noopener noreferrer" className="inline-block bg-zinc-700 hover:bg-zinc-600 text-white text-sm font-medium px-8 py-3 rounded-lg transition-colors">
               CHECK IT OUT
             </a>
           </div>
 
           {/* Bank 3 Card - Right */}
-          <div className="card-float-4 absolute left-1/2 ml-8 w-72 h-96 bg-zinc-800 rounded-3xl p-5 z-10">
+          {/* old: bg-zinc-800 */}
+          <div className="card-float-4 absolute left-1/2 ml-8 w-72 h-96 rounded-3xl p-5 z-10" style={{ background: '#04babf' }}>
             <div className="flex items-center justify-between mb-6">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-zinc-600 rounded-full" />
+                <div className="w-10 h-10 bg-zinc-500 rounded-full" />
                 <div>
                   <div className="text-white text-sm font-medium">Marcel Wisniewski</div>
                   <div className="text-zinc-500 text-xs">Online</div>
@@ -240,7 +279,7 @@ export default function LinkedAccountsSection() {
                 </svg>
               </div>
             </div>
-            <div className="text-zinc-500 text-xs mb-2">BANK 3</div>
+            <div className="text-black text-xs mb-2">BANK 3</div>
             <div className="text-white text-4xl font-bold">€ 3,960</div>
             {/* Dotted globe pattern */}
             <div className="absolute bottom-0 left-0 right-0 h-44 opacity-60 overflow-hidden">
@@ -275,10 +314,11 @@ export default function LinkedAccountsSection() {
           </div>
 
           {/* Bank 4 Card - Far Right */}
-          <div className="card-float-5 absolute left-1/2 ml-56 w-72 h-96 bg-zinc-900 rounded-3xl p-5">
+          {/* old: bg-zinc-900 */}
+          <div className="card-float-5 absolute left-1/2 ml-56 w-72 h-96 rounded-3xl p-5" style={{ background: '#04babf' }}>
             <div className="flex items-center justify-between mb-6">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-zinc-600 rounded-full" />
+                <div className="w-10 h-10 bg-zinc-500 rounded-full" />
                 <div>
                   <div className="text-white text-sm font-medium">Marcel Wisniewski</div>
                   <div className="text-zinc-500 text-xs">Online</div>
@@ -291,7 +331,7 @@ export default function LinkedAccountsSection() {
                 </svg>
               </div>
             </div>
-            <div className="text-zinc-500 text-xs mb-2">BANK 4</div>
+            <div className="text-black text-xs mb-2">BANK 4</div>
             <div className="text-white text-4xl font-bold">€ 5,532</div>
             {/* Dotted globe pattern */}
             <div className="absolute bottom-0 left-0 right-0 h-44 opacity-60 overflow-hidden">

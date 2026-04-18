@@ -61,8 +61,8 @@ export default function BottomNav() {
       {/* Desktop Bottom Nav */}
       <div className="hidden md:flex fixed bottom-5 lg:bottom-6 xl:bottom-8 left-0 right-0 items-center justify-center gap-4 px-4 lg:px-6 z-50">
         <nav className="w-full max-w-[900px] lg:max-w-[1100px] xl:max-w-[1300px] bg-transparent backdrop-blur-md rounded-2xl px-4 py-3.5 lg:px-8 lg:py-5 xl:px-10 xl:py-6 flex items-center justify-between gap-3 lg:gap-4">
-          {/* Logo */}
-          <div className="shrink-0">
+          {/* Logo — left margin aligns it vertically with the appbar SPay image */}
+          <div className="shrink-0 ml-3 lg:ml-6 xl:ml-9">
             <Link href="/">
               <img src="/Spay.png" alt="SiCash" className="h-8 lg:h-9 xl:h-11 w-auto" style={{ transform: 'scale(1.0)', transformOrigin: 'left center' }} />
             </Link>
@@ -77,9 +77,18 @@ export default function BottomNav() {
             <NavItem icon={<HubIcon />} label="Hub" href="#hub" isActive={activeSection === "hub"} />
           </div>
 
-          {/* CTA Button */}
-          <a href="https://apps.apple.com/app/sicash" target="_blank" rel="noopener noreferrer" className="shrink-0 bg-linear-to-b from-zinc-200 to-zinc-400 text-black font-semibold px-4 py-2.5 text-xs lg:px-7 lg:py-3 lg:text-sm xl:px-10 xl:py-4 xl:text-base rounded-xl hover:from-zinc-100 hover:to-zinc-300 transition-all whitespace-nowrap">
-            GET SICASH APP
+          {/* CTA Button — matches HomeHero appbar GET SPAY APP style; right margin aligns it vertically with the appbar button */}
+          <a
+            href="https://apps.apple.com/app/sicash"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="shrink-0 font-semibold px-4 py-2.5 text-xs lg:px-7 lg:py-3 lg:text-sm xl:px-10 xl:py-4 xl:text-base rounded-xl transition-all hover:opacity-90 whitespace-nowrap mr-2 lg:mr-4 xl:mr-6"
+            style={{
+              background: "#04babf",
+              color: "#0a2a23",
+            }}
+          >
+            GET SPAY APP
           </a>
         </nav>
       </div>
