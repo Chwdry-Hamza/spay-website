@@ -148,7 +148,7 @@ export default function HomeHero() {
           width: "100%",
           height: "40%",
           background:
-            "radial-gradient(ellipse at 50% 50%, rgba(20,180,140,0.28) 0%, transparent 70%)",
+            "radial-gradient(ellipse at 50% 50%, #0e2e2e 0%, transparent 70%)",
         }
       : {
           right: 0,
@@ -156,7 +156,7 @@ export default function HomeHero() {
           width: "50%",
           height: "100%",
           background:
-            "radial-gradient(ellipse at 70% 50%, rgba(20,180,140,0.18) 0%, transparent 70%)",
+            "radial-gradient(ellipse at 70% 50%, #0e2e2e 0%, transparent 70%)",
         };
 
   return (
@@ -260,7 +260,7 @@ export default function HomeHero() {
             rel="noopener noreferrer"
             className="inline-block font-semibold px-6 py-3 sm:px-8 sm:py-3.5 rounded-xl text-sm transition-all hover:opacity-90"
             style={{
-              background: "linear-gradient(180deg, #46F1C5 0%, #288B72 100%)",
+              background: "#04babf",
               color: "#0a2a23",
             }}
           >

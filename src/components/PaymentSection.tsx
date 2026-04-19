@@ -88,6 +88,8 @@
 
 "use client";
 
+import FlipCard from "./FlipCard";
+
 export default function PaymentSection() {
   return (
     <section
@@ -97,9 +99,18 @@ export default function PaymentSection() {
         background: '#090e1c',
       }}
     >
-      {/* Soft teal radial glow center */}
+      {/* Soft teal radial glow center — Mobile (extends left/right/bottom moderately) */}
       <div
-        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1100px] h-[820px] pointer-events-none"
+        className="md:hidden absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[620px] pointer-events-none"
+        style={{
+          background:
+            'radial-gradient(ellipse 360px 260px at 50% 50%, #0e2e2e 0%, #0e2e2e 28%, rgba(14,46,46,0.8) 48%, rgba(14,46,46,0.45) 65%, rgba(14,46,46,0.18) 82%, transparent 100%)',
+        }}
+      />
+
+      {/* Soft teal radial glow center — Desktop */}
+      <div
+        className="hidden md:block absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1100px] h-[820px] pointer-events-none"
         style={{
           background:
             'radial-gradient(ellipse 460px 340px at 50% 55%, #0e2e2e 0%, #0e2e2e 28%, rgba(14,46,46,0.8) 48%, rgba(14,46,46,0.45) 65%, rgba(14,46,46,0.18) 82%, transparent 100%)',
@@ -126,11 +137,11 @@ export default function PaymentSection() {
         </p>
 
         {/* Credit Card */}
-        <img
-          src="/masterCard.png"
-          alt="SPAY Mastercard"
-          className="w-full max-w-2xl md:max-w-3xl aspect-[1.9/1] object-cover"
-          style={{ transform: 'scale(1.4)' }}
+        <FlipCard
+          frontSrc="/spayFront.png"
+          backSrc="/spayBack.png"
+          frontAlt="SPAY Card Front"
+          backAlt="SPAY Card Back"
         />
 
         

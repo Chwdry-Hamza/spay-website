@@ -52,7 +52,16 @@ export default function BottomNav() {
       >
         <div className="flex items-center justify-between px-5 py-3 w-full">
           <img src="/Spay.png" alt="SiCash" style={{ height: '3rem', width: 'auto' }} />
-          <a href="https://apps.apple.com/app/sicash" target="_blank" rel="noopener noreferrer" className="px-5 py-2.5 bg-linear-to-b from-zinc-200 to-zinc-400 text-zinc-900 font-bold text-xs tracking-wider rounded-lg shadow-md hover:from-zinc-100 hover:to-zinc-300 transition-all">
+          <a
+            href="https://apps.apple.com/app/sicash"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="font-semibold px-5 py-2.5 rounded-lg text-xs transition-all hover:opacity-90"
+            style={{
+              background: "#04babf",
+              color: "#0a2a23",
+            }}
+          >
             GET THE APP
           </a>
         </div>

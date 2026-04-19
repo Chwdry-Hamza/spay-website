@@ -4,11 +4,16 @@ import Link from "next/link";
 
 export default function Footer() {
   return (
-    <footer className="bg-black pt-16 pb-0 md:pb-32">
+    <footer
+      className="pt-16 pb-0 md:pb-32"
+      style={{ backgroundColor: "#090e1c" }}
+    >
       {/* Mobile Layout */}
-      <div className="md:hidden px-6 pb-24">
+      <div className="md:hidden w-full max-w-7xl mx-auto px-4 sm:px-8 pb-24">
         {/* Logo */}
-        <h2 className="text-white text-5xl font-black tracking-tight text-center mb-2">SICASH</h2>
+        <div className="flex justify-center mb-2">
+          <img src="/Spay.png" alt="SPAY" style={{ height: "2.5rem", width: "auto" }} />
+        </div>
 
         {/* Header */}
         <p className="text-zinc-500 text-sm tracking-[0.2em] uppercase text-center mb-12">
@@ -45,7 +50,7 @@ export default function Footer() {
 
         {/* Navigation Links */}
         <div className="flex flex-col items-center gap-8 mb-12">
-          <Link href="/about" className="text-zinc-400 text-sm hover:text-white transition-colors">ABOUT SICASH</Link>
+          <Link href="/about" className="text-zinc-400 text-sm hover:text-white transition-colors">ABOUT SPAY</Link>
           <Link href="/otc-desk" className="text-zinc-400 text-sm hover:text-white transition-colors">OTC DESK</Link>
           <Link href="/privacy-policy" className="text-zinc-400 text-sm hover:text-white transition-colors">PRIVACY POLICY</Link>
           <Link href="/cookie-policy" className="text-zinc-400 text-sm hover:text-white transition-colors">COOKIE POLICY</Link>
@@ -105,12 +110,12 @@ export default function Footer() {
       </div>
 
       {/* Desktop Layout */}
-      <div className="hidden md:block w-full max-w-420 mx-auto px-12">
+      <div className="hidden md:block w-full max-w-7xl mx-auto px-4 sm:px-8 lg:px-16">
         {/* Top Section - Logo and Social Icons */}
         <div className="flex items-center justify-between mb-8">
           {/* Logo */}
           <div>
-            <h2 className="text-white text-4xl font-black tracking-tight">SICASH</h2>
+            <img src="/Spay.png" alt="SPAY" style={{ height: "2.2rem", width: "auto" }} />
             <p className="text-zinc-500 text-sm tracking-widest mt-1">THE MONEY APP</p>
           </div>
           {/* Social Icons */}
@@ -143,7 +148,7 @@ export default function Footer() {
         </div> 
         {/* Navigation Links */}
         <div className="flex flex-wrap justify-end gap-x-6 gap-y-2 mb-8">
-          <Link href="/about" className="text-zinc-400 text-sm hover:text-white transition-colors">ABOUT SICASH</Link>
+          <Link href="/about" className="text-zinc-400 text-sm hover:text-white transition-colors">ABOUT SPAY</Link>
           <Link href="/otc-desk" className="text-zinc-400 text-sm hover:text-white transition-colors">OTC DESK</Link>
           <Link href="/privacy-policy" className="text-zinc-400 text-sm hover:text-white transition-colors">PRIVACY POLICY</Link>
           <Link href="/cookie-policy" className="text-zinc-400 text-sm hover:text-white transition-colors">COOKIE POLICY</Link>

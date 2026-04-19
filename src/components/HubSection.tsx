@@ -2,7 +2,11 @@
 
 export default function HubSection() {
   return (
-    <section id="hub" className="relative bg-black pt-8 md:pt-24 pb-16 md:pb-40 overflow-hidden">
+    <section
+      id="hub"
+      className="relative pt-8 md:pt-24 pb-16 md:pb-40 overflow-hidden"
+      style={{ backgroundColor: "#090e1c" }}
+    >
       {/* Mobile Layout */}
       <div className="md:hidden relative z-10 w-full px-4 space-y-4">
         {/* SICASH HUB Card */}
