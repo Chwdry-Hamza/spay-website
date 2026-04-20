@@ -1,36 +1,25 @@
 import Link from "next/link";
 import Footer from "@/components/Footer";
+import AppHeader from "@/components/AppHeader";
 
 export default function OTCDeskPage() {
   return (
-    <main className="bg-black min-h-screen">
+    <main className="min-h-screen" style={{ background: "#090e1c" }}>
+      <AppHeader />
       {/* Hero Section */}
-      <section className="relative min-h-fit md:min-h-screen overflow-hidden">
-        {/* Background Gradient */}
-        <div className="absolute inset-0 bg-linear-to-b from-black via-zinc-900/50 to-amber-100/50" />
-        <div className="absolute bottom-0 left-0 right-0 h-1/2 bg-linear-to-t from-amber-50 via-amber-100/30 to-transparent" />
-
-        {/* Header */}
-        <header className="relative z-10 w-full max-w-380 mx-auto px-4 md:px-8 py-4 md:py-8 flex items-center justify-between">
-          <Link href="/" className="text-amber-100 font-bold text-2xl tracking-tight hover:text-white transition-colors">
-            SICASH
-          </Link>
-          <button className="flex items-center gap-2 text-zinc-300 hover:text-white transition-colors">
-            English
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-            </svg>
-          </button>
-        </header>
+      <section className="relative min-h-fit md:min-h-screen overflow-hidden pt-16 sm:pt-20" style={{ background: "#090e1c" }}>
 
         {/* Hero Content */}
-        <div className="relative z-10 w-full mx-auto px-4 md:px-8 pt-20 md:pt-16 pb-16 md:pb-8 text-center">
-          <h1 className="text-5xl sm:text-6xl md:text-6xl lg:text-7xl xl:text-8xl font-black text-white mb-8 md:mb-6 leading-[1.1] tracking-tight">
+        <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-8 lg:px-16 pt-20 md:pt-16 pb-16 md:pb-8 text-center">
+          <h1
+            className="text-5xl sm:text-6xl md:text-6xl lg:text-7xl xl:text-8xl font-black text-white mb-8 md:mb-6 leading-[1.1] tracking-tight"
+            style={{ fontFamily: "var(--font-space-grotesk)" }}
+          >
             <span className="block"><span>SECURE</span> OTC</span>
             <span className="block">TRADING FOR</span>
-            <span className="block">YOUR <span className="text-amber-100">BUSINESS</span></span>
+            <span className="block">YOUR <span style={{ color: "#46F1C5" }}>BUSINESS</span></span>
           </h1>
-          <p className="text-zinc-400 text-lg md:text-lg lg:text-xl max-w-3xl mx-auto mb-10 md:mb-10">
+          <p className="text-lg md:text-lg lg:text-xl max-w-3xl mx-auto mb-10 md:mb-10" style={{ color: "#A6AABE", fontFamily: "var(--font-inter)", fontWeight: 400 }}>
             Open IBAN accounts in EUR, USD and manage transactions, and take full control of your finances
           </p>
 
@@ -116,59 +105,62 @@ export default function OTCDeskPage() {
       </section>
 
       {/* Features Section */}
-      <section className="bg-linear-to-b from-amber-50 via-amber-100 to-white py-12 md:py-24">
-        <div className="w-full max-w-400 mx-auto px-4 md:px-8">
+      <section className="py-12 md:py-24" style={{ background: "#090e1c" }}>
+        <div className="w-full max-w-7xl mx-auto px-4 sm:px-8 lg:px-16">
           <div className="flex flex-col lg:flex-row gap-8 md:gap-16 items-center">
             {/* Left Side - Features */}
             <div className="flex-1">
-              <h2 className="text-3xl md:text-5xl lg:text-6xl font-black text-zinc-900 mb-8 md:mb-16 leading-tight">
-                <span className="block">WE SIMPLIFY FIAT-CRYPTO</span>
+              <h2
+                className="text-3xl md:text-5xl lg:text-6xl font-black text-white mb-8 md:mb-16 leading-tight"
+                style={{ fontFamily: "var(--font-space-grotesk)" }}
+              >
+                <span className="block">WE SIMPLIFY FIAT-<span style={{ color: "#46F1C5" }}>CRYPTO</span></span>
                 <span className="block">OPERATIONS</span>
               </h2>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-10">
                 {/* Feature 1 */}
                 <div>
-                  <div className="w-12 h-12 bg-zinc-900 rounded-lg flex items-center justify-center mb-4">
-                    <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <div className="w-12 h-12 rounded-lg flex items-center justify-center mb-4" style={{ background: "#0e2e2e" }}>
+                    <svg className="w-6 h-6" style={{ color: "#46F1C5" }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                     </svg>
                   </div>
-                  <h3 className="text-lg font-bold text-zinc-900 mb-2">IBAN ACCOUNTS IN EUR OR USD</h3>
-                  <p className="text-zinc-600 text-sm">Safe and convenient accounts tailored to your business need</p>
+                  <h3 className="text-lg font-bold text-white mb-2" style={{ fontFamily: "var(--font-space-grotesk)" }}>IBAN ACCOUNTS IN EUR OR USD</h3>
+                  <p className="text-sm" style={{ color: "#A6AABE", fontFamily: "var(--font-inter)", fontWeight: 400 }}>Safe and convenient accounts tailored to your business need</p>
                 </div>
 
                 {/* Feature 2 */}
                 <div>
-                  <div className="w-12 h-12 bg-zinc-900 rounded-lg flex items-center justify-center mb-4">
-                    <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <div className="w-12 h-12 rounded-lg flex items-center justify-center mb-4" style={{ background: "#0e2e2e" }}>
+                    <svg className="w-6 h-6" style={{ color: "#46F1C5" }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
                   </div>
-                  <h3 className="text-lg font-bold text-zinc-900 mb-2">CRYPTO WALLETS FOR USDT, USDC, BTC AND ETH</h3>
-                  <p className="text-zinc-600 text-sm">Secure and easy wallet setup for seamless transactions</p>
+                  <h3 className="text-lg font-bold text-white mb-2" style={{ fontFamily: "var(--font-space-grotesk)" }}>CRYPTO WALLETS FOR USDT, USDC, BTC AND ETH</h3>
+                  <p className="text-sm" style={{ color: "#A6AABE", fontFamily: "var(--font-inter)", fontWeight: 400 }}>Secure and easy wallet setup for seamless transactions</p>
                 </div>
 
                 {/* Feature 3 */}
                 <div>
-                  <div className="w-12 h-12 bg-zinc-900 rounded-lg flex items-center justify-center mb-4">
-                    <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <div className="w-12 h-12 rounded-lg flex items-center justify-center mb-4" style={{ background: "#0e2e2e" }}>
+                    <svg className="w-6 h-6" style={{ color: "#46F1C5" }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
                     </svg>
                   </div>
-                  <h3 className="text-lg font-bold text-zinc-900 mb-2">SIMPLE FIAT-CRYPTO EXCHANGE</h3>
-                  <p className="text-zinc-600 text-sm">Fast, transparent transactions with no hidden fees</p>
+                  <h3 className="text-lg font-bold text-white mb-2" style={{ fontFamily: "var(--font-space-grotesk)" }}>SIMPLE FIAT-CRYPTO EXCHANGE</h3>
+                  <p className="text-sm" style={{ color: "#A6AABE", fontFamily: "var(--font-inter)", fontWeight: 400 }}>Fast, transparent transactions with no hidden fees</p>
                 </div>
 
                 {/* Feature 4 */}
                 <div>
-                  <div className="w-12 h-12 bg-zinc-900 rounded-lg flex items-center justify-center mb-4">
-                    <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <div className="w-12 h-12 rounded-lg flex items-center justify-center mb-4" style={{ background: "#0e2e2e" }}>
+                    <svg className="w-6 h-6" style={{ color: "#46F1C5" }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
                     </svg>
                   </div>
-                  <h3 className="text-lg font-bold text-zinc-900 mb-2">UNIFIED MANAGEMENT PLATFORM</h3>
-                  <p className="text-zinc-600 text-sm">A single, intuitive platform to handle everything</p>
+                  <h3 className="text-lg font-bold text-white mb-2" style={{ fontFamily: "var(--font-space-grotesk)" }}>UNIFIED MANAGEMENT PLATFORM</h3>
+                  <p className="text-sm" style={{ color: "#A6AABE", fontFamily: "var(--font-inter)", fontWeight: 400 }}>A single, intuitive platform to handle everything</p>
                 </div>
               </div>
             </div>
@@ -176,6 +168,11 @@ export default function OTCDeskPage() {
             {/* Right Side - Laptop Mockup */}
             <div className="flex-1 flex justify-center lg:justify-end">
               <div className="relative w-full max-w-xl">
+                {/* Radial glow behind the laptop — darker tone */}
+                <div
+                  className="absolute -inset-16 md:-inset-24 rounded-full blur-3xl pointer-events-none"
+                  style={{ background: "radial-gradient(circle, #0e2e2e 0%, #0a1f1f 25%, transparent 75%)" }}
+                />
                 {/* Laptop Frame */}
                 <div className="relative">
                   {/* Screen */}
@@ -225,11 +222,14 @@ export default function OTCDeskPage() {
       </section>
 
       {/* Process Section */}
-      <section className="bg-black py-16 md:py-32 rounded-t-[40px] md:rounded-t-[80px] -mt-8 md:-mt-16 relative z-10">
-        <div className="w-full max-w-400 mx-auto px-4 md:px-8">
+      <section className="py-16 md:py-32 rounded-t-[40px] md:rounded-t-[80px] -mt-8 md:-mt-16 relative z-10" style={{ background: "#090e1c" }}>
+        <div className="w-full max-w-7xl mx-auto px-4 sm:px-8 lg:px-16">
           {/* Title */}
-          <h2 className="text-3xl md:text-5xl lg:text-6xl font-black text-amber-100 leading-tight tracking-wide text-center mb-10 md:mb-20">
-            <span className="block">A SIMPLE & STRAIGHTFORWARD</span>
+          <h2
+            className="text-3xl md:text-5xl lg:text-6xl font-black text-white leading-tight tracking-wide text-center mb-10 md:mb-20"
+            style={{ fontFamily: "var(--font-space-grotesk)" }}
+          >
+            <span className="block">A SIMPLE & <span style={{ color: "#46F1C5" }}>STRAIGHTFORWARD</span></span>
             <span className="block">PROCESS</span>
           </h2>
 
@@ -237,6 +237,11 @@ export default function OTCDeskPage() {
           <div className="flex flex-col lg:flex-row gap-8 md:gap-16 items-center">
             {/* Left Side - Images - Hidden on mobile */}
             <div className="hidden md:block flex-1 relative min-h-80 md:min-h-112.5">
+              {/* Radial glow behind fingerprint card + lock */}
+              <div
+                className="absolute -inset-16 rounded-full blur-3xl pointer-events-none"
+                style={{ background: "radial-gradient(circle, #0e2e2e 0%, #0a2020 30%, transparent 75%)" }}
+              />
               {/* Fingerprint Card - 3D tilted */}
               <div className="absolute top-0 left-1/2 -translate-x-1/4 w-80 h-55" style={{transform: 'perspective(1000px) rotateX(10deg) rotateY(-15deg) rotateZ(5deg)'}}>
                 <div className="w-full h-full bg-linear-to-br from-zinc-700 via-zinc-800 to-zinc-900 rounded-2xl shadow-[0_25px_50px_rgba(0,0,0,0.5)] border border-zinc-600/30 flex items-center justify-center">
@@ -259,9 +264,12 @@ export default function OTCDeskPage() {
               {/* Lock Button with Glow Ring */}
               <div className="absolute bottom-0 left-0 w-48 h-48">
                 {/* Outer glow */}
-                <div className="absolute inset-0 rounded-full bg-linear-to-b from-amber-200/20 via-transparent to-amber-100/10 blur-sm"></div>
+                <div
+                  className="absolute inset-0 rounded-full blur-sm"
+                  style={{ background: "linear-gradient(to bottom, rgba(14,46,46,0.6), transparent, rgba(14,46,46,0.3))" }}
+                />
                 {/* Outer ring */}
-                <div className="absolute inset-2 rounded-full border-2 border-amber-100/40"></div>
+                <div className="absolute inset-2 rounded-full border-2" style={{ borderColor: "rgba(70,241,197,0.4)" }} />
                 {/* Dark middle */}
                 <div className="absolute inset-6 rounded-full bg-linear-to-b from-zinc-700 to-zinc-900 border border-zinc-600"></div>
                 {/* Inner button */}
@@ -284,8 +292,8 @@ export default function OTCDeskPage() {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                   </svg>
                 </div>
-                <h3 className="text-white font-bold text-2xl mb-3">ONBOARDING</h3>
-                <p className="text-zinc-400 text-base">Submit your documents and complete the KYB process through our secure platform</p>
+                <h3 className="text-white font-bold text-2xl mb-3" style={{ fontFamily: "var(--font-space-grotesk)" }}>ONBOARDING</h3>
+                <p className="text-base" style={{ color: "#A6AABE", fontFamily: "var(--font-inter)", fontWeight: 400 }}>Submit your documents and complete the KYB process through our secure platform</p>
               </div>
 
               {/* Step 2 */}
@@ -295,8 +303,8 @@ export default function OTCDeskPage() {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                   </svg>
                 </div>
-                <h3 className="text-white font-bold text-2xl mb-3">ACTIVATE YOUR ACCOUNT</h3>
-                <p className="text-zinc-400 text-base">Gain access to your IBAN account</p>
+                <h3 className="text-white font-bold text-2xl mb-3" style={{ fontFamily: "var(--font-space-grotesk)" }}>ACTIVATE YOUR ACCOUNT</h3>
+                <p className="text-base" style={{ color: "#A6AABE", fontFamily: "var(--font-inter)", fontWeight: 400 }}>Gain access to your IBAN account</p>
               </div>
 
               {/* Step 3 */}
@@ -306,8 +314,8 @@ export default function OTCDeskPage() {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
                   </svg>
                 </div>
-                <h3 className="text-white font-bold text-2xl mb-3">MANAGE YOUR TRANSACTION</h3>
-                <p className="text-zinc-400 text-base">Exchange fiat and crypto or withdraw funds with full control at every step</p>
+                <h3 className="text-white font-bold text-2xl mb-3" style={{ fontFamily: "var(--font-space-grotesk)" }}>MANAGE YOUR TRANSACTION</h3>
+                <p className="text-base" style={{ color: "#A6AABE", fontFamily: "var(--font-inter)", fontWeight: 400 }}>Exchange fiat and crypto or withdraw funds with full control at every step</p>
               </div>
 
               {/* Button */}
@@ -320,20 +328,28 @@ export default function OTCDeskPage() {
       </section>
 
       {/* Solutions Section */}
-      <section className="bg-black py-16 md:py-32 relative overflow-hidden">
-        {/* Light Streak Background Effect */}
-        <div className="absolute inset-0">
-          <div className="absolute top-1/2 left-0 right-0 h-100 -translate-y-1/2 bg-linear-to-r from-transparent via-amber-100/20 to-transparent transform -skew-y-6 blur-xl"></div>
-          <div className="absolute top-1/2 left-0 right-0 h-50 -translate-y-1/2 bg-linear-to-r from-transparent via-amber-50/30 to-transparent transform -skew-y-6 blur-md"></div>
-          <div className="absolute top-[45%] left-[20%] right-[20%] h-25 bg-linear-to-r from-transparent via-white/20 to-transparent transform -skew-y-6 blur-sm"></div>
+      <section className="py-16 md:py-32 relative overflow-hidden" style={{ background: "#090e1c" }}>
+        {/* Light Streak Background Effect — teal glow */}
+        <div className="absolute inset-0 pointer-events-none">
+          <div
+            className="absolute top-1/2 left-0 right-0 h-[400px] -translate-y-1/2 transform -skew-y-6 blur-3xl"
+            style={{ background: "linear-gradient(to right, transparent, #0e2e2e, transparent)" }}
+          />
+          <div
+            className="absolute top-1/2 left-0 right-0 h-[200px] -translate-y-1/2 transform -skew-y-6 blur-2xl"
+            style={{ background: "linear-gradient(to right, transparent, #0e2e2e, transparent)" }}
+          />
         </div>
 
-        <div className="w-full max-w-400 mx-auto px-4 md:px-8 relative z-10">
+        <div className="w-full max-w-7xl mx-auto px-4 sm:px-8 lg:px-16 relative z-10">
           {/* Title */}
-          <h2 className="text-3xl md:text-5xl lg:text-6xl font-black leading-tight tracking-wide text-center mb-12 md:mb-24">
+          <h2
+            className="text-3xl md:text-5xl lg:text-6xl font-black leading-tight tracking-wide text-center mb-12 md:mb-24"
+            style={{ fontFamily: "var(--font-space-grotesk)" }}
+          >
             <span className="text-white">SOLUTIONS </span>
-            <span className="text-amber-200">THAT SUPPORT YOUR</span>
-            <span className="block text-amber-200">BUSINESS </span>
+            <span style={{ color: "#46F1C5" }}>THAT SUPPORT YOUR</span>
+            <span className="block" style={{ color: "#46F1C5" }}>BUSINESS </span>
             <span className="text-white">GROWTH</span>
           </h2>
 
@@ -347,8 +363,8 @@ export default function OTCDeskPage() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                 </svg>
               </div>
-              <h3 className="text-white font-bold text-2xl mb-3">REABILITY</h3>
-              <p className="text-zinc-400 text-base">Trusted processes that meet<br />international standards</p>
+              <h3 className="text-white font-bold text-2xl mb-3" style={{ fontFamily: "var(--font-space-grotesk)" }}>REABILITY</h3>
+              <p className="text-base" style={{ color: "#A6AABE", fontFamily: "var(--font-inter)", fontWeight: 400 }}>Trusted processes that meet<br />international standards</p>
             </div>
 
             {/* SUPPORT */}
@@ -358,8 +374,8 @@ export default function OTCDeskPage() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
                 </svg>
               </div>
-              <h3 className="text-white font-bold text-2xl mb-3">SUPPORT</h3>
-              <p className="text-zinc-400 text-base">A dedicated account manager<br />for every client</p>
+              <h3 className="text-white font-bold text-2xl mb-3" style={{ fontFamily: "var(--font-space-grotesk)" }}>SUPPORT</h3>
+              <p className="text-base" style={{ color: "#A6AABE", fontFamily: "var(--font-inter)", fontWeight: 400 }}>A dedicated account manager<br />for every client</p>
             </div>
 
             {/* FLEXIBILITY */}
@@ -369,15 +385,15 @@ export default function OTCDeskPage() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 5a1 1 0 011-1h4a1 1 0 011 1v4a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM14 5a1 1 0 011-1h4a1 1 0 011 1v4a1 1 0 01-1 1h-4a1 1 0 01-1-1V5zM4 15a1 1 0 011-1h4a1 1 0 011 1v4a1 1 0 01-1 1H5a1 1 0 01-1-1v-4zM14 15a1 1 0 011-1h4a1 1 0 011 1v4a1 1 0 01-1 1h-4a1 1 0 01-1-1v-4z" />
                 </svg>
               </div>
-              <h3 className="text-white font-bold text-2xl mb-3">FLEXIBILITY</h3>
-              <p className="text-zinc-400 text-base">Tarif structures and transaction solutions<br />tailored to your requirements</p>
+              <h3 className="text-white font-bold text-2xl mb-3" style={{ fontFamily: "var(--font-space-grotesk)" }}>FLEXIBILITY</h3>
+              <p className="text-base" style={{ color: "#A6AABE", fontFamily: "var(--font-inter)", fontWeight: 400 }}>Tarif structures and transaction solutions<br />tailored to your requirements</p>
             </div>
           </div>
         </div>
       </section>
 
       {/* Contact Form Section */}
-      <section id="demo" className="bg-black py-16 md:py-32 relative overflow-hidden scroll-mt-20">
+      <section id="demo" className="py-16 md:py-32 relative overflow-hidden scroll-mt-20" style={{ background: "#090e1c" }}>
         {/* Particle/Glow Background Effect */}
         <div className="absolute inset-0">
           {/* Main glow */}
@@ -413,13 +429,16 @@ export default function OTCDeskPage() {
           </div>
         </div>
 
-        <div className="w-full max-w-400 mx-auto px-4 md:px-8 relative z-10">
+        <div className="w-full max-w-7xl mx-auto px-4 sm:px-8 lg:px-16 relative z-10">
           <div className="flex flex-col lg:flex-row gap-8 md:gap-16 items-center">
             {/* Left Side - Title */}
             <div className="flex-1">
-              <h2 className="text-3xl md:text-5xl lg:text-6xl font-black text-amber-100 leading-tight tracking-wide">
-                <span className="block">BOOK A FREE DEMO</span>
-                <span className="block">WITH AN EXPERT</span>
+              <h2
+                className="text-3xl md:text-5xl lg:text-6xl font-black text-white leading-tight tracking-wide"
+                style={{ fontFamily: "var(--font-space-grotesk)" }}
+              >
+                <span className="block">BOOK A <span style={{ color: "#46F1C5" }}>FREE DEMO</span></span>
+                <span className="block">WITH AN <span style={{ color: "#46F1C5" }}>EXPERT</span></span>
               </h2>
             </div>
 
@@ -428,7 +447,7 @@ export default function OTCDeskPage() {
               <form className="space-y-8">
                 {/* First Name */}
                 <div>
-                  <label className="text-zinc-400 text-sm tracking-wider mb-2 block">FIRST NAME</label>
+                  <label className="text-sm tracking-wider mb-2 block" style={{ color: "#A6AABE", fontFamily: "var(--font-inter)", fontWeight: 400 }}>FIRST NAME</label>
                   <input
                     type="text"
                     placeholder="Jon Doe"
@@ -438,7 +457,7 @@ export default function OTCDeskPage() {
 
                 {/* Business Email */}
                 <div>
-                  <label className="text-zinc-400 text-sm tracking-wider mb-2 block">BUSINESS EMAIL</label>
+                  <label className="text-sm tracking-wider mb-2 block" style={{ color: "#A6AABE", fontFamily: "var(--font-inter)", fontWeight: 400 }}>BUSINESS EMAIL</label>
                   <input
                     type="email"
                     placeholder="JonDoe@company.com"
@@ -448,7 +467,7 @@ export default function OTCDeskPage() {
 
                 {/* Phone Number */}
                 <div>
-                  <label className="text-zinc-400 text-sm tracking-wider mb-2 block">PHONE NUMBER</label>
+                  <label className="text-sm tracking-wider mb-2 block" style={{ color: "#A6AABE", fontFamily: "var(--font-inter)", fontWeight: 400 }}>PHONE NUMBER</label>
                   <input
                     type="tel"
                     placeholder="+1 (555) 000-0000"
@@ -458,7 +477,7 @@ export default function OTCDeskPage() {
 
                 {/* Language Selection */}
                 <div>
-                  <label className="text-zinc-400 text-sm tracking-wider mb-4 block">* IN WHAT LANGUAGE SHOULD WE ANSWER?</label>
+                  <label className="text-sm tracking-wider mb-4 block" style={{ color: "#A6AABE", fontFamily: "var(--font-inter)", fontWeight: 400 }}>* IN WHAT LANGUAGE SHOULD WE ANSWER?</label>
                   <div className="flex gap-8">
                     <label className="flex items-center gap-2 text-white cursor-pointer">
                       <input type="radio" name="language" value="english" className="w-4 h-4 accent-amber-200" defaultChecked />

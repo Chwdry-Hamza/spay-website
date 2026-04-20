@@ -321,6 +321,7 @@
 
 import Link from "next/link";
 import Footer from "@/components/Footer";
+import AppHeader from "@/components/AppHeader";
 import { useState } from "react";
 
 export default function AcceptedAssetsPage() {
@@ -328,21 +329,10 @@ export default function AcceptedAssetsPage() {
 
   return (
     <main className="bg-black min-h-screen">
-      {/* Header */}
-      <header className="relative z-10 w-full max-w-380 mx-auto px-4 md:px-8 py-4 md:py-8 flex items-center justify-between">
-        <Link href="/" className="text-amber-100 font-bold text-2xl tracking-tight hover:text-white transition-colors">
-          SICASH
-        </Link>
-        <button className="flex items-center gap-2 text-zinc-300 hover:text-white transition-colors">
-          English
-          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-          </svg>
-        </button>
-      </header>
+      <AppHeader />
 
       {/* Hero Section */}
-      <section className="relative py-12 md:py-20">
+      <section className="relative pt-28 md:pt-36 pb-12 md:pb-20">
         <div className="w-full max-w-380 mx-auto px-4 md:px-8">
           <h1 className="text-4xl md:text-6xl lg:text-7xl font-black mb-4 md:mb-6">
             <span className="text-amber-100">ACCEPTED</span>{" "}

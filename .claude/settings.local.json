@@ -4,7 +4,8 @@
       "Bash(npx create-next-app@latest . --typescript --tailwind --eslint --app --src-dir --import-alias \"@/*\" --use-npm)",
       "Bash(npm install *)",
       "Bash(npm run *)",
-      "Bash(identify \"public/transactions.jpeg\" \"public/crypto.jpeg\" \"public/notification.jpeg\")"
+      "Bash(identify \"public/transactions.jpeg\" \"public/crypto.jpeg\" \"public/notification.jpeg\")",
+      "Bash(npx tsc *)"
     ]
   }
 }

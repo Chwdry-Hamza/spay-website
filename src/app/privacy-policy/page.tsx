@@ -1,18 +1,13 @@
-import Link from "next/link";
 import Footer from "@/components/Footer";
+import AppHeader from "@/components/AppHeader";
 
 export default function PrivacyPolicyPage() {
   return (
     <main className="bg-white min-h-screen overflow-y-auto policy-scroll">
-      {/* Header */}
-      <header className="w-full max-w-410 mx-auto px-4 md:px-8 py-4 md:py-8">
-        <Link href="/" className="text-zinc-900 font-black text-xl md:text-2xl tracking-tight hover:text-zinc-600 transition-colors">
-          SICASH
-        </Link>
-      </header>
+      <AppHeader />
 
       {/* Title Section */}
-      <section className="w-full max-w-410 mx-auto px-4 md:px-8 pt-12 md:pt-24 pb-8 md:pb-16">
+      <section className="w-full max-w-410 mx-auto px-4 md:px-8 pt-28 md:pt-40 pb-8 md:pb-16">
         <h1 className="text-4xl md:text-6xl font-black text-zinc-900 mb-6 md:mb-8">
           PRIVACY POLICY
         </h1>
