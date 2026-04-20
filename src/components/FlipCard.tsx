@@ -24,7 +24,7 @@ export default function FlipCard({
 
   return (
     <div
-      className={`group relative w-full max-w-2xl md:max-w-3xl aspect-[1.9/1] cursor-pointer ${className}`}
+      className={`group relative w-full max-w-2xl md:max-w-3xl aspect-[1.5/1] cursor-pointer ${className}`}
       style={{ perspective: "1000px" }}
       onClick={() => setFlipped((v) => !v)}
       onMouseEnter={() => setHovered(true)}
@@ -52,6 +52,9 @@ export default function FlipCard({
           style={{
             backfaceVisibility: "hidden",
             WebkitBackfaceVisibility: "hidden",
+            objectPosition: "center center",
+            transformOrigin: "center center",
+            transform: "translateY(12px)",
           }}
         />
         <img
@@ -61,7 +64,9 @@ export default function FlipCard({
           style={{
             backfaceVisibility: "hidden",
             WebkitBackfaceVisibility: "hidden",
-            transform: "rotateY(180deg)",
+            objectPosition: "center center",
+            transformOrigin: "center center",
+            transform: "rotateY(180deg) translateY(-4px) scale(1.04)",
           }}
         />
       </div>

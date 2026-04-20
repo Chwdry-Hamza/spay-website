@@ -94,23 +94,23 @@ export default function PaymentSection() {
   return (
     <section
       id="payment"
-      className="relative py-20 md:py-32 overflow-hidden"
+      className="relative pt-20 md:pt-32 pb-0 overflow-hidden"
       style={{
         background: '#090e1c',
       }}
     >
-      {/* Soft teal radial glow center — Mobile (extends left/right/bottom moderately) */}
+      {/* Soft teal radial glow center — Mobile & Tablet (bottom spill reduced) */}
       <div
-        className="md:hidden absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[620px] pointer-events-none"
+        className="lg:hidden absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-[95%] w-[900px] h-[280px] pointer-events-none"
         style={{
           background:
-            'radial-gradient(ellipse 360px 260px at 50% 50%, #0e2e2e 0%, #0e2e2e 28%, rgba(14,46,46,0.8) 48%, rgba(14,46,46,0.45) 65%, rgba(14,46,46,0.18) 82%, transparent 100%)',
+            'radial-gradient(ellipse 340px 90px at 50% 35%, #0e2e2e 0%, #0e2e2e 28%, rgba(14,46,46,0.8) 48%, rgba(14,46,46,0.45) 65%, rgba(14,46,46,0.18) 82%, transparent 100%)',
         }}
       />
 
       {/* Soft teal radial glow center — Desktop */}
       <div
-        className="hidden md:block absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1100px] h-[820px] pointer-events-none"
+        className="hidden lg:block absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1100px] h-[820px] pointer-events-none"
         style={{
           background:
             'radial-gradient(ellipse 460px 340px at 50% 55%, #0e2e2e 0%, #0e2e2e 28%, rgba(14,46,46,0.8) 48%, rgba(14,46,46,0.45) 65%, rgba(14,46,46,0.18) 82%, transparent 100%)',

@@ -5,7 +5,8 @@
       "Bash(npm install *)",
       "Bash(npm run *)",
       "Bash(identify \"public/transactions.jpeg\" \"public/crypto.jpeg\" \"public/notification.jpeg\")",
-      "Bash(npx tsc *)"
+      "Bash(npx tsc *)",
+      "Bash(node -e \"const fs=require\\('fs'\\);['spayFront.png','spayBack.png'].forEach\\(f=>{const b=fs.readFileSync\\(f\\);const w=b.readUInt32BE\\(16\\);const h=b.readUInt32BE\\(20\\);console.log\\(f, w+'x'+h, 'aspect='+\\(w/h\\).toFixed\\(3\\)\\);}\\);\")"
     ]
   }
 }

@@ -2,15 +2,9 @@
 
 export default function EarnSection() {
   return (
-    <section id="earn" className="relative lg:min-h-screen overflow-hidden" style={{ backgroundColor: "#090e1c" }}>
-      {/* Background glow */}
-      <div className="absolute top-1/4 right-1/4 w-200 h-200 bg-amber-900/10 rounded-full blur-3xl" />
-
-      {/* Mobile/Tablet amber glow at bottom */}
-      <div className="lg:hidden absolute bottom-0 left-0 right-0 h-96 bg-linear-to-t from-amber-900/30 via-amber-800/10 to-transparent" />
-
+    <section id="earn" className="relative overflow-hidden" style={{ backgroundColor: "#090e1c" }}>
       {/* Mobile + Tablet Layout */}
-      <div className="lg:hidden relative z-10 w-full px-4 sm:px-8 md:px-12 pt-8 sm:pt-12 md:pt-16 pb-16 md:pb-20">
+      <div className="lg:hidden relative z-10 w-full px-4 sm:px-8 md:px-12 pt-2 sm:pt-4 md:pt-6 pb-16 md:pb-20">
         {/* Header */}
         <p
           className="text-[10px] sm:text-xs md:text-sm uppercase mb-4 sm:mb-5 md:mb-6 text-center"
@@ -39,6 +33,11 @@ export default function EarnSection() {
 
         {/* Gauge and Bars Visual */}
         <div className="relative w-full h-72 sm:h-80 md:h-96 mb-8">
+          {/* Glow behind visual */}
+          <div
+            className="absolute inset-0 blur-3xl pointer-events-none"
+            style={{ background: "radial-gradient(ellipse at 50% 65%, #0e2e2e 0%, rgba(14,46,46,0.5) 30%, transparent 65%)" }}
+          />
           {/* Background bars */}
           <div className="absolute bottom-20 sm:bottom-24 md:bottom-28 left-1/2 -translate-x-1/2 flex items-end gap-2 sm:gap-3 md:gap-4">
             <div className="w-7 sm:w-8 md:w-10 h-32 sm:h-40 md:h-48 bg-zinc-800/50 rounded-t-lg" />
@@ -131,7 +130,7 @@ export default function EarnSection() {
       </div>
 
       {/* Desktop Layout */}
-      <div className="hidden lg:flex items-center min-h-screen">
+      <div className="hidden lg:flex items-center pt-4 lg:pt-6 pb-16 lg:pb-24">
         <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-8 lg:px-16 flex items-center justify-between">
           {/* Left - Text Content */}
           <div className="max-w-xl">
@@ -159,7 +158,12 @@ export default function EarnSection() {
           </div>
 
         {/* Right - Staking Visual */}
-        <div className="relative w-140 h-120">
+        <div className="relative w-140 h-120 scale-85 origin-right">
+          {/* Glow behind visual */}
+          <div
+            className="absolute inset-0 -m-20 blur-3xl pointer-events-none"
+            style={{ background: "radial-gradient(ellipse at 50% 65%, #0e2e2e 0%, rgba(14,46,46,0.5) 30%, transparent 65%)" }}
+          />
           {/* Background bars */}
           <div className="absolute bottom-16 left-0 flex items-end gap-6">
             <div className="w-16 h-80 bg-zinc-800/50 rounded-t-lg" />

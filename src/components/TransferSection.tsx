@@ -6,7 +6,7 @@ export default function TransferSection() {
   return (
     <section
       id="transfer"
-      className="relative py-12 md:py-32 overflow-hidden"
+      className="relative pt-0 pb-4 md:pb-8 overflow-hidden"
       style={{ background: '#090e1c', fontFamily }}
     >
       {/* Mobile + Tablet glow behind phone */}
@@ -16,25 +16,29 @@ export default function TransferSection() {
           left: '50%',
           bottom: '8%',
           transform: 'translateX(-50%)',
-          width: '420px',
-          height: '360px',
-          maxWidth: '95%',
+          width: '720px',
+          height: '520px',
+          maxWidth: '100%',
           background:
-            'radial-gradient(ellipse 190px 200px at 50% 55%, #0e2e2e 0%, rgba(14,46,46,0.7) 30%, rgba(14,46,46,0.35) 55%, rgba(14,46,46,0.12) 75%, transparent 90%)',
+            'radial-gradient(ellipse 360px 380px at 50% 50%, #0e2e2e 0%, rgba(14,46,46,0.7) 30%, rgba(14,46,46,0.35) 55%, rgba(14,46,46,0.12) 75%, transparent 90%)',
+          WebkitMaskImage:
+            'linear-gradient(to bottom, black 0%, black 80%, transparent 100%)',
+          maskImage:
+            'linear-gradient(to bottom, black 0%, black 80%, transparent 100%)',
         }}
       />
 
-      {/* Soft teal radial glow center — fades fully to the section bg #090e1c on all edges so no seam shows */}
+      {/* Soft teal radial glow — tight behind the phone, no spill above/below */}
       <div
         className="hidden lg:block absolute pointer-events-none"
         style={{
           right: '-260px',
           top: '50%',
           transform: 'translateY(-50%)',
-          width: '1400px',
-          height: '820px',
+          width: '1800px',
+          height: '700px',
           background:
-            'radial-gradient(ellipse 620px 420px at 62% 50%, #0e2e2e 0%, #0e2e2e 26%, rgba(14,46,46,0.75) 48%, rgba(14,46,46,0.4) 65%, rgba(14,46,46,0.15) 82%, transparent 96%)',
+            'radial-gradient(ellipse 950px 320px at 62% 50%, #0e2e2e 0%, #0e2e2e 24%, rgba(14,46,46,0.7) 45%, rgba(14,46,46,0.3) 65%, rgba(14,46,46,0.1) 82%, transparent 95%)',
         }}
       />
 
@@ -70,23 +74,24 @@ export default function TransferSection() {
             src="/paymentMobile.png"
             alt="SPay transfer mockup"
             className="relative w-64 sm:w-72 md:w-96 h-auto object-contain"
+            style={{ transform: "scaleX(1) scaleY(1.05) translateY(20px)", transformOrigin: "center" }}
           />
         </div>
       </div>
 
       {/* Desktop Layout */}
       <div className="hidden lg:block relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-8 lg:px-16">
-        <div className="flex items-center justify-between gap-6">
+        <div className="flex items-start justify-between gap-6">
           {/* Left Content */}
-          <div className="max-w-md lg:max-w-lg xl:max-w-xl">
+          <div className="max-w-md lg:max-w-lg xl:max-w-xl mt-6 lg:mt-8 xl:mt-10">
             <p
-              className="text-[11px] lg:text-xs xl:text-sm uppercase mb-3 lg:mb-4"
+              className="text-[11px] lg:text-xs xl:text-sm uppercase mb-10 lg:mb-12 xl:mb-14"
               style={{ fontFamily: 'var(--font-inter)', fontWeight: 400, color: '#A6AABE', letterSpacing: '6px' }}
             >
               TRANSFERS WITHOUT BARRIERS
             </p>
             <h2
-              className="text-3xl lg:text-5xl xl:text-6xl font-bold text-white leading-tight mb-5 lg:mb-6"
+              className="text-3xl lg:text-5xl xl:text-6xl font-bold text-white leading-tight mb-9 lg:mb-12 xl:mb-14"
               style={{ fontFamily }}
             >
               SEND <span style={{ color: '#46F1C5' }}>CRYPTO</span> EASILY,
@@ -103,13 +108,13 @@ export default function TransferSection() {
           </div>
 
           {/* Right Content - Phone Mockup */}
-          <div className="relative shrink-0 w-[320px] lg:w-[420px] xl:w-[500px] h-[420px] lg:h-[520px] xl:h-[580px] flex items-center justify-end ml-auto lg:translate-x-12 xl:translate-x-20">
+          <div className="relative shrink-0 w-[320px] lg:w-[420px] xl:w-[500px] h-[420px] lg:h-[520px] xl:h-[580px] flex items-start justify-end ml-auto lg:translate-x-12 xl:translate-x-20">
             <img
               src="/paymentMobile.png"
               alt="SPay transfer mockup"
               className="w-72 lg:w-88 xl:w-96 h-auto object-contain"
+              style={{ transform: "scaleX(1.1) scaleY(1.05)", transformOrigin: "top center" }}
               />
-            <div className="absolute bottom-0 right-10 w-48 lg:w-64 h-36 lg:h-48 bg-linear-to-t from-zinc-400/20 to-transparent rounded-full blur-2xl pointer-events-none" />
           </div>
         </div>
       </div>

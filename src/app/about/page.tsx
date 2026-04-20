@@ -258,7 +258,7 @@ export default function AboutPage() {
       {/* Our Collaborations Section */}
       <div style={{ background: "#090e1c" }}>
         <section
-          className="relative py-8 md:py-24 overflow-hidden rounded-t-4xl md:rounded-t-[3rem]"
+          className="relative py-8 md:py-24 overflow-hidden"
           style={{ background: "#090e1c" }}
         >
         {/* Marquee glow band */}

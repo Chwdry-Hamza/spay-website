@@ -161,7 +161,7 @@ export default function HomeHero() {
 
   return (
     <section
-      className="relative min-h-screen overflow-hidden"
+      className="relative overflow-hidden"
       style={{ background: sectionBackground }}
     >
       {/* Adaptive radial teal glow — repositions to follow the phone */}
@@ -211,7 +211,7 @@ export default function HomeHero() {
 
       {/* Hero Content — ADAPTIVE layout structure */}
       <div
-        className={`relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-8 lg:px-16 pt-24 sm:pt-28 lg:pt-32 pb-16 sm:pb-20 lg:pb-24 flex ${
+        className={`relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-8 lg:px-16 pt-24 sm:pt-28 lg:pt-32 pb-4 sm:pb-6 lg:pb-8 flex ${
           bp === "desktop"
             ? "flex-row items-center justify-between gap-10"
             : "flex-col items-center gap-8 sm:gap-12"
@@ -225,7 +225,7 @@ export default function HomeHero() {
           className={`${
             bp === "desktop"
               ? "max-w-lg text-left"
-              : "w-fit max-w-full mx-auto text-left"
+              : "w-fit max-w-full mr-auto self-start text-left"
           }`}
         >
           <h1
@@ -239,13 +239,13 @@ export default function HomeHero() {
 
           {/* ADAPTIVE: condense copy on mobile, full pitch on tablet/desktop */}
           {bp === "mobile" ? (
-            <p className="text-zinc-400 text-sm leading-relaxed mb-6 max-w-xs mx-auto">
+            <p className="text-zinc-400 text-sm leading-relaxed mb-6 max-w-xs">
               Secure, fast, and rewarding crypto platform.
             </p>
           ) : (
             <p
               className={`text-zinc-400 text-sm sm:text-base leading-relaxed mb-6 sm:mb-8 ${
-                bp === "desktop" ? "max-w-sm" : "max-w-md mx-auto"
+                bp === "desktop" ? "max-w-sm" : "max-w-md"
               }`}
             >
               Experience institutional-grade security with the agility of
@@ -272,10 +272,10 @@ export default function HomeHero() {
         <div
           className={`relative shrink-0 ${
             bp === "mobile"
-              ? "w-64 h-[360px] mx-auto"
+              ? "w-[340px] h-[560px] mx-auto -mt-20"
               : bp === "tablet"
-              ? "w-80 h-[460px] mx-auto"
-              : "w-[460px] h-[560px]"
+              ? "w-96 h-[560px] mx-auto -mt-16"
+              : "w-[560px] h-[680px]"
           }`}
         >
           <Image

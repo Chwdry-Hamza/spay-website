@@ -2,7 +2,7 @@
 
 export default function LinkedAccountsSection() {
   return (
-    <section className="relative pt-0 pb-24 md:pb-48 overflow-hidden" style={{ background: '#090e1c' }}>
+    <section className="relative pt-0 pb-12 md:pb-20 overflow-hidden" style={{ background: '#090e1c' }}>
       {/* Animation styles - translate only; rotation handled by responsive Tailwind utilities */}
       <style jsx>{`
         @keyframes floatY15 { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
@@ -18,30 +18,30 @@ export default function LinkedAccountsSection() {
       <div className="absolute top-0 left-0 right-0 bottom-0 rounded-t-[80px]" style={{ background: '#090e1c' }} />
 
       {/* Content */}
-      <div className="relative z-10 w-full max-w-380 mx-auto px-4 sm:px-6 md:px-8 pt-16 sm:pt-20 md:pt-28 lg:pt-32">
+      <div className="relative z-10 w-full max-w-380 mx-auto px-4 sm:px-6 md:px-8 pt-4 sm:pt-6 md:pt-10 lg:pt-12">
         {/* Header */}
         <div className="relative text-center mb-10 sm:mb-12 md:mb-16">
-          {/* Soft teal radial glow behind heading — Mobile */}
+          {/* Soft teal radial glow behind heading — Mobile (shifted down so top edge fades out) */}
           <div
             className="md:hidden absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none"
             style={{
               width: '500px',
-              height: '300px',
+              height: '260px',
               maxWidth: '110%',
               background:
-                'radial-gradient(ellipse 220px 130px at 50% 50%, #0f242c 0%, #0f242c 25%, rgba(15,36,44,0.8) 48%, rgba(15,36,44,0.45) 65%, rgba(15,36,44,0.18) 82%, transparent 100%)',
+                'radial-gradient(ellipse 220px 90px at 50% 65%, #0f242c 0%, #0f242c 25%, rgba(15,36,44,0.75) 48%, rgba(15,36,44,0.4) 65%, rgba(15,36,44,0.15) 82%, transparent 100%)',
             }}
           />
 
-          {/* Soft teal radial glow behind heading — Desktop */}
+          {/* Soft teal radial glow behind heading — Desktop (shifted down so top edge fades out) */}
           <div
             className="hidden md:block absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none"
             style={{
               width: '1100px',
-              height: '520px',
+              height: '460px',
               maxWidth: '110%',
               background:
-                'radial-gradient(ellipse 480px 220px at 50% 50%, #0f242c 0%, #0f242c 25%, rgba(15,36,44,0.8) 48%, rgba(15,36,44,0.45) 65%, rgba(15,36,44,0.18) 82%, transparent 100%)',
+                'radial-gradient(ellipse 480px 150px at 50% 65%, #0f242c 0%, #0f242c 25%, rgba(15,36,44,0.75) 48%, rgba(15,36,44,0.4) 65%, rgba(15,36,44,0.15) 82%, transparent 100%)',
             }}
           />
           <div className="relative">
@@ -71,21 +71,21 @@ export default function LinkedAccountsSection() {
 
         {/* Bank Cards Display */}
         <div className="relative flex items-center justify-center mt-10 sm:mt-12 md:mt-16 h-[320px] sm:h-[360px] md:h-[440px] lg:h-150">
-          {/* Soft teal radial glow behind cards — Mobile */}
+          {/* Soft teal radial glow behind cards — Mobile & Tablet */}
           <div
-            className="md:hidden absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none"
+            className="lg:hidden absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none"
             style={{
               width: '700px',
-              height: '520px',
+              height: '360px',
               maxWidth: '140%',
               background:
-                'radial-gradient(ellipse 300px 230px at 50% 55%, #0f242c 0%, #0f242c 28%, rgba(15,36,44,0.8) 48%, rgba(15,36,44,0.45) 66%, rgba(15,36,44,0.18) 82%, transparent 100%)',
+                'radial-gradient(ellipse 300px 150px at 50% 42%, #0f242c 0%, #0f242c 28%, rgba(15,36,44,0.8) 48%, rgba(15,36,44,0.45) 66%, rgba(15,36,44,0.18) 82%, transparent 100%)',
             }}
           />
 
           {/* Soft teal radial glow behind cards — Desktop */}
           <div
-            className="hidden md:block absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none"
+            className="hidden lg:block absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none"
             style={{
               width: '1400px',
               height: '900px',
@@ -96,7 +96,7 @@ export default function LinkedAccountsSection() {
           />
 
           {/* Bank 2 Card - Far Left */}
-          <div className="absolute left-1/2 -ml-[105px] sm:-ml-[125px] md:-ml-[260px] lg:-ml-130 w-[180px] sm:w-[200px] md:w-[240px] lg:w-72 h-[260px] sm:h-[290px] md:h-[340px] lg:h-96 rotate-0 sm:-rotate-3 md:-rotate-6 lg:-rotate-12 transition-transform duration-300">
+          <div className="hidden sm:block absolute left-1/2 -ml-[105px] sm:-ml-[125px] md:-ml-[260px] lg:-ml-130 w-[180px] sm:w-[200px] md:w-[240px] lg:w-72 h-[260px] sm:h-[290px] md:h-[340px] lg:h-96 rotate-0 sm:-rotate-3 md:-rotate-6 lg:-rotate-12 transition-transform duration-300">
             <div className="card-float-1 relative w-full h-full rounded-3xl p-3 sm:p-4 md:p-5" style={{ background: '#04babf' }}>
               <div className="flex items-center justify-between mb-4 md:mb-6">
                 <div className="flex items-center gap-2 md:gap-3">
@@ -146,7 +146,7 @@ export default function LinkedAccountsSection() {
           </div>
 
           {/* Bank Card - Left */}
-          <div className="absolute left-1/2 -ml-[100px] sm:-ml-[115px] md:-ml-[130px] lg:-ml-80 w-[180px] sm:w-[200px] md:w-[240px] lg:w-72 h-[260px] sm:h-[290px] md:h-[340px] lg:h-96 rotate-0 sm:-rotate-1 md:-rotate-3 lg:-rotate-6 z-10 transition-transform duration-300">
+          <div className="hidden sm:block absolute left-1/2 -ml-[100px] sm:-ml-[115px] md:-ml-[130px] lg:-ml-80 w-[180px] sm:w-[200px] md:w-[240px] lg:w-72 h-[260px] sm:h-[290px] md:h-[340px] lg:h-96 rotate-0 sm:-rotate-1 md:-rotate-3 lg:-rotate-6 z-10 transition-transform duration-300">
             <div className="card-float-2 relative w-full h-full rounded-3xl p-3 sm:p-4 md:p-5" style={{ background: '#04babf' }}>
               <div className="flex items-center justify-between mb-4 md:mb-6">
                 <div className="flex items-center gap-2 md:gap-3">
@@ -265,7 +265,7 @@ export default function LinkedAccountsSection() {
           </div>
 
           {/* Bank 3 Card - Right */}
-          <div className="absolute left-1/2 -ml-[80px] sm:-ml-[85px] md:-ml-[110px] lg:ml-8 w-[180px] sm:w-[200px] md:w-[240px] lg:w-72 h-[260px] sm:h-[290px] md:h-[340px] lg:h-96 rotate-0 sm:rotate-1 md:rotate-3 lg:rotate-6 z-10 transition-transform duration-300">
+          <div className="hidden sm:block absolute left-1/2 -ml-[80px] sm:-ml-[85px] md:-ml-[110px] lg:ml-8 w-[180px] sm:w-[200px] md:w-[240px] lg:w-72 h-[260px] sm:h-[290px] md:h-[340px] lg:h-96 rotate-0 sm:rotate-1 md:rotate-3 lg:rotate-6 z-10 transition-transform duration-300">
             <div className="card-float-4 relative w-full h-full rounded-3xl p-3 sm:p-4 md:p-5" style={{ background: '#04babf' }}>
               <div className="flex items-center justify-between mb-4 md:mb-6">
                 <div className="flex items-center gap-2 md:gap-3">
@@ -315,7 +315,7 @@ export default function LinkedAccountsSection() {
           </div>
 
           {/* Bank 4 Card - Far Right */}
-          <div className="absolute left-1/2 -ml-[75px] sm:-ml-[75px] md:ml-[20px] lg:ml-56 w-[180px] sm:w-[200px] md:w-[240px] lg:w-72 h-[260px] sm:h-[290px] md:h-[340px] lg:h-96 rotate-0 sm:rotate-3 md:rotate-6 lg:rotate-12 transition-transform duration-300">
+          <div className="hidden sm:block absolute left-1/2 -ml-[75px] sm:-ml-[75px] md:ml-[20px] lg:ml-56 w-[180px] sm:w-[200px] md:w-[240px] lg:w-72 h-[260px] sm:h-[290px] md:h-[340px] lg:h-96 rotate-0 sm:rotate-3 md:rotate-6 lg:rotate-12 transition-transform duration-300">
             <div className="card-float-5 relative w-full h-full rounded-3xl p-3 sm:p-4 md:p-5" style={{ background: '#04babf' }}>
               <div className="flex items-center justify-between mb-4 md:mb-6">
                 <div className="flex items-center gap-2 md:gap-3">

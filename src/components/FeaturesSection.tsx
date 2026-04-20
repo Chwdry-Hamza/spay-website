@@ -196,7 +196,7 @@
 export default function FeaturesSection() {
   return (
     <section
-      className="relative py-12 sm:py-16 lg:py-32 overflow-hidden"
+      className="relative pt-2 sm:pt-4 lg:pt-6 pb-8 sm:pb-10 lg:pb-16 overflow-hidden"
       style={{
         background: 'linear-gradient(to bottom, #090e1c 0%, #071414 50%, #090e1c 100%)',
       }}

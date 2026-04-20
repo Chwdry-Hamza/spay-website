@@ -6,7 +6,6 @@ import TransferSection from "@/components/TransferSection";
 import LinkedAccountsSection from "@/components/LinkedAccountsSection";
 import CryptoSection from "@/components/CryptoSection";
 import EarnSection from "@/components/EarnSection";
-import HubSection from "@/components/HubSection";
 import JoinUsSection from "@/components/JoinUsSection";
 import CollaborationsSection from "@/components/CollaborationsSection";
 import Footer from "@/components/Footer";
@@ -22,7 +21,6 @@ export default function Home() {
       <LinkedAccountsSection />
       <CryptoSection />
       <EarnSection />
-      <HubSection />
       <JoinUsSection />
       <CollaborationsSection />
       <Footer />

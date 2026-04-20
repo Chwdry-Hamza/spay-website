@@ -2,7 +2,7 @@
 
 export default function CollaborationsSection() {
   return (
-    <section className="relative py-12 md:py-32 overflow-hidden" style={{ backgroundColor: "#090e1c" }}>
+    <section className="relative pt-4 md:pt-12 pb-4 md:pb-8 overflow-hidden" style={{ backgroundColor: "#090e1c" }}>
       {/* Subtle light streaks - Mobile (vertical) */}
       <div className="md:hidden absolute top-0 bottom-0 left-1/2 w-64 -translate-x-1/2">
         <div
