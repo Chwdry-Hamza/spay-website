@@ -213,7 +213,7 @@ export default function HomeHero() {
       <div
         className={`relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-8 lg:px-16 pt-24 sm:pt-28 lg:pt-32 pb-4 sm:pb-6 lg:pb-8 flex ${
           bp === "desktop"
-            ? "flex-row items-center justify-between gap-10"
+            ? "flex-row items-start justify-between gap-10"
             : "flex-col items-center gap-8 sm:gap-12"
         }`}
       >
@@ -224,7 +224,7 @@ export default function HomeHero() {
         <div
           className={`${
             bp === "desktop"
-              ? "max-w-lg text-left"
+              ? "max-w-lg text-left mt-16"
               : "w-fit max-w-full mr-auto self-start text-left"
           }`}
         >

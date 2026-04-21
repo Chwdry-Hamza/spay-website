@@ -18,7 +18,7 @@ export default function Currencies() {
     <section
       className="relative overflow-hidden py-5"
       style={{
-        background: 'linear-gradient(to right, #050e0e 0%, #071414 35%, #0e2e2e 65%, #090e1c 100%)',
+        background: 'linear-gradient(to right, #090e1c 25%,  #0e2e2e 65%, #090e1c 100%)',
         borderTop: '1px solid rgba(46,232,160,0.08)',
         borderBottom: '1px solid rgba(46,232,160,0.08)',
       }}
