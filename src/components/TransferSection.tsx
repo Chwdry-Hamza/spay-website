@@ -108,12 +108,12 @@ export default function TransferSection() {
           </div>
 
           {/* Right Content - Phone Mockup */}
-          <div className="relative shrink-0 w-[320px] lg:w-[420px] xl:w-[500px] h-[420px] lg:h-[520px] xl:h-[580px] flex items-start justify-end ml-auto lg:translate-x-12 xl:translate-x-20">
+          <div className="relative shrink-0 w-[320px] lg:w-[420px] xl:w-[500px] h-[420px] lg:h-[520px] xl:h-[580px] flex items-start justify-end ml-auto pl-2 lg:pl-4 xl:pl-6 translate-x-10 lg:translate-x-16 xl:translate-x-20">
             <img
               src="/paymentMobile.png"
               alt="SPay transfer mockup"
               className="w-72 lg:w-88 xl:w-96 h-auto object-contain"
-              style={{ transform: "scaleX(1.1) scaleY(1.05)", transformOrigin: "top center" }}
+              style={{ transform: "scaleY(1.05)", transformOrigin: "top right" }}
               />
           </div>
         </div>

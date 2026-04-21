@@ -90,7 +90,7 @@ export default function BottomNav() {
             href="https://apps.apple.com/app/sicash"
             target="_blank"
             rel="noopener noreferrer"
-            className="shrink-0 font-semibold px-4 py-2.5 text-xs lg:px-7 lg:py-3 lg:text-sm xl:px-10 xl:py-4 xl:text-base rounded-xl transition-all hover:opacity-90 whitespace-nowrap mr-2 lg:mr-4 xl:mr-6"
+            className="shrink-0 font-semibold px-4 py-2.5 text-xs lg:px-7 lg:py-3 lg:text-sm xl:px-10 xl:py-4 xl:text-base rounded-xl transition-all hover:opacity-90 whitespace-nowrap mr-2 lg:mr-2 xl:mr-[34px] lg:ml-8 xl:ml-12"
             style={{
               background: "#04babf",
               color: "#0a2a23",

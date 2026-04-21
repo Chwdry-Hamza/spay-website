@@ -46,10 +46,9 @@ export default function CryptoSection() {
             }}
           />
           <img
-            src="/mobile2.png"
+            src="/tabletMobile.png"
             alt="SPay trade mockup"
-            className="relative w-36 sm:w-40 md:w-48 h-auto object-contain"
-            style={{ transform: 'scaleY(0.92)', transformOrigin: 'center' }}
+            className="relative w-80 sm:w-96 md:w-[28rem] h-auto object-contain"
           />
         </div>
       </div>
@@ -61,13 +60,13 @@ export default function CryptoSection() {
             {/* Left - Text Content */}
             <div className="max-w-xl">
               <p
-                className="text-[11px] lg:text-xs xl:text-sm uppercase mb-3 lg:mb-4"
+                className="text-[11px] lg:text-xs xl:text-sm uppercase mb-10 lg:mb-14 xl:mb-16"
                 style={{ fontFamily: 'var(--font-inter)', fontWeight: 400, color: '#A6AABE', letterSpacing: '6px' }}
               >
                 MANAGE CRYPTO
               </p>
               <h2
-                className="text-3xl lg:text-5xl xl:text-6xl font-bold text-white leading-tight mb-5 lg:mb-6"
+                className="text-3xl lg:text-5xl xl:text-6xl font-bold text-white leading-tight mb-10 lg:mb-14 xl:mb-16"
                 style={{ fontFamily: 'var(--font-space-grotesk)' }}
               >
                 DEPOSIT AND
@@ -87,25 +86,22 @@ export default function CryptoSection() {
             </div>
 
             {/* Right - Phone */}
-            <div className="relative shrink-0 flex items-center justify-center ml-auto pl-8 lg:pl-16 xl:pl-24 translate-x-1 lg:translate-x-2 xl:translate-x-3">
+            <div className="relative shrink-0 flex items-center justify-end ml-auto pl-8 lg:pl-16 xl:pl-24">
               <div
-                className="absolute pointer-events-none"
+                className="absolute pointer-events-none top-1/2 -translate-y-1/2"
                 style={{
-                  width: '1400px',
-                  height: '560px',
+                  left: '-120px',
+                  right: '-600px',
+                  height: '420px',
                   background:
-                    'radial-gradient(ellipse 900px 320px at 62% 50%, #0e2e2e 0%, #0e2e2e 32%, rgba(14,46,46,0.85) 52%, rgba(14,46,46,0.45) 70%, rgba(14,46,46,0.18) 85%, transparent 97%)',
-                  WebkitMaskImage:
-                    'linear-gradient(to bottom, transparent 0%, black 18%, black 80%, transparent 98%)',
-                  maskImage:
-                    'linear-gradient(to bottom, transparent 0%, black 18%, black 80%, transparent 98%)',
+                    'radial-gradient(ellipse 70% 55% at 45% 50%, rgba(14,46,46,0.9) 0%, rgba(14,46,46,0.55) 40%, rgba(14,46,46,0.25) 65%, rgba(14,46,46,0.08) 82%, transparent 100%)',
+                  filter: 'blur(40px)',
                 }}
               />
               <img
-                src="/mobile2.png"
+                src="/tabletMobile.png"
                 alt="SPay trade mockup"
-                className="relative w-48 lg:w-56 xl:w-64 h-auto object-contain"
-                style={{ transform: 'scaleX(1.05) scaleY(0.92)', transformOrigin: 'right center' }}
+                className="relative w-[26rem] lg:w-[32rem] xl:w-[38rem] h-auto object-contain"
               />
             </div>
           </div>

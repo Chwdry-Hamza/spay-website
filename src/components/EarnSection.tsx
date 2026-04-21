@@ -135,13 +135,13 @@ export default function EarnSection() {
           {/* Left - Text Content */}
           <div className="max-w-xl">
             <p
-              className="text-base uppercase mb-5"
+              className="text-base uppercase mb-10 lg:mb-14 xl:mb-16"
               style={{ fontFamily: 'var(--font-inter)', fontWeight: 400, color: '#A6AABE', letterSpacing: '6px' }}
             >
               EARN WITH SPAY
             </p>
             <h2
-              className="text-6xl font-bold text-white leading-tight mb-8"
+              className="text-6xl font-bold text-white leading-tight mb-10 lg:mb-14 xl:mb-16"
               style={{ fontFamily: 'var(--font-space-grotesk)' }}
             >
               MAKE <span style={{ color: '#46F1C5' }}>CRYPTO</span>

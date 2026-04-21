@@ -54,7 +54,7 @@ export default function FlipCard({
             WebkitBackfaceVisibility: "hidden",
             objectPosition: "center center",
             transformOrigin: "center center",
-            transform: "translateY(12px)",
+            transform: "rotateY(0deg) translateY(12px)",
           }}
         />
         <img
@@ -66,7 +66,7 @@ export default function FlipCard({
             WebkitBackfaceVisibility: "hidden",
             objectPosition: "center center",
             transformOrigin: "center center",
-            transform: "rotateY(180deg) translateY(-4px) scale(1.04)",
+            transform: "rotateY(180deg) scale(1.05) translateY(-12px)",
           }}
         />
       </div>
