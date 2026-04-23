@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Footer from "@/components/Footer";
 import AppHeader from "@/components/AppHeader";
 
@@ -122,7 +123,7 @@ export default function AboutPage() {
                   style={{ background: "radial-gradient(circle, #0e2e2e 0%, #0e2e2e 30%, transparent 80%)" }}
                 />
                 <div className="relative w-full h-full bg-zinc-300 rounded-lg overflow-hidden">
-                  <div className="w-full h-full bg-linear-to-br from-zinc-200 to-zinc-400" />
+                  <Image src="/svitlana.png" alt="Svitlana Monastyrska" fill className="object-cover" />
                 </div>
               </div>
               <h3 className="text-2xl md:text-4xl font-bold text-white leading-tight mb-2 md:mb-3" style={{ fontFamily: "var(--font-space-grotesk)" }}>
@@ -145,7 +146,7 @@ export default function AboutPage() {
                   style={{ background: "radial-gradient(circle, #0e2e2e 0%, #0e2e2e 30%, transparent 80%)" }}
                 />
                 <div className="relative w-full h-full bg-zinc-300 rounded-lg overflow-hidden">
-                  <div className="w-full h-full bg-linear-to-br from-zinc-200 to-zinc-400" />
+                  <Image src="/micheal.png" alt="Michael Gorishnyi" fill className="object-cover" />
                 </div>
               </div>
               <h3 className="text-2xl md:text-4xl font-bold text-white leading-tight mb-2 md:mb-3" style={{ fontFamily: "var(--font-space-grotesk)" }}>
@@ -168,7 +169,7 @@ export default function AboutPage() {
                   style={{ background: "radial-gradient(circle, #0e2e2e 0%, #0e2e2e 30%, transparent 80%)" }}
                 />
                 <div className="relative w-full h-full bg-zinc-300 rounded-lg overflow-hidden">
-                  <div className="w-full h-full bg-linear-to-br from-zinc-200 to-zinc-400" />
+                  <Image src="/mykhail.png" alt="Mykhail Stryzhko" fill className="object-cover" />
                 </div>
               </div>
               <h3 className="text-2xl md:text-4xl font-bold text-white leading-tight mb-2 md:mb-3" style={{ fontFamily: "var(--font-space-grotesk)" }}>
@@ -191,7 +192,7 @@ export default function AboutPage() {
                   style={{ background: "radial-gradient(circle, #0e2e2e 0%, #0e2e2e 30%, transparent 80%)" }}
                 />
                 <div className="relative w-full h-full bg-zinc-300 rounded-lg overflow-hidden">
-                  <div className="w-full h-full bg-linear-to-br from-zinc-200 to-zinc-400" />
+                  <Image src="/martha.png" alt="Marta Michalewska" fill className="object-cover" />
                 </div>
               </div>
               <h3 className="text-2xl md:text-4xl font-bold text-white leading-tight mb-2 md:mb-3" style={{ fontFamily: "var(--font-space-grotesk)" }}>
@@ -214,7 +215,7 @@ export default function AboutPage() {
                   style={{ background: "radial-gradient(circle, #0e2e2e 0%, #0e2e2e 30%, transparent 80%)" }}
                 />
                 <div className="relative w-full h-full bg-zinc-300 rounded-lg overflow-hidden">
-                  <div className="w-full h-full bg-linear-to-br from-zinc-200 to-zinc-400" />
+                  <Image src="/inna.png" alt="Inna Grynova" fill className="object-cover" />
                 </div>
               </div>
               <h3 className="text-2xl md:text-4xl font-bold text-white leading-tight mb-2 md:mb-3" style={{ fontFamily: "var(--font-space-grotesk)" }}>
@@ -237,7 +238,7 @@ export default function AboutPage() {
                   style={{ background: "radial-gradient(circle, #0e2e2e 0%, #0e2e2e 30%, transparent 80%)" }}
                 />
                 <div className="relative w-full h-full bg-zinc-300 rounded-lg overflow-hidden">
-                  <div className="w-full h-full bg-linear-to-br from-zinc-200 to-zinc-400" />
+                  <Image src="/vladslav.png" alt="Vladyslav Permohorov" fill className="object-cover" />
                 </div>
               </div>
               <h3 className="text-2xl md:text-4xl font-bold text-white leading-tight mb-2 md:mb-3" style={{ fontFamily: "var(--font-space-grotesk)" }}>
