@@ -28,6 +28,7 @@ export default function Footer() {
           <Link href="/about" className="text-zinc-400 text-sm hover:text-white transition-colors">About SPay</Link>
           <Link href="/privacy-policy" className="text-zinc-400 text-sm hover:text-white transition-colors">Privacy Policy</Link>
           <Link href="/card-terms" className="text-zinc-400 text-sm hover:text-white transition-colors">Card Terms</Link>
+          <Link href="/e-sign-consent" className="text-zinc-400 text-sm hover:text-white transition-colors">E-Sign Consent</Link>
           <Link href="/prohibited-activities" className="text-zinc-400 text-sm hover:text-white transition-colors">Prohibited Activities</Link>
         </div>
 
@@ -75,6 +76,7 @@ export default function Footer() {
           <Link href="/about" className="text-zinc-300 text-base hover:text-white transition-colors">About SPay</Link>
           <Link href="/privacy-policy" className="text-zinc-300 text-base hover:text-white transition-colors">Privacy Policy</Link>
           <Link href="/card-terms" className="text-zinc-300 text-base hover:text-white transition-colors">Card Terms</Link>
+          <Link href="/e-sign-consent" className="text-zinc-300 text-base hover:text-white transition-colors">E-Sign Consent</Link>
           <Link href="/prohibited-activities" className="text-zinc-300 text-base hover:text-white transition-colors">Prohibited Activities</Link>
         </div>
 
