@@ -50,15 +50,15 @@ export default function CookieConsent() {
       role="dialog"
       aria-live="polite"
       aria-label="Cookie consent"
-      className="fixed inset-x-0 bottom-20 md:bottom-4 z-[100] mx-auto w-[calc(100%-1rem)] max-w-3xl rounded-2xl border px-4 py-4 shadow-2xl sm:px-6"
+      className="fixed inset-x-0 bottom-20 md:bottom-6 z-[100] mx-auto w-[calc(100%-1.5rem)] max-w-5xl rounded-3xl border px-6 py-6 shadow-2xl sm:px-10 sm:py-8"
       style={{
         background: "#090e1c",
         borderColor: "rgba(70, 241, 197, 0.3)",
         fontFamily: "var(--font-inter)",
       }}
     >
-      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
-        <p className="text-sm leading-relaxed" style={{ color: "#A6AABE" }}>
+      <div className="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between sm:gap-8">
+        <p className="text-base sm:text-lg leading-relaxed" style={{ color: "#A6AABE" }}>
           We use cookies to improve your experience and analyze traffic. See
           our{" "}
           <Link
@@ -70,11 +70,11 @@ export default function CookieConsent() {
           </Link>
           .
         </p>
-        <div className="flex shrink-0 gap-2">
+        <div className="flex shrink-0 gap-3">
           <button
             type="button"
             onClick={() => persistChoice("declined")}
-            className="rounded-full border px-4 py-2 text-sm font-medium transition-colors hover:bg-white/5"
+            className="rounded-full border px-6 py-3 text-base font-medium transition-colors hover:bg-white/5"
             style={{ borderColor: "#A6AABE", color: "#A6AABE" }}
           >
             Decline
@@ -82,7 +82,7 @@ export default function CookieConsent() {
           <button
             type="button"
             onClick={() => persistChoice("accepted")}
-            className="rounded-full px-4 py-2 text-sm font-semibold transition-opacity hover:opacity-90"
+            className="rounded-full px-6 py-3 text-base font-semibold transition-opacity hover:opacity-90"
             style={{ background: "#46F1C5", color: "#090e1c" }}
           >
             Accept
