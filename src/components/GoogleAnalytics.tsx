@@ -2,7 +2,8 @@
 
 import Script from "next/script";
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
+import { useCookieConsent } from "@/hooks/useCookieConsent";
 
 declare global {
   interface Window {
@@ -11,26 +12,11 @@ declare global {
   }
 }
 
-const STORAGE_KEY = "spay-cookie-consent";
-
 export default function GoogleAnalytics() {
   const gaId = process.env.NEXT_PUBLIC_GA_ID;
   const pathname = usePathname();
-  const [enabled, setEnabled] = useState(false);
-
-  useEffect(() => {
-    const check = () => {
-      try {
-        setEnabled(localStorage.getItem(STORAGE_KEY) === "accepted");
-      } catch {
-        setEnabled(false);
-      }
-    };
-    check();
-    const handler = () => check();
-    window.addEventListener("spay-consent-change", handler);
-    return () => window.removeEventListener("spay-consent-change", handler);
-  }, []);
+  const consent = useCookieConsent();
+  const enabled = consent === "accepted";
 
   useEffect(() => {
     if (!enabled || !gaId || typeof window.gtag !== "function") return;

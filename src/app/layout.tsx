@@ -27,8 +27,8 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Sicash",
-  description: "Sicash - Your financial companion",
+  title: "SPay",
+  description: "SPay - Your financial companion",
 };
 
 export default function RootLayout({
@@ -44,6 +44,7 @@ export default function RootLayout({
         {children}
         <ConditionalBottomNav />
         <CookieConsent />
+        <GoogleAnalytics />
       </body>
     </html>
   );

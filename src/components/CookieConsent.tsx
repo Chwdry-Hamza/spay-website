@@ -1,56 +1,19 @@
 "use client";
 
 import Link from "next/link";
-import { useSyncExternalStore } from "react";
-
-const STORAGE_KEY = "spay-cookie-consent";
-const COOKIE_NAME = "spay_cookie_consent";
-const COOKIE_MAX_AGE_SECONDS = 60 * 60 * 24 * 180;
-const SSR_SENTINEL = "__ssr__";
-
-type Choice = "accepted" | "declined";
-
-function subscribe(callback: () => void) {
-  window.addEventListener("spay-consent-change", callback);
-  window.addEventListener("storage", callback);
-  return () => {
-    window.removeEventListener("spay-consent-change", callback);
-    window.removeEventListener("storage", callback);
-  };
-}
-
-function getSnapshot(): string {
-  try {
-    return localStorage.getItem(STORAGE_KEY) ?? "";
-  } catch {
-    return "";
-  }
-}
-
-function getServerSnapshot(): string {
-  return SSR_SENTINEL;
-}
-
-function persistChoice(choice: Choice) {
-  try {
-    localStorage.setItem(STORAGE_KEY, choice);
-  } catch {}
-  document.cookie = `${COOKIE_NAME}=${choice}; path=/; max-age=${COOKIE_MAX_AGE_SECONDS}; SameSite=Lax`;
-  window.dispatchEvent(new CustomEvent("spay-consent-change", { detail: choice }));
-}
+import { persistCookieConsent, useCookieConsent } from "@/hooks/useCookieConsent";
 
 export default function CookieConsent() {
-  const stored = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
+  const consent = useCookieConsent();
 
-  if (stored === SSR_SENTINEL) return null;
-  if (stored === "accepted" || stored === "declined") return null;
+  if (consent !== "pending") return null;
 
   return (
     <div
       role="dialog"
       aria-live="polite"
       aria-label="Cookie consent"
-      className="fixed inset-x-0 bottom-20 md:bottom-6 z-[100] mx-auto w-[calc(100%-1.5rem)] max-w-5xl rounded-3xl border px-6 py-6 shadow-2xl sm:px-10 sm:py-8"
+      className="fixed inset-x-0 bottom-4 md:bottom-5 lg:bottom-6 xl:bottom-8 z-[2147483647] mx-auto w-[calc(100%-32px)] max-w-[340px] md:max-w-[828px] lg:max-w-[1008px] xl:max-w-[1168px] rounded-3xl border px-6 py-6 shadow-2xl sm:px-10 sm:py-8"
       style={{
         background: "#090e1c",
         borderColor: "rgba(70, 241, 197, 0.3)",
@@ -73,7 +36,7 @@ export default function CookieConsent() {
         <div className="flex shrink-0 gap-3">
           <button
             type="button"
-            onClick={() => persistChoice("declined")}
+            onClick={() => persistCookieConsent("declined")}
             className="rounded-full border px-6 py-3 text-base font-medium transition-colors hover:bg-white/5"
             style={{ borderColor: "#A6AABE", color: "#A6AABE" }}
           >
@@ -81,7 +44,7 @@ export default function CookieConsent() {
           </button>
           <button
             type="button"
-            onClick={() => persistChoice("accepted")}
+            onClick={() => persistCookieConsent("accepted")}
             className="rounded-full px-6 py-3 text-base font-semibold transition-opacity hover:opacity-90"
             style={{ background: "#46F1C5", color: "#090e1c" }}
           >
