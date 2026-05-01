@@ -29,6 +29,11 @@ const inter = Inter({
 export const metadata: Metadata = {
   title: "SPay",
   description: "SPay - Your financial companion",
+  icons: {
+    icon: [{ url: "/spayLogo.jpeg", type: "image/jpeg" }],
+    shortcut: "/spayLogo.jpeg",
+    apple: "/spayLogo.jpeg",
+  },
 };
 
 export default function RootLayout({
