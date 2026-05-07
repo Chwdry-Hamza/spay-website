@@ -9,6 +9,7 @@ import EarnSection from "@/components/EarnSection";
 import JoinUsSection from "@/components/JoinUsSection";
 import CollaborationsSection from "@/components/CollaborationsSection";
 import Footer from "@/components/Footer";
+import FeaturesGrid from "@/components/FeatureGrid";
 
 export default function Home() {
   return (
@@ -21,6 +22,7 @@ export default function Home() {
       <LinkedAccountsSection />
       <CryptoSection />
       <EarnSection />
+      <FeaturesGrid/>
       <JoinUsSection />
       <CollaborationsSection />
       <Footer />

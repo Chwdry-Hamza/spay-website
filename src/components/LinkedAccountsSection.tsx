@@ -57,13 +57,13 @@ export default function LinkedAccountsSection() {
             >
               USE YOUR OTHER
               <br />
-              <span style={{ color: '#46F1C5' }}>BANK ACCOUNTS</span>
+              <span style={{ color: '#46F1C5' }}>CRYPTO ACCOUNTS</span>
             </h2>
             <p
               className="text-sm sm:text-base md:text-lg max-w-2xl mx-auto"
               style={{ fontFamily: 'var(--font-inter)', fontWeight: 400, color: '#A6AABE' }}
             >
-              Safely connect your bank accounts to the app and manage
+              Safely connect your crypto accounts to the app and manage
               them all from one secure access point.
             </p>
           </div>
@@ -102,7 +102,7 @@ export default function LinkedAccountsSection() {
                 <div className="flex items-center gap-2 md:gap-3">
                   <div className="w-7 h-7 sm:w-8 sm:h-8 md:w-10 md:h-10 bg-zinc-500 rounded-full" />
                   <div>
-                    <div className="text-white text-[11px] sm:text-xs md:text-sm font-medium">Marcel Wisniewski</div>
+                    <div className="text-white text-[11px] sm:text-xs md:text-sm font-medium">Alexander Reed</div>
                     <div className="text-zinc-500 text-[10px] sm:text-xs">Online</div>
                   </div>
                 </div>
@@ -113,8 +113,8 @@ export default function LinkedAccountsSection() {
                   </svg>
                 </div>
               </div>
-              <div className="text-black text-[10px] sm:text-xs mb-1 md:mb-2">BANK 2</div>
-              <div className="text-white text-2xl sm:text-3xl md:text-4xl font-bold">€ 8,724</div>
+              <div className="text-black text-[10px] sm:text-xs mb-1 md:mb-2">CRYPTO WALLET 2</div>
+              <div className="text-white text-2xl sm:text-3xl md:text-4xl font-bold">$ 8,724</div>
               {/* Dotted globe pattern */}
               <div className="absolute bottom-0 left-0 right-0 h-32 sm:h-36 md:h-44 opacity-60 overflow-hidden">
                 <svg viewBox="0 0 200 120" className="w-full h-full">
@@ -152,7 +152,7 @@ export default function LinkedAccountsSection() {
                 <div className="flex items-center gap-2 md:gap-3">
                   <div className="w-7 h-7 sm:w-8 sm:h-8 md:w-10 md:h-10 bg-zinc-500 rounded-full" />
                   <div>
-                    <div className="text-white text-[11px] sm:text-xs md:text-sm font-medium">Marcel Wisniewski</div>
+                    <div className="text-white text-[11px] sm:text-xs md:text-sm font-medium">Alexander Reed</div>
                     <div className="text-zinc-500 text-[10px] sm:text-xs">Online</div>
                   </div>
                 </div>
@@ -163,8 +163,8 @@ export default function LinkedAccountsSection() {
                   </svg>
                 </div>
               </div>
-              <div className="text-black text-[10px] sm:text-xs mb-1 md:mb-2">BANK</div>
-              <div className="text-white text-2xl sm:text-3xl md:text-4xl font-bold">€ 9,824</div>
+              <div className="text-black text-[10px] sm:text-xs mb-1 md:mb-2">CRYPTO WALLET 1</div>
+              <div className="text-white text-2xl sm:text-3xl md:text-4xl font-bold">$ 9,824</div>
               {/* Dotted globe pattern */}
               <div className="absolute bottom-0 left-0 right-0 h-32 sm:h-36 md:h-44 opacity-60 overflow-hidden">
                 <svg viewBox="0 0 200 120" className="w-full h-full">
@@ -202,7 +202,7 @@ export default function LinkedAccountsSection() {
                 <div className="flex items-center gap-2 md:gap-3">
                   <div className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 bg-zinc-500 rounded-full" />
                   <div>
-                    <div className="text-zinc-900 text-[11px] sm:text-xs md:text-sm font-medium">Marcel Wisniewski</div>
+                    <div className="text-zinc-900 text-[11px] sm:text-xs md:text-sm font-medium">Alexander Reed</div>
                     <div className="text-zinc-500 text-[10px] sm:text-xs">Online</div>
                   </div>
                 </div>
@@ -214,7 +214,7 @@ export default function LinkedAccountsSection() {
                 </div>
               </div>
               <div className="text-zinc-500 text-[10px] sm:text-xs mb-1 md:mb-2">All Accounts</div>
-              <div className="text-zinc-900 text-3xl sm:text-4xl md:text-5xl font-bold">€23,569</div>
+              <div className="text-zinc-900 text-3xl sm:text-4xl md:text-5xl font-bold">$23,569</div>
               {/* Dotted globe pattern */}
               <div className="absolute bottom-0 left-0 right-0 h-32 sm:h-36 md:h-44 opacity-40 overflow-hidden">
                 <svg viewBox="0 0 200 120" className="w-full h-full">
@@ -258,7 +258,7 @@ export default function LinkedAccountsSection() {
               </svg>
             </div>
             <h3 className="text-white font-bold text-xs sm:text-sm md:text-base lg:text-lg mt-2 sm:mt-3 md:mt-4 mb-1 md:mb-2">SUCCESSFUL LINKED</h3>
-            <p className="text-black text-[10px] sm:text-xs md:text-sm mb-2 sm:mb-3 md:mb-4 leading-snug">You have successfully connected your external bank account. Thank you for using us.</p>
+            <p className="text-black text-[10px] sm:text-xs md:text-sm mb-2 sm:mb-3 md:mb-4 leading-snug">You have successfully connected your external crypto account. Thank you for using us.</p>
             <a href="https://apps.apple.com/app/sicash" target="_blank" rel="noopener noreferrer" className="inline-block bg-zinc-700 hover:bg-zinc-600 text-white text-[10px] sm:text-xs md:text-sm font-medium px-4 sm:px-5 md:px-6 lg:px-8 py-1.5 sm:py-2 md:py-2.5 lg:py-3 rounded-lg transition-colors">
               CHECK IT OUT
             </a>
@@ -271,7 +271,7 @@ export default function LinkedAccountsSection() {
                 <div className="flex items-center gap-2 md:gap-3">
                   <div className="w-7 h-7 sm:w-8 sm:h-8 md:w-10 md:h-10 bg-zinc-500 rounded-full" />
                   <div>
-                    <div className="text-white text-[11px] sm:text-xs md:text-sm font-medium">Marcel Wisniewski</div>
+                    <div className="text-white text-[11px] sm:text-xs md:text-sm font-medium">Alexander Reed</div>
                     <div className="text-zinc-500 text-[10px] sm:text-xs">Online</div>
                   </div>
                 </div>
@@ -282,8 +282,8 @@ export default function LinkedAccountsSection() {
                   </svg>
                 </div>
               </div>
-              <div className="text-black text-[10px] sm:text-xs mb-1 md:mb-2">BANK 3</div>
-              <div className="text-white text-2xl sm:text-3xl md:text-4xl font-bold">€ 3,960</div>
+              <div className="text-black text-[10px] sm:text-xs mb-1 md:mb-2">CRYPTO WALLET 3</div>
+              <div className="text-white text-2xl sm:text-3xl md:text-4xl font-bold">$ 3,960</div>
               {/* Dotted globe pattern */}
               <div className="absolute bottom-0 left-0 right-0 h-32 sm:h-36 md:h-44 opacity-60 overflow-hidden">
                 <svg viewBox="0 0 200 120" className="w-full h-full">
@@ -321,7 +321,7 @@ export default function LinkedAccountsSection() {
                 <div className="flex items-center gap-2 md:gap-3">
                   <div className="w-7 h-7 sm:w-8 sm:h-8 md:w-10 md:h-10 bg-zinc-500 rounded-full" />
                   <div>
-                    <div className="text-white text-[11px] sm:text-xs md:text-sm font-medium">Marcel Wisniewski</div>
+                    <div className="text-white text-[11px] sm:text-xs md:text-sm font-medium">Alexander Reed</div>
                     <div className="text-zinc-500 text-[10px] sm:text-xs">Online</div>
                   </div>
                 </div>
@@ -332,8 +332,8 @@ export default function LinkedAccountsSection() {
                   </svg>
                 </div>
               </div>
-              <div className="text-black text-[10px] sm:text-xs mb-1 md:mb-2">BANK 4</div>
-              <div className="text-white text-2xl sm:text-3xl md:text-4xl font-bold">€ 5,532</div>
+              <div className="text-black text-[10px] sm:text-xs mb-1 md:mb-2">CRYPTO WALLET 4</div>
+              <div className="text-white text-2xl sm:text-3xl md:text-4xl font-bold">$ 5,532</div>
               {/* Dotted globe pattern */}
               <div className="absolute bottom-0 left-0 right-0 h-32 sm:h-36 md:h-44 opacity-60 overflow-hidden">
                 <svg viewBox="0 0 200 120" className="w-full h-full">

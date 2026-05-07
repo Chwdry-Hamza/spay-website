@@ -224,7 +224,9 @@ export default function HomeHero() {
         <div
           className={`${
             bp === "desktop"
-              ? "max-w-lg text-left mt-16"
+              ? "max-w-lg text-left mt-40"
+              : bp === "tablet"
+              ? "w-fit max-w-full text-left"
               : "w-fit max-w-full mr-auto self-start text-left"
           }`}
         >
@@ -272,14 +274,14 @@ export default function HomeHero() {
         <div
           className={`relative shrink-0 ${
             bp === "mobile"
-              ? "w-[340px] h-[560px] mx-auto -mt-20"
+              ? "w-[270px] h-[450px] mx-auto -mt-20"
               : bp === "tablet"
-              ? "w-96 h-[560px] mx-auto -mt-16"
-              : "w-[560px] h-[680px]"
+              ? "w-72 h-[450px] mx-auto -mt-16"
+              : "w-[420px] h-[540px]"
           }`}
         >
           <Image
-            src="/heroSectionPhone.svg"
+            src="/heroImageSpay.png"
             alt="SiCash App with Cards"
             fill
             className="object-contain"

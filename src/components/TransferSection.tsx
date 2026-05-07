@@ -61,11 +61,19 @@ export default function TransferSection() {
         </h2>
 
         {/* Subtitle */}
+        {/*
         <p
           className="text-[11px] sm:text-xs md:text-base mb-6 sm:mb-8 md:mb-10 leading-relaxed text-center max-w-xl md:max-w-2xl mx-auto"
           style={{ fontFamily: 'var(--font-inter)', fontWeight: 400, color: '#A6AABE' }}
         >
           Instantly transfer funds to Visa/MasterCard cards worldwide, SEPA bank accounts, and seamlessly send crypto assets with a single tap.
+        </p>
+        */}
+        <p
+          className="text-[11px] sm:text-xs md:text-base mb-6 sm:mb-8 md:mb-10 pb-2 leading-relaxed text-center max-w-xl md:max-w-2xl mx-auto"
+          style={{ fontFamily: 'var(--font-inter)', fontWeight: 400, color: '#A6AABE' }}
+        >
+          Spend your crypto anywhere a card is accepted — our card and app make it as easy as using a regular bank card.
         </p>
 
         {/* Phone Mockup */}
@@ -91,19 +99,28 @@ export default function TransferSection() {
               TRANSFERS WITHOUT BARRIERS
             </p>
             <h2
-              className="text-3xl lg:text-5xl xl:text-6xl font-bold text-white leading-tight mb-9 lg:mb-12 xl:mb-14"
+              className="text-3xl lg:text-5xl xl:text-6xl font-bold text-white leading-tight mb-5 lg:mb-7 xl:mb-9"
               style={{ fontFamily }}
             >
               SEND <span style={{ color: '#46F1C5' }}>CRYPTO</span> EASILY,
               <br />
               ANYWHERE, TO ANYONE
             </h2>
+            {/*
             <p
               className="text-xs lg:text-sm leading-relaxed"
               style={{ fontFamily: 'var(--font-inter)', fontWeight: 400, color: '#A6AABE' }}
             >
               Instantly transfer funds to Visa/MasterCard cards worldwide, SEPA
               bank accounts, and seamlessly send crypto assets with a single tap.
+            </p>
+            */}
+            <p
+              className="text-xs lg:text-sm leading-relaxed pb-2"
+              style={{ fontFamily: 'var(--font-inter)', fontWeight: 400, color: '#A6AABE' }}
+            >
+              Spend your crypto anywhere a card is accepted — our card and
+              app make it as easy as using a regular bank card.
             </p>
           </div>
 

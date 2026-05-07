@@ -84,7 +84,7 @@ export default function JoinUsSection() {
           }}
         >
           Say goodbye to juggling multiple apps and tools for your financial
-          transactions. SICASH is your one-stop solution for all your money needs.
+          transactions. SPay is your one-stop solution for all your money needs.
         </p>
         <a
           href="https://apps.apple.com/app/sicash"
