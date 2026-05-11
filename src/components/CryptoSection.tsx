@@ -1,6 +1,28 @@
 "use client";
 
+import { useSectionData } from "@/preview/PreviewProvider";
+
+type TitlePart = { text: string; color: string };
+type CryptoData = {
+  eyebrow: string;
+  titleParts: TitlePart[];
+  subtitle: string;
+  mockupImage: string;
+};
+
+const CRYPTO_DEFAULTS: CryptoData = {
+  eyebrow: "MANAGE CRYPTO",
+  titleParts: [
+    { text: "DEPOSIT AND INVEST WITH ", color: "#ffffff" },
+    { text: "SPAY", color: "#46F1C5" },
+  ],
+  subtitle:
+    "Purchase, spend, sell, and hold cryptocurrencies, all from the convenience of your device. Delve into the world of digital currencies effortlessly.",
+  mockupImage: "/tabletMobile.png",
+};
+
 export default function CryptoSection() {
+  const data = useSectionData<CryptoData>("crypto", CRYPTO_DEFAULTS);
   return (
     <section id="crypto" className="relative overflow-hidden" style={{ background: '#090e1c' }}>
       {/* Mobile + Tablet Layout */}
@@ -10,7 +32,7 @@ export default function CryptoSection() {
           className="text-[10px] sm:text-xs md:text-sm uppercase mb-3 sm:mb-4"
           style={{ fontFamily: 'var(--font-inter)', fontWeight: 400, color: '#A6AABE', letterSpacing: '6px' }}
         >
-          MANAGE CRYPTO
+          {data.eyebrow}
         </p>
 
         {/* Main Heading */}
@@ -18,7 +40,9 @@ export default function CryptoSection() {
           className="text-3xl sm:text-4xl md:text-5xl font-bold text-white leading-tight mb-4 sm:mb-6"
           style={{ fontFamily: 'var(--font-space-grotesk)' }}
         >
-          DEPOSIT AND INVEST WITH <span style={{ color: '#46F1C5' }}>SPAY</span>
+          {data.titleParts.map((p, i) => (
+            <span key={i} style={{ color: p.color }}>{p.text}</span>
+          ))}
         </h2>
 
         {/* Subtitle */}
@@ -26,7 +50,7 @@ export default function CryptoSection() {
           className="text-sm sm:text-base md:text-lg mb-8 sm:mb-10 leading-relaxed max-w-xl md:max-w-2xl mx-auto"
           style={{ fontFamily: 'var(--font-inter)', fontWeight: 400, color: '#A6AABE' }}
         >
-          Purchase, spend, sell, and hold cryptocurrencies, all from the convenience of your device. Delve into the world of digital currencies effortlessly.
+          {data.subtitle}
         </p>
 
         {/* Phone Mockup - Mobile/Tablet with glow */}
@@ -46,7 +70,7 @@ export default function CryptoSection() {
             }}
           />
           <img
-            src="/tabletMobile.png"
+            src={data.mockupImage}
             alt="SPay trade mockup"
             className="relative w-80 sm:w-96 md:w-[28rem] h-auto object-contain"
           />
@@ -69,19 +93,15 @@ export default function CryptoSection() {
                 className="text-3xl lg:text-5xl xl:text-6xl font-bold text-white leading-tight mb-10 lg:mb-14 xl:mb-16"
                 style={{ fontFamily: 'var(--font-space-grotesk)' }}
               >
-                DEPOSIT AND
-                <br />
-                INVEST WITH
-                <br />
-                <span style={{ color: '#46F1C5' }}>SPAY</span>
+                {data.titleParts.map((p, i) => (
+                  <span key={i} style={{ color: p.color }}>{p.text}</span>
+                ))}
               </h2>
               <p
                 className="text-xs lg:text-sm leading-relaxed"
                 style={{ fontFamily: 'var(--font-inter)', fontWeight: 400, color: '#A6AABE' }}
               >
-                Purchase, spend, sell, and hold cryptocurrencies, all from the
-                convenience of your device. Delve into the world of digital
-                currencies effortlessly.
+                {data.subtitle}
               </p>
             </div>
 
@@ -99,7 +119,7 @@ export default function CryptoSection() {
                 }}
               />
               <img
-                src="/tabletMobile.png"
+                src={data.mockupImage}
                 alt="SPay trade mockup"
                 className="relative w-[26rem] lg:w-[32rem] xl:w-[38rem] h-auto object-contain"
               />

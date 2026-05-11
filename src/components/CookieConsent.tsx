@@ -2,11 +2,15 @@
 
 import Link from "next/link";
 import { persistCookieConsent, useCookieConsent } from "@/hooks/useCookieConsent";
+import { useIsPreview } from "@/preview/PreviewProvider";
 
 export default function CookieConsent() {
   const consent = useCookieConsent();
+  const isPreview = useIsPreview();
 
-  if (consent !== "pending") return null;
+  // In CMS preview, force-render so editors can see and style the banner.
+  // On the live site, only show while consent is still pending.
+  if (!isPreview && consent !== "pending") return null;
 
   return (
     <div

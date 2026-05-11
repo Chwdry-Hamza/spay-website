@@ -1,6 +1,27 @@
 "use client";
 
+import { useSectionData } from "@/preview/PreviewProvider";
+
+type TitlePart = { text: string; color: string };
+type EarnData = {
+  eyebrow: string;
+  titleParts: TitlePart[];
+  subtitle: string;
+};
+
+const EARN_DEFAULTS: EarnData = {
+  eyebrow: "EARN WITH SPAY",
+  titleParts: [
+    { text: "MAKE ", color: "#ffffff" },
+    { text: "CRYPTO", color: "#46F1C5" },
+    { text: "\nWORK FOR YOU", color: "#ffffff" },
+  ],
+  subtitle:
+    "Enjoy the crypto staking benefits provided by highly-secured cutting-edge encrypted solutions",
+};
+
 export default function EarnSection() {
+  const data = useSectionData<EarnData>("earn", EARN_DEFAULTS);
   return (
     <section id="earn" className="relative overflow-hidden" style={{ backgroundColor: "#090e1c" }}>
       {/* Mobile + Tablet Layout */}
@@ -10,17 +31,17 @@ export default function EarnSection() {
           className="text-[10px] sm:text-xs md:text-sm uppercase mb-4 sm:mb-5 md:mb-6 text-center"
           style={{ fontFamily: 'var(--font-inter)', fontWeight: 400, color: '#A6AABE', letterSpacing: '6px' }}
         >
-          EARN WITH SPAY
+          {data.eyebrow}
         </p>
 
         {/* Main Heading */}
         <h2
-          className="text-3xl sm:text-4xl md:text-5xl font-bold text-white leading-tight mb-4 sm:mb-6 text-center"
+          className="text-3xl sm:text-4xl md:text-5xl font-bold text-white leading-tight mb-4 sm:mb-6 text-center whitespace-pre-line"
           style={{ fontFamily: 'var(--font-space-grotesk)' }}
         >
-          MAKE <span style={{ color: '#46F1C5' }}>CRYPTO</span>
-          <br />
-          WORK FOR YOU
+          {data.titleParts.map((p, i) => (
+            <span key={i} style={{ color: p.color }}>{p.text}</span>
+          ))}
         </h2>
 
         {/* Subtitle */}
@@ -28,7 +49,7 @@ export default function EarnSection() {
           className="text-sm sm:text-base md:text-lg mb-10 sm:mb-12 leading-relaxed text-center max-w-xl md:max-w-2xl mx-auto"
           style={{ fontFamily: 'var(--font-inter)', fontWeight: 400, color: '#A6AABE' }}
         >
-          Enjoy the crypto staking benefits provided by highly-secured cutting-edge encrypted solutions
+          {data.subtitle}
         </p>
 
         {/* Gauge and Bars Visual */}
@@ -141,19 +162,18 @@ export default function EarnSection() {
               EARN WITH SPAY
             </p>
             <h2
-              className="text-6xl font-bold text-white leading-tight mb-10 lg:mb-14 xl:mb-16"
+              className="text-6xl font-bold text-white leading-tight mb-10 lg:mb-14 xl:mb-16 whitespace-pre-line"
               style={{ fontFamily: 'var(--font-space-grotesk)' }}
             >
-              MAKE <span style={{ color: '#46F1C5' }}>CRYPTO</span>
-              <br />
-              WORK FOR YOU
+              {data.titleParts.map((p, i) => (
+                <span key={i} style={{ color: p.color }}>{p.text}</span>
+              ))}
             </h2>
             <p
               className="text-xl leading-relaxed"
               style={{ fontFamily: 'var(--font-inter)', fontWeight: 400, color: '#A6AABE' }}
             >
-              Enjoy the crypto staking benefits provided by highly-secured cutting-edge
-              encrypted solutions
+              {data.subtitle}
             </p>
           </div>
 

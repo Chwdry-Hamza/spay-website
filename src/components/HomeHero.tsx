@@ -2,8 +2,41 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useState, useEffect } from "react";
+import { useSectionData } from "@/preview/PreviewProvider";
 
 type Breakpoint = "mobile" | "tablet" | "desktop";
+
+type TitlePart = { text: string; color: string };
+type HomeHeroData = {
+  titleParts: TitlePart[];
+  subtitle: string;
+  mobileSubtitle: string;
+  ctaLabel: string;
+  ctaUrl: string;
+  ctaMobileLabel?: string;
+  heroImage: string;
+  logoSrc: string;
+  gradientStart: string;
+  gradientEnd: string;
+};
+
+const HOME_HERO_DEFAULTS: HomeHeroData = {
+  titleParts: [
+    { text: "THE ", color: "#ffffff" },
+    { text: "MONEY ", color: "#46F1C5" },
+    { text: "APP", color: "#ffffff" },
+  ],
+  subtitle:
+    "Experience institutional-grade security with the agility of decentralized finance. Secure, fast, and rewarding crypto platform for the next generation.",
+  mobileSubtitle: "Secure, fast, and rewarding crypto platform.",
+  ctaLabel: "GET THE APP",
+  ctaMobileLabel: "GET APP",
+  ctaUrl: "https://apps.apple.com/app/sicash",
+  heroImage: "/heroImageSpay.png",
+  logoSrc: "/Spay.png",
+  gradientStart: "#090e1c",
+  gradientEnd: "#0e2e2e",
+};
 
 function useBreakpoint(): Breakpoint {
   const [bp, setBp] = useState<Breakpoint>("desktop");
@@ -129,16 +162,16 @@ function useBreakpoint(): Breakpoint {
 
 export default function HomeHero() {
   const bp = useBreakpoint();
+  const data = useSectionData<HomeHeroData>("homeHero", HOME_HERO_DEFAULTS);
 
-  // ADAPTIVE: gradient direction follows the phone's position.
-  // Desktop/Tablet → phone on right, teal glow flows right-then-down.
-  // Mobile → phone stacked below text, teal glow drops to bottom.
+  const a = data.gradientStart;
+  const b = data.gradientEnd;
   const sectionBackground =
     bp === "mobile"
-      ? "linear-gradient(to bottom, #090e1c 0%, #0e2e2e 30%, #0e2e2e 75%, #090e1c 90%, #090e1c 100%)"
+      ? `linear-gradient(to bottom, ${a} 0%, ${b} 30%, ${b} 75%, ${a} 90%, ${a} 100%)`
       : bp === "tablet"
-      ? "linear-gradient(to bottom, #090e1c 0%, #0e2e2e 40%, #0e2e2e 60%, #090e1c 80%, #090e1c 100%)"
-      : "linear-gradient(to bottom, transparent 0%, transparent 55%, #090e1c 100%), linear-gradient(to right, #090e1c 0%, #0e2e2e 100%)";
+      ? `linear-gradient(to bottom, ${a} 0%, ${b} 40%, ${b} 60%, ${a} 80%, ${a} 100%)`
+      : `linear-gradient(to bottom, transparent 0%, transparent 55%, ${a} 100%), linear-gradient(to right, ${a} 0%, ${b} 100%)`;
 
   const glowStyle =
     bp === "mobile"
@@ -181,7 +214,7 @@ export default function HomeHero() {
         <div className="relative w-full max-w-7xl mx-auto px-4 sm:px-8 lg:px-16 flex items-center justify-between">
           <Link href="/" className="shrink-0">
             <img
-              src="/Spay.png"
+              src={data.logoSrc}
               alt="SiCash"
               style={{
                 height:
@@ -195,7 +228,7 @@ export default function HomeHero() {
             />
           </Link>
           <a
-            href="https://apps.apple.com/app/sicash"
+            href={data.ctaUrl}
             target="_blank"
             rel="noopener noreferrer"
             className="font-semibold px-3 py-2 sm:px-5 sm:py-2.5 lg:px-6 lg:py-2.5 rounded-lg lg:rounded-xl text-xs sm:text-sm transition-all hover:opacity-90"
@@ -204,7 +237,7 @@ export default function HomeHero() {
               color: "#0a2a23",
             }}
           >
-            {bp === "mobile" ? "GET APP" : "GET SPAY APP"}
+            {bp === "mobile" ? data.ctaMobileLabel ?? data.ctaLabel : data.ctaLabel}
           </a>
         </div>
       </nav>
@@ -234,15 +267,16 @@ export default function HomeHero() {
             className="text-3xl sm:text-5xl lg:text-6xl font-bold leading-tight mb-4 sm:mb-6"
             style={{ fontFamily: "var(--font-space-grotesk)" }}
           >
-            <span className="text-white">THE </span>
-            <span style={{ color: "#46F1C5" }}>MONEY </span>
-            <span className="text-white">APP</span>
+            {data.titleParts.map((p, i) => (
+              <span key={i} style={{ color: p.color }}>
+                {p.text}
+              </span>
+            ))}
           </h1>
 
-          {/* ADAPTIVE: condense copy on mobile, full pitch on tablet/desktop */}
           {bp === "mobile" ? (
             <p className="text-zinc-400 text-sm leading-relaxed mb-6 max-w-xs">
-              Secure, fast, and rewarding crypto platform.
+              {data.mobileSubtitle}
             </p>
           ) : (
             <p
@@ -250,14 +284,12 @@ export default function HomeHero() {
                 bp === "desktop" ? "max-w-sm" : "max-w-md"
               }`}
             >
-              Experience institutional-grade security with the agility of
-              decentralized finance. Secure, fast, and rewarding crypto
-              platform for the next generation.
+              {data.subtitle}
             </p>
           )}
 
           <a
-            href="https://apps.apple.com/app/sicash"
+            href={data.ctaUrl}
             target="_blank"
             rel="noopener noreferrer"
             className="inline-block font-semibold px-6 py-3 sm:px-8 sm:py-3.5 rounded-xl text-sm transition-all hover:opacity-90"
@@ -266,7 +298,7 @@ export default function HomeHero() {
               color: "#0a2a23",
             }}
           >
-            GET THE APP
+            {data.ctaLabel}
           </a>
         </div>
 
@@ -281,7 +313,7 @@ export default function HomeHero() {
           }`}
         >
           <Image
-            src="/heroImageSpay.png"
+            src={data.heroImage}
             alt="SiCash App with Cards"
             fill
             className="object-contain"

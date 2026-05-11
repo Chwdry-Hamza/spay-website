@@ -4,6 +4,7 @@ import "./globals.css";
 import ConditionalBottomNav from "@/components/ConditionalBottomNav";
 import CookieConsent from "@/components/CookieConsent";
 import GoogleAnalytics from "@/components/GoogleAnalytics";
+import { PreviewProvider } from "@/preview/PreviewProvider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -46,10 +47,12 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${spaceGrotesk.variable} ${inter.variable} antialiased min-h-screen w-full overflow-x-hidden`}
       >
-        {children}
-        <ConditionalBottomNav />
-        <CookieConsent />
-        <GoogleAnalytics />
+        <PreviewProvider>
+          {children}
+          <ConditionalBottomNav />
+          <CookieConsent />
+          <GoogleAnalytics />
+        </PreviewProvider>
       </body>
     </html>
   );

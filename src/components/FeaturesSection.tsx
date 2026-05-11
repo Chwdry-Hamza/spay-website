@@ -193,7 +193,52 @@
 
 "use client";
 
+import { useSectionData } from "@/preview/PreviewProvider";
+
+type TitlePart = { text: string; color: string };
+type FeatureCard = { title: string; desc: string; image: string; bgStart: string; bgEnd: string };
+type FeaturesData = {
+  eyebrow: string;
+  titleParts: TitlePart[];
+  cards: FeatureCard[];
+};
+
+const FEATURES_DEFAULTS: FeaturesData = {
+  eyebrow: "A new era of digital banking",
+  titleParts: [
+    { text: "TAKE ", color: "#ffffff" },
+    { text: "CONTROL", color: "#46F1C5" },
+    { text: " OF ALL\nYOUR ", color: "#ffffff" },
+    { text: "MONEY", color: "#46F1C5" },
+  ],
+  cards: [
+    {
+      title: "TRANSACTION",
+      desc: "Manage all your finances with a single tap. Forget about banking hassles.",
+      image: "/transactions.jpeg",
+      bgStart: "#46F1C5",
+      bgEnd: "#004132",
+    },
+    {
+      title: "CRYPTO",
+      desc: "Safely hold, effortlessly send, receive, and monitor your cryptocurrency holding.",
+      image: "/crypto.jpeg",
+      bgStart: "#46F1C5",
+      bgEnd: "#004132",
+    },
+    {
+      title: "HISTORY",
+      desc: "Get a wide range of innovative financial tools for unlimited wealth-building opportunities.",
+      image: "/notification.jpeg",
+      bgStart: "#46F1C5",
+      bgEnd: "#004132",
+    },
+  ],
+};
+
 export default function FeaturesSection() {
+  const data = useSectionData<FeaturesData>("features", FEATURES_DEFAULTS);
+  const cards = data.cards;
   return (
     <section
       className="relative pt-2 sm:pt-4 lg:pt-6 pb-8 sm:pb-10 lg:pb-16 overflow-hidden"
@@ -201,9 +246,7 @@ export default function FeaturesSection() {
         background: 'linear-gradient(to bottom, #090e1c 0%, #071414 50%, #090e1c 100%)',
       }}
     >
-      {/* Header */}
       <div className="relative z-10 text-center mb-8 sm:mb-10 lg:mb-12 px-4 sm:px-6">
-        {/* Radial gradient backdrop behind heading only */}
         <div
           className="absolute left-1/2 pointer-events-none"
           style={{
@@ -217,19 +260,16 @@ export default function FeaturesSection() {
             zIndex: -1,
           }}
         />
-       <p className="text-[#A6AABE] font-inter font-normal not-italic tracking-[6px] text-xs md:text-sm uppercase mb-5">
-  A new era of digital banking
-</p>
+        <p className="text-[#A6AABE] font-inter font-normal not-italic tracking-[6px] text-xs md:text-sm uppercase mb-5">
+          {data.eyebrow}
+        </p>
         <h2
-          className="text-3xl sm:text-4xl lg:text-6xl font-bold leading-tight text-white"
+          className="text-3xl sm:text-4xl lg:text-6xl font-bold leading-tight text-white whitespace-pre-line"
           style={{ fontFamily: 'var(--font-space-grotesk)' }}
         >
-          <span>TAKE </span>
-          <span style={{ color: '#46F1C5' }}>CONTROL</span>
-          <span> OF ALL</span>
-          <br />
-          <span>YOUR </span>
-          <span style={{ color: '#46F1C5' }}>MONEY</span>
+          {data.titleParts.map((p, i) => (
+            <span key={i} style={{ color: p.color }}>{p.text}</span>
+          ))}
         </h2>
       </div>
 
@@ -243,146 +283,66 @@ export default function FeaturesSection() {
       </div>{/* Tab indicator */}
       
 
-      {/* Cards grid — outer card edges aligned vertically with HomeHero appbar (SPay logo / GET SPAY APP button) */}
       <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 grid grid-cols-1 sm:grid-cols-3 gap-8 sm:gap-3 lg:gap-6 items-center">
-        {/* TRANSACTION Card — left */}
-        <div className="flex items-center justify-center px-0 sm:px-2 lg:px-10">
-          <div
-            className="w-full max-w-[300px] sm:max-w-none mx-auto relative origin-bottom sm:scale-105 lg:scale-110"
-            style={{
-              aspectRatio: '534 / 660',
-              borderRadius: '30px',
-              background: 'linear-gradient(135deg, #46F1C5 0%, #004132 100%)',
-            }}
-          >
-            <div className="absolute inset-0 flex flex-col p-[7%]">
-              <div className="w-full basis-[60%] sm:basis-[56%] lg:basis-[67%] shrink-0 grow-0 flex items-start justify-center">
-                <img
-                  src="/transactions.jpeg"
-                  alt="Transactions"
-                  className="w-full h-[95%] object-cover"
-                  style={{ borderRadius: '20px' }}
-                />
-              </div>
-              <div className="text-left mt-2 sm:mt-2 lg:mt-4">
-                <h3
-                  className="mb-0.5 sm:mb-0.5 lg:mb-1 text-[14px] sm:text-[13px] lg:text-[20px]"
-                  style={{
-                    fontFamily: 'var(--font-inter)',
-                    fontWeight: 400,
-                    color: '#FFFFFF',
-                    lineHeight: 1.1,
-                  }}
-                >
-                  TRANSACTION
-                </h3>
-                <p
-                  className="leading-snug text-[9px] sm:text-[8px] lg:text-[10px]"
-                  style={{
-                    fontFamily: 'var(--font-inter)',
-                    fontWeight: 300,
-                    color: 'rgba(255,255,255,0.8)',
-                  }}
-                >
-                  Manage all your finances with a single tap. Forget about banking hassles.
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* MONEY Card — center; ADAPTIVE: scaled up only on desktop */}
-        <div className="flex items-center justify-center px-0 sm:px-2 lg:px-10">
-          <div
-            className="w-full max-w-[300px] sm:max-w-none mx-auto relative origin-bottom sm:scale-110 lg:scale-125"
-            style={{
-              aspectRatio: '534 / 720',
-              borderRadius: '30px',
-              background: 'linear-gradient(135deg, #46F1C5 0%, #004132 100%)',
-            }}
-          >
-            {/* Content overlay: white box + text */}
-            <div className="absolute inset-0 flex flex-col p-[7%]">
-              {/* Crypto image */}
-              <img
-                src="/crypto.jpeg"
-                alt="Crypto"
-                className="w-full basis-[60%] sm:basis-[58%] lg:basis-[70%] shrink-0 grow-0 object-cover"
-                style={{ borderRadius: '20px' }}
-              />
-              {/* Text left-aligned below white box */}
-              <div className="text-left mt-2 sm:mt-2 lg:mt-4">
-                <h3
-                  className="mb-0.5 sm:mb-0.5 lg:mb-1 text-[14px] sm:text-[13px] lg:text-[20px]"
-                  style={{
-                    fontFamily: 'var(--font-inter)',
-                    fontWeight: 400,
-                    color: '#FFFFFF',
-                    lineHeight: 1.1,
-                  }}
-                >
-                  CRYPTO
-                </h3>
-                <p
-                  className="leading-snug text-[9px] sm:text-[8px] lg:text-[10px]"
-                  style={{
-                    fontFamily: 'var(--font-inter)',
-                    fontWeight: 300,
-                    color: 'rgba(255,255,255,0.8)',
-                  }}
-                >
-                  Safely hold, effortlessly send, receive, and monitor your cryptocurrency holding.
-                </p>
+        {cards.map((c, i) => {
+          const isCenter = i === 1;
+          return (
+            <div key={i} className="flex items-center justify-center px-0 sm:px-2 lg:px-10">
+              <div
+                className={`w-full max-w-[300px] sm:max-w-none mx-auto relative origin-bottom ${
+                  isCenter ? "sm:scale-110 lg:scale-125" : "sm:scale-105 lg:scale-110"
+                }`}
+                style={{
+                  aspectRatio: isCenter ? "534 / 720" : "534 / 660",
+                  borderRadius: "30px",
+                  background: `linear-gradient(135deg, ${c.bgStart} 0%, ${c.bgEnd} 100%)`,
+                }}
+              >
+                <div className="absolute inset-0 flex flex-col p-[7%]">
+                  <div
+                    className={`w-full ${
+                      isCenter
+                        ? "basis-[60%] sm:basis-[58%] lg:basis-[70%]"
+                        : i === 0
+                        ? "basis-[60%] sm:basis-[56%] lg:basis-[67%]"
+                        : "basis-[68%] sm:basis-[64%] lg:basis-[75%]"
+                    } shrink-0 grow-0 flex items-start justify-center`}
+                  >
+                    <img
+                      src={c.image}
+                      alt={c.title}
+                      className="w-full h-[95%] object-cover"
+                      style={{ borderRadius: "20px" }}
+                    />
+                  </div>
+                  <div className="text-left mt-2 sm:mt-2 lg:mt-4">
+                    <h3
+                      className="mb-0.5 sm:mb-0.5 lg:mb-1 text-[14px] sm:text-[13px] lg:text-[20px]"
+                      style={{
+                        fontFamily: "var(--font-inter)",
+                        fontWeight: 400,
+                        color: "#FFFFFF",
+                        lineHeight: 1.1,
+                      }}
+                    >
+                      {c.title}
+                    </h3>
+                    <p
+                      className="leading-snug text-[9px] sm:text-[8px] lg:text-[10px]"
+                      style={{
+                        fontFamily: "var(--font-inter)",
+                        fontWeight: 300,
+                        color: "rgba(255,255,255,0.8)",
+                      }}
+                    >
+                      {c.desc}
+                    </p>
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
-        </div>
-
-        {/* HISTORY Card — right */}
-        <div className="flex items-center justify-center px-0 sm:px-2 lg:px-10">
-          <div
-            className="w-full max-w-[300px] sm:max-w-none mx-auto relative origin-bottom sm:scale-105 lg:scale-110"
-            style={{
-              aspectRatio: '534 / 660',
-              borderRadius: '30px',
-              background: 'linear-gradient(135deg, #46F1C5 0%, #004132 100%)',
-            }}
-          >
-            <div className="absolute inset-0 flex flex-col p-[7%]">
-              <div className="w-full basis-[68%] sm:basis-[64%] lg:basis-[75%] shrink-0 grow-0 flex items-center justify-center">
-                <img
-                  src="/notification.jpeg"
-                  alt="Notification"
-                  className="w-full h-auto object-cover object-top"
-                  style={{ borderRadius: '20px', aspectRatio: '1320 / 1180' }}
-                />
-              </div>
-              <div className="text-left mt-2 sm:mt-2 lg:mt-4">
-                <h3
-                  className="mb-0.5 sm:mb-0.5 lg:mb-1 text-[14px] sm:text-[13px] lg:text-[20px]"
-                  style={{
-                    fontFamily: 'var(--font-inter)',
-                    fontWeight: 400,
-                    color: '#FFFFFF',
-                    lineHeight: 1.1,
-                  }}
-                >
-                  HISTORY
-                </h3>
-                <p
-                  className="leading-snug text-[9px] sm:text-[8px] lg:text-[10px]"
-                  style={{
-                    fontFamily: 'var(--font-inter)',
-                    fontWeight: 300,
-                    color: 'rgba(255,255,255,0.8)',
-                  }}
-                >
-                  Get a wide range of innovative financial tools for unlimited wealth-building opportunities.
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
+          );
+        })}
       </div>
     </section>
   );

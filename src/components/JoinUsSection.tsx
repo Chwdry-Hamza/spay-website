@@ -1,8 +1,31 @@
 "use client";
 
 import Image from "next/image";
+import { useSectionData } from "@/preview/PreviewProvider";
+
+type TitlePart = { text: string; color: string };
+type JoinUsData = {
+  eyebrow: string;
+  titleParts: TitlePart[];
+  subtitle: string;
+  ctaLabel: string;
+  ctaUrl: string;
+};
+
+const JOIN_US_DEFAULTS: JoinUsData = {
+  eyebrow: "JOIN US",
+  titleParts: [
+    { text: "TIME IS ", color: "#ffffff" },
+    { text: "MONEY", color: "#46F1C5" },
+  ],
+  subtitle:
+    "Say goodbye to juggling multiple apps and tools for your financial transactions. SPay is your one-stop solution for all your money needs.",
+  ctaLabel: "GET SPAY APP",
+  ctaUrl: "https://apps.apple.com/app/sicash",
+};
 
 export default function JoinUsSection() {
+  const data = useSectionData<JoinUsData>("joinUs", JOIN_US_DEFAULTS);
   return (
     <section
       className="relative pt-16 md:pt-32 pb-24 md:pb-48 overflow-hidden"
@@ -66,14 +89,15 @@ export default function JoinUsSection() {
             letterSpacing: "6px",
           }}
         >
-          JOIN US
+          {data.eyebrow}
         </p>
         <h2
           className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold leading-tight mb-4 sm:mb-6 md:mb-8"
           style={{ fontFamily: "var(--font-space-grotesk)" }}
         >
-          <span className="text-white">TIME IS </span>
-          <span style={{ color: "#46F1C5" }}>MONEY</span>
+          {data.titleParts.map((p, i) => (
+            <span key={i} style={{ color: p.color }}>{p.text}</span>
+          ))}
         </h2>
         <p
           className="text-sm sm:text-base md:text-lg lg:text-xl max-w-2xl mx-auto mb-4 leading-relaxed"
@@ -83,11 +107,10 @@ export default function JoinUsSection() {
             color: "#A6AABE",
           }}
         >
-          Say goodbye to juggling multiple apps and tools for your financial
-          transactions. SPay is your one-stop solution for all your money needs.
+          {data.subtitle}
         </p>
         <a
-          href="https://apps.apple.com/app/sicash"
+          href={data.ctaUrl}
           target="_blank"
           rel="noopener noreferrer"
           className="inline-block font-semibold px-6 py-2.5 rounded-xl text-sm transition-all hover:opacity-90"
@@ -96,7 +119,7 @@ export default function JoinUsSection() {
             color: "#0a2a23",
           }}
         >
-          GET SPAY APP
+          {data.ctaLabel}
         </a>
       </div>
     </section>

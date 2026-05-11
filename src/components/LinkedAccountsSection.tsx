@@ -1,6 +1,43 @@
 "use client";
 
+import { useSectionData } from "@/preview/PreviewProvider";
+
+type TitlePart = { text: string; color: string };
+type Wallet = { name: string; status: string; label: string; balance: string };
+type LinkedAccountsData = {
+  eyebrow: string;
+  titleParts: TitlePart[];
+  subtitle: string;
+  centerCard: Wallet;
+  wallets: Wallet[];
+  popup: { title: string; body: string; ctaLabel: string; ctaUrl: string };
+};
+
+const LINKED_DEFAULTS: LinkedAccountsData = {
+  eyebrow: "LINKED ACCOUNTS",
+  titleParts: [
+    { text: "USE YOUR OTHER\n", color: "#ffffff" },
+    { text: "CRYPTO ACCOUNTS", color: "#46F1C5" },
+  ],
+  subtitle:
+    "Safely connect your crypto accounts to the app and manage them all from one secure access point.",
+  centerCard: { name: "Alexander Reed", status: "Online", label: "All Accounts", balance: "$23,569" },
+  wallets: [
+    { name: "Alexander Reed", status: "Online", label: "CRYPTO WALLET 2", balance: "$ 8,724" },
+    { name: "Alexander Reed", status: "Online", label: "CRYPTO WALLET 1", balance: "$ 9,824" },
+    { name: "Alexander Reed", status: "Online", label: "CRYPTO WALLET 3", balance: "$ 3,960" },
+    { name: "Alexander Reed", status: "Online", label: "CRYPTO WALLET 4", balance: "$ 5,532" },
+  ],
+  popup: {
+    title: "SUCCESSFUL LINKED",
+    body: "You have successfully connected your external crypto account. Thank you for using us.",
+    ctaLabel: "CHECK IT OUT",
+    ctaUrl: "https://apps.apple.com/app/sicash",
+  },
+};
+
 export default function LinkedAccountsSection() {
+  const data = useSectionData<LinkedAccountsData>("linkedAccounts", LINKED_DEFAULTS);
   return (
     <section className="relative pt-0 pb-12 md:pb-20 overflow-hidden" style={{ background: '#090e1c' }}>
       {/* Animation styles - translate only; rotation handled by responsive Tailwind utilities */}
@@ -49,22 +86,21 @@ export default function LinkedAccountsSection() {
               className="text-[10px] sm:text-xs md:text-sm uppercase mb-3 sm:mb-4"
               style={{ fontFamily: 'var(--font-inter)', fontWeight: 400, color: '#A6AABE', letterSpacing: '6px' }}
             >
-              LINKED ACCOUNTS
+              {data.eyebrow}
             </p>
             <h2
-              className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight mb-4 sm:mb-6"
+              className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight mb-4 sm:mb-6 whitespace-pre-line"
               style={{ fontFamily: 'var(--font-space-grotesk)' }}
             >
-              USE YOUR OTHER
-              <br />
-              <span style={{ color: '#46F1C5' }}>CRYPTO ACCOUNTS</span>
+              {data.titleParts.map((p, i) => (
+                <span key={i} style={{ color: p.color }}>{p.text}</span>
+              ))}
             </h2>
             <p
               className="text-sm sm:text-base md:text-lg max-w-2xl mx-auto"
               style={{ fontFamily: 'var(--font-inter)', fontWeight: 400, color: '#A6AABE' }}
             >
-              Safely connect your crypto accounts to the app and manage
-              them all from one secure access point.
+              {data.subtitle}
             </p>
           </div>
         </div>
@@ -113,8 +149,8 @@ export default function LinkedAccountsSection() {
                   </svg>
                 </div>
               </div>
-              <div className="text-black text-[10px] sm:text-xs mb-1 md:mb-2">CRYPTO WALLET 2</div>
-              <div className="text-white text-2xl sm:text-3xl md:text-4xl font-bold">$ 8,724</div>
+              <div className="text-black text-[10px] sm:text-xs mb-1 md:mb-2">{data.wallets[0].label}</div>
+              <div className="text-white text-2xl sm:text-3xl md:text-4xl font-bold">{data.wallets[0].balance}</div>
               {/* Dotted globe pattern */}
               <div className="absolute bottom-0 left-0 right-0 h-32 sm:h-36 md:h-44 opacity-60 overflow-hidden">
                 <svg viewBox="0 0 200 120" className="w-full h-full">
@@ -163,8 +199,8 @@ export default function LinkedAccountsSection() {
                   </svg>
                 </div>
               </div>
-              <div className="text-black text-[10px] sm:text-xs mb-1 md:mb-2">CRYPTO WALLET 1</div>
-              <div className="text-white text-2xl sm:text-3xl md:text-4xl font-bold">$ 9,824</div>
+              <div className="text-black text-[10px] sm:text-xs mb-1 md:mb-2">{data.wallets[1].label}</div>
+              <div className="text-white text-2xl sm:text-3xl md:text-4xl font-bold">{data.wallets[1].balance}</div>
               {/* Dotted globe pattern */}
               <div className="absolute bottom-0 left-0 right-0 h-32 sm:h-36 md:h-44 opacity-60 overflow-hidden">
                 <svg viewBox="0 0 200 120" className="w-full h-full">
@@ -213,8 +249,8 @@ export default function LinkedAccountsSection() {
                   </svg>
                 </div>
               </div>
-              <div className="text-zinc-500 text-[10px] sm:text-xs mb-1 md:mb-2">All Accounts</div>
-              <div className="text-zinc-900 text-3xl sm:text-4xl md:text-5xl font-bold">$23,569</div>
+              <div className="text-zinc-500 text-[10px] sm:text-xs mb-1 md:mb-2">{data.centerCard.label}</div>
+              <div className="text-zinc-900 text-3xl sm:text-4xl md:text-5xl font-bold">{data.centerCard.balance}</div>
               {/* Dotted globe pattern */}
               <div className="absolute bottom-0 left-0 right-0 h-32 sm:h-36 md:h-44 opacity-40 overflow-hidden">
                 <svg viewBox="0 0 200 120" className="w-full h-full">
@@ -257,10 +293,10 @@ export default function LinkedAccountsSection() {
                 <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" />
               </svg>
             </div>
-            <h3 className="text-white font-bold text-xs sm:text-sm md:text-base lg:text-lg mt-2 sm:mt-3 md:mt-4 mb-1 md:mb-2">SUCCESSFUL LINKED</h3>
-            <p className="text-black text-[10px] sm:text-xs md:text-sm mb-2 sm:mb-3 md:mb-4 leading-snug">You have successfully connected your external crypto account. Thank you for using us.</p>
-            <a href="https://apps.apple.com/app/sicash" target="_blank" rel="noopener noreferrer" className="inline-block bg-zinc-700 hover:bg-zinc-600 text-white text-[10px] sm:text-xs md:text-sm font-medium px-4 sm:px-5 md:px-6 lg:px-8 py-1.5 sm:py-2 md:py-2.5 lg:py-3 rounded-lg transition-colors">
-              CHECK IT OUT
+            <h3 className="text-white font-bold text-xs sm:text-sm md:text-base lg:text-lg mt-2 sm:mt-3 md:mt-4 mb-1 md:mb-2">{data.popup.title}</h3>
+            <p className="text-black text-[10px] sm:text-xs md:text-sm mb-2 sm:mb-3 md:mb-4 leading-snug">{data.popup.body}</p>
+            <a href={data.popup.ctaUrl} target="_blank" rel="noopener noreferrer" className="inline-block bg-zinc-700 hover:bg-zinc-600 text-white text-[10px] sm:text-xs md:text-sm font-medium px-4 sm:px-5 md:px-6 lg:px-8 py-1.5 sm:py-2 md:py-2.5 lg:py-3 rounded-lg transition-colors">
+              {data.popup.ctaLabel}
             </a>
           </div>
 
@@ -282,8 +318,8 @@ export default function LinkedAccountsSection() {
                   </svg>
                 </div>
               </div>
-              <div className="text-black text-[10px] sm:text-xs mb-1 md:mb-2">CRYPTO WALLET 3</div>
-              <div className="text-white text-2xl sm:text-3xl md:text-4xl font-bold">$ 3,960</div>
+              <div className="text-black text-[10px] sm:text-xs mb-1 md:mb-2">{data.wallets[2].label}</div>
+              <div className="text-white text-2xl sm:text-3xl md:text-4xl font-bold">{data.wallets[2].balance}</div>
               {/* Dotted globe pattern */}
               <div className="absolute bottom-0 left-0 right-0 h-32 sm:h-36 md:h-44 opacity-60 overflow-hidden">
                 <svg viewBox="0 0 200 120" className="w-full h-full">
@@ -332,8 +368,8 @@ export default function LinkedAccountsSection() {
                   </svg>
                 </div>
               </div>
-              <div className="text-black text-[10px] sm:text-xs mb-1 md:mb-2">CRYPTO WALLET 4</div>
-              <div className="text-white text-2xl sm:text-3xl md:text-4xl font-bold">$ 5,532</div>
+              <div className="text-black text-[10px] sm:text-xs mb-1 md:mb-2">{data.wallets[3].label}</div>
+              <div className="text-white text-2xl sm:text-3xl md:text-4xl font-bold">{data.wallets[3].balance}</div>
               {/* Dotted globe pattern */}
               <div className="absolute bottom-0 left-0 right-0 h-32 sm:h-36 md:h-44 opacity-60 overflow-hidden">
                 <svg viewBox="0 0 200 120" className="w-full h-full">

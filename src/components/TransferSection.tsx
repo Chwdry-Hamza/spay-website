@@ -1,6 +1,29 @@
 "use client";
 
+import { useSectionData } from "@/preview/PreviewProvider";
+
+type TitlePart = { text: string; color: string };
+type TransferData = {
+  eyebrow: string;
+  titleParts: TitlePart[];
+  subtitle: string;
+  mockupImage: string;
+};
+
+const TRANSFER_DEFAULTS: TransferData = {
+  eyebrow: "TRANSFERS WITHOUT BARRIERS",
+  titleParts: [
+    { text: "SEND ", color: "#ffffff" },
+    { text: "CRYPTO", color: "#46F1C5" },
+    { text: " EASILY,\nANYWHERE, TO ANYONE", color: "#ffffff" },
+  ],
+  subtitle:
+    "Spend your crypto anywhere a card is accepted — our card and app make it as easy as using a regular bank card.",
+  mockupImage: "/paymentMobile.png",
+};
+
 export default function TransferSection() {
+  const data = useSectionData<TransferData>("transfer", TRANSFER_DEFAULTS);
   const fontFamily = 'var(--font-space-grotesk)';
 
   return (
@@ -49,15 +72,17 @@ export default function TransferSection() {
           className="text-[10px] sm:text-xs md:text-sm uppercase mb-4 sm:mb-5 md:mb-6 text-center"
           style={{ fontFamily: 'var(--font-inter)', fontWeight: 400, color: '#A6AABE', letterSpacing: '6px' }}
         >
-          TRANSFERS WITHOUT BARRIERS
+          {data.eyebrow}
         </p>
 
         {/* Main Heading */}
         <h2
-          className="text-2xl sm:text-3xl md:text-5xl font-bold text-white leading-tight mb-4 sm:mb-5 md:mb-6 text-center"
+          className="text-2xl sm:text-3xl md:text-5xl font-bold text-white leading-tight mb-4 sm:mb-5 md:mb-6 text-center whitespace-pre-line"
           style={{ fontFamily }}
         >
-          SEND <span style={{ color: '#46F1C5' }}>CRYPTO</span> EASILY, ANYWHERE, TO ANYONE
+          {data.titleParts.map((p, i) => (
+            <span key={i} style={{ color: p.color }}>{p.text}</span>
+          ))}
         </h2>
 
         {/* Subtitle */}
@@ -73,13 +98,13 @@ export default function TransferSection() {
           className="text-[11px] sm:text-xs md:text-base mb-6 sm:mb-8 md:mb-10 pb-2 leading-relaxed text-center max-w-xl md:max-w-2xl mx-auto"
           style={{ fontFamily: 'var(--font-inter)', fontWeight: 400, color: '#A6AABE' }}
         >
-          Spend your crypto anywhere a card is accepted — our card and app make it as easy as using a regular bank card.
+          {data.subtitle}
         </p>
 
         {/* Phone Mockup */}
         <div className="relative w-full flex justify-center">
           <img
-            src="/paymentMobile.png"
+            src={data.mockupImage}
             alt="SPay transfer mockup"
             className="relative w-64 sm:w-72 md:w-96 h-auto object-contain"
             style={{ transform: "scaleX(1) scaleY(1.05) translateY(20px)", transformOrigin: "center" }}
@@ -99,12 +124,12 @@ export default function TransferSection() {
               TRANSFERS WITHOUT BARRIERS
             </p>
             <h2
-              className="text-3xl lg:text-5xl xl:text-6xl font-bold text-white leading-tight mb-5 lg:mb-7 xl:mb-9"
+              className="text-3xl lg:text-5xl xl:text-6xl font-bold text-white leading-tight mb-5 lg:mb-7 xl:mb-9 whitespace-pre-line"
               style={{ fontFamily }}
             >
-              SEND <span style={{ color: '#46F1C5' }}>CRYPTO</span> EASILY,
-              <br />
-              ANYWHERE, TO ANYONE
+              {data.titleParts.map((p, i) => (
+                <span key={i} style={{ color: p.color }}>{p.text}</span>
+              ))}
             </h2>
             {/*
             <p
@@ -119,15 +144,14 @@ export default function TransferSection() {
               className="text-xs lg:text-sm leading-relaxed pb-2"
               style={{ fontFamily: 'var(--font-inter)', fontWeight: 400, color: '#A6AABE' }}
             >
-              Spend your crypto anywhere a card is accepted — our card and
-              app make it as easy as using a regular bank card.
+              {data.subtitle}
             </p>
           </div>
 
           {/* Right Content - Phone Mockup */}
           <div className="relative shrink-0 w-[320px] lg:w-[420px] xl:w-[500px] h-[420px] lg:h-[520px] xl:h-[580px] flex items-start justify-end ml-auto pl-2 lg:pl-4 xl:pl-6 translate-x-10 lg:translate-x-16 xl:translate-x-20">
             <img
-              src="/paymentMobile.png"
+              src={data.mockupImage}
               alt="SPay transfer mockup"
               className="w-72 lg:w-88 xl:w-96 h-auto object-contain"
               style={{ transform: "scaleY(1.05)", transformOrigin: "top right" }}

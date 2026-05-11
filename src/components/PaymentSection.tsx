@@ -89,8 +89,30 @@
 "use client";
 
 import FlipCard from "./FlipCard";
+import { useSectionData } from "@/preview/PreviewProvider";
+
+type TitlePart = { text: string; color: string };
+type PaymentData = {
+  eyebrow: string;
+  titleParts: TitlePart[];
+  subtitle: string;
+  cardFront: string;
+  cardBack: string;
+};
+
+const PAYMENT_DEFAULTS: PaymentData = {
+  eyebrow: "Fiat and Crypto",
+  titleParts: [
+    { text: "CHOOSE ", color: "#46F1C5" },
+    { text: "HOW TO PAY", color: "#ffffff" },
+  ],
+  subtitle: "Switch between fiat and crypto in a Second",
+  cardFront: "/spayFront.png",
+  cardBack: "/spayBack.png",
+};
 
 export default function PaymentSection() {
+  const data = useSectionData<PaymentData>("payment", PAYMENT_DEFAULTS);
   return (
     <section
       id="payment"
@@ -121,25 +143,24 @@ export default function PaymentSection() {
 
       <div className="relative z-10 w-full max-w-3xl mx-auto px-6 flex flex-col items-center">
 
-        {/* Header */}
         <p className="text-zinc-400 text-xs md:text-sm tracking-[0.25em] uppercase mb-5">
-          Fiat and Crypto
+          {data.eyebrow}
         </p>
         <h2
           className="text-4xl md:text-6xl font-bold leading-tight text-center mb-5"
           style={{ fontFamily: 'var(--font-space-grotesk)' }}
         >
-          <span style={{ color: '#46F1C5' }}>CHOOSE </span>
-          <span className="text-white">HOW TO PAY</span>
+          {data.titleParts.map((p, i) => (
+            <span key={i} style={{ color: p.color }}>{p.text}</span>
+          ))}
         </h2>
         <p className="text-zinc-400 text-sm md:text-base text-center mb-12 md:mb-16 max-w-md">
-          Switch between fiat and crypto in a Second
+          {data.subtitle}
         </p>
 
-        {/* Credit Card */}
         <FlipCard
-          frontSrc="/spayFront.png"
-          backSrc="/spayBack.png"
+          frontSrc={data.cardFront}
+          backSrc={data.cardBack}
           frontAlt="SPAY Card Front"
           backAlt="SPAY Card Back"
         />
