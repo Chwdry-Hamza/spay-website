@@ -295,11 +295,11 @@ const FeaturesGrid: React.FC = () => {
               <SplitIcon />
             </div>
             <h3 className={headingClass} style={headingStyle}>
-              Split bills in any currency.
+              Spend crypto like cash, anywhere.
             </h3>
             <p className={`${bodyClass} mb-5`} style={bodyStyle}>
-              Dinner, rent, a weekend trip — settle with friends in dollars,
-              USDC, or BTC, down to the cent.
+              Tap your SPay card at any store or pay online — crypto converts to
+              fiat at checkout, automatically.
             </p>
             <div className="mt-auto flex items-center">
               <div className="flex">

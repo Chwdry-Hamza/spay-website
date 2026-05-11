@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Footer from "@/components/Footer";
 import AppHeader from "@/components/AppHeader";
 
@@ -36,9 +35,9 @@ export default function AboutPage() {
             <span style={{ color: "#46F1C5" }}>SPAY</span>
           </h1>
 
-          <div className="max-w-2xl">
+          <div className="max-w-3xl">
             <p
-              className="text-sm md:text-base leading-relaxed"
+              className="text-lg md:text-xl leading-relaxed"
               style={{
                 fontFamily: "var(--font-inter)",
                 fontWeight: 400,
@@ -72,10 +71,10 @@ export default function AboutPage() {
                 className="text-sm md:text-base leading-relaxed"
                 style={{ fontFamily: "var(--font-inter)", fontWeight: 400, color: "#A6AABE" }}
               >
-                Our mission is to simplify financial management and bridge the gap between fiat
-                and crypto. By saving our users&apos; time and money and empowering them with
-                financial growth opportunities, we strive to be their trusted partner in achieving
-                financial freedom.
+                Our mission is to make crypto spendable in everyday life. With the SPay card,
+                your USDT, USDC, TRX, or ETH converts to fiat the moment you check out — tap
+                at any store, swipe at a terminal, or pay online. No exchanges, no waiting,
+                no friction between your crypto and the real world.
               </p>
             </div>
 
@@ -91,166 +90,10 @@ export default function AboutPage() {
                 className="text-sm md:text-base leading-relaxed"
                 style={{ fontFamily: "var(--font-inter)", fontWeight: 400, color: "#A6AABE" }}
               >
-                Our vision is to lead the digital finance revolution through continuous innovation.
-                We aim to create a future where financial freedom, inclusivity, and transparency
-                are the norms and everyone can seamlessly navigate and thrive in the evolving
-                global economy.
+                A world where holding crypto doesn&apos;t mean choosing between saving and spending.
+                We&apos;re building the bridge that lets your digital assets work like cash —
+                accepted anywhere a card is, settled instantly, and always under your control.
               </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Executive Team Section */}
-      <section className="relative pt-8 md:pt-48 pb-8 md:pb-32 overflow-hidden" style={{ background: '#090e1c' }}>
-
-        <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-8 lg:px-16">
-          <h2
-            className="text-3xl md:text-6xl font-bold mb-6 md:mb-20"
-            style={{ fontFamily: "var(--font-space-grotesk)" }}
-          >
-            <span style={{ color: "#46F1C5" }}>EXECUTIVE</span>{" "}
-            <span className="text-white">TEAM</span>
-          </h2>
-
-          {/* Team Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-x-48 md:gap-y-20">
-            {/* Svitlana Monastyrska */}
-            <div>
-              <div className="relative w-28 h-28 md:w-40 md:h-40 mb-4 md:mb-6">
-                <div
-                  className="absolute -inset-16 md:-inset-24 rounded-full blur-3xl pointer-events-none"
-                  style={{ background: "radial-gradient(circle, #0e2e2e 0%, #0e2e2e 30%, transparent 80%)" }}
-                />
-                <div className="relative w-full h-full bg-zinc-300 rounded-lg overflow-hidden">
-                  <Image src="/svitlana.png" alt="Svitlana Monastyrska" fill className="object-cover" />
-                </div>
-              </div>
-              <h3 className="text-2xl md:text-4xl font-bold text-white leading-tight mb-2 md:mb-3" style={{ fontFamily: "var(--font-space-grotesk)" }}>
-                SVITLANA<br />MONASTYRSKA
-              </h3>
-              <p className="text-sm md:text-lg italic mb-3 md:mb-4" style={{ color: "#46F1C5" }}>
-                CHIEF EXECUTIVE OFFICER<br />& <span className="font-bold not-italic">FOUNDER</span>
-              </p>
-              <p className="text-sm md:text-base leading-relaxed mb-3 md:mb-4 max-w-sm" style={{ color: "#A6AABE" }}>
-                Over 20 years of experience and leadership in Ukraine&apos;s banking sector, including roles at Pravex Bank, UkrsotsBank, Alfa-Bank, and UkrEximBank. Holds a PhD in Public Administration and has two higher education degrees in Banking.
-              </p>
-              <a href="#" className="text-sm md:text-base transition-colors hover:text-white" style={{ color: "#A6AABE" }}>LinkedIn</a>
-            </div>
-
-            {/* Michael Gorishnyi */}
-            <div>
-              <div className="relative w-28 h-28 md:w-40 md:h-40 mb-4 md:mb-6">
-                <div
-                  className="absolute -inset-16 md:-inset-24 rounded-full blur-3xl pointer-events-none"
-                  style={{ background: "radial-gradient(circle, #0e2e2e 0%, #0e2e2e 30%, transparent 80%)" }}
-                />
-                <div className="relative w-full h-full bg-zinc-300 rounded-lg overflow-hidden">
-                  <Image src="/micheal.png" alt="Michael Gorishnyi" fill className="object-cover" />
-                </div>
-              </div>
-              <h3 className="text-2xl md:text-4xl font-bold text-white leading-tight mb-2 md:mb-3" style={{ fontFamily: "var(--font-space-grotesk)" }}>
-                MICHAEL<br />GORISHNYI
-              </h3>
-              <p className="text-sm md:text-lg italic mb-3 md:mb-4" style={{ color: "#46F1C5" }}>
-                CHIEF TECHNOLOGY OFFICER
-              </p>
-              <p className="text-sm md:text-base leading-relaxed mb-3 md:mb-4 max-w-sm" style={{ color: "#A6AABE" }}>
-                Over 15 years of experience in building high-load tech platforms and scalable architecture. Expert in creating autonomous engineering teams, process standardization, and scaling product development with clarity and speed. Certified SAFe&reg; 6 Agilist with a focus on agile delivery and engineering excellence.
-              </p>
-              <a href="#" className="text-sm md:text-base transition-colors hover:text-white" style={{ color: "#A6AABE" }}>LinkedIn</a>
-            </div>
-
-            {/* Mykhail Stryzhko */}
-            <div>
-              <div className="relative w-28 h-28 md:w-40 md:h-40 mb-4 md:mb-6">
-                <div
-                  className="absolute -inset-16 md:-inset-24 rounded-full blur-3xl pointer-events-none"
-                  style={{ background: "radial-gradient(circle, #0e2e2e 0%, #0e2e2e 30%, transparent 80%)" }}
-                />
-                <div className="relative w-full h-full bg-zinc-300 rounded-lg overflow-hidden">
-                  <Image src="/mykhail.png" alt="Mykhail Stryzhko" fill className="object-cover" />
-                </div>
-              </div>
-              <h3 className="text-2xl md:text-4xl font-bold text-white leading-tight mb-2 md:mb-3" style={{ fontFamily: "var(--font-space-grotesk)" }}>
-                MYKHAIL<br />STRYZHKO
-              </h3>
-              <p className="text-sm md:text-lg italic mb-3 md:mb-4" style={{ color: "#46F1C5" }}>
-                CHIEF OPERATING OFFICER
-              </p>
-              <p className="text-sm md:text-base leading-relaxed mb-3 md:mb-4 max-w-sm" style={{ color: "#A6AABE" }}>
-                Over 20 years of experience in banks, fintech, audit & consulting, including roles at PricewaterhouseCoopers, Piraeus Bank, VTB Bank, Sportbank, and own fintech companies. Holds an Executive MBA, is ACMA/CGMA and ACCA qualified, with two Master&apos;s degrees in Banking and Business Administration.
-              </p>
-              <a href="#" className="text-sm md:text-base transition-colors hover:text-white" style={{ color: "#A6AABE" }}>LinkedIn</a>
-            </div>
-
-            {/* Marta Michalewska */}
-            <div>
-              <div className="relative w-28 h-28 md:w-40 md:h-40 mb-4 md:mb-6">
-                <div
-                  className="absolute -inset-16 md:-inset-24 rounded-full blur-3xl pointer-events-none"
-                  style={{ background: "radial-gradient(circle, #0e2e2e 0%, #0e2e2e 30%, transparent 80%)" }}
-                />
-                <div className="relative w-full h-full bg-zinc-300 rounded-lg overflow-hidden">
-                  <Image src="/martha.png" alt="Marta Michalewska" fill className="object-cover" />
-                </div>
-              </div>
-              <h3 className="text-2xl md:text-4xl font-bold text-white leading-tight mb-2 md:mb-3" style={{ fontFamily: "var(--font-space-grotesk)" }}>
-                MARTA<br />MICHALEWSKA
-              </h3>
-              <p className="text-sm md:text-lg italic mb-3 md:mb-4" style={{ color: "#46F1C5" }}>
-                MONEY LAUNDERING REPORTING OFFICER
-              </p>
-              <p className="text-sm md:text-base leading-relaxed mb-3 md:mb-4 max-w-sm" style={{ color: "#A6AABE" }}>
-                Over 10 years of experience in AML and anti-fraud, including senior positions in fintech and tech companies. Expert in building and managing compliance frameworks and regulatory processes. Serves as a Money Laundering Reporting Officer (MLRO) in international environments.
-              </p>
-              <a href="#" className="text-sm md:text-base transition-colors hover:text-white" style={{ color: "#A6AABE" }}>LinkedIn</a>
-            </div>
-
-            {/* Inna Grynova */}
-            <div>
-              <div className="relative w-28 h-28 md:w-40 md:h-40 mb-4 md:mb-6">
-                <div
-                  className="absolute -inset-16 md:-inset-24 rounded-full blur-3xl pointer-events-none"
-                  style={{ background: "radial-gradient(circle, #0e2e2e 0%, #0e2e2e 30%, transparent 80%)" }}
-                />
-                <div className="relative w-full h-full bg-zinc-300 rounded-lg overflow-hidden">
-                  <Image src="/inna.png" alt="Inna Grynova" fill className="object-cover" />
-                </div>
-              </div>
-              <h3 className="text-2xl md:text-4xl font-bold text-white leading-tight mb-2 md:mb-3" style={{ fontFamily: "var(--font-space-grotesk)" }}>
-                INNA<br />GRYNOVA
-              </h3>
-              <p className="text-sm md:text-lg italic mb-3 md:mb-4" style={{ color: "#46F1C5" }}>
-                CHIEF OF CUSTOMER SUPPORT<br />AND FINANCIAL CRIME OPERATIONS
-              </p>
-              <p className="text-sm md:text-base leading-relaxed mb-3 md:mb-4 max-w-sm" style={{ color: "#A6AABE" }}>
-                Over 20 years of experience in customer service, financial crime prevention, fintech, including leading roles at Revolut and Shares.io, ex-program manager at Google. An expert in building scalable organizations, process optimization, and customer experience enhancement.
-              </p>
-              <a href="#" className="text-sm md:text-base transition-colors hover:text-white" style={{ color: "#A6AABE" }}>LinkedIn</a>
-            </div>
-
-            {/* Vladyslav Permohorov */}
-            <div>
-              <div className="relative w-28 h-28 md:w-40 md:h-40 mb-4 md:mb-6">
-                <div
-                  className="absolute -inset-16 md:-inset-24 rounded-full blur-3xl pointer-events-none"
-                  style={{ background: "radial-gradient(circle, #0e2e2e 0%, #0e2e2e 30%, transparent 80%)" }}
-                />
-                <div className="relative w-full h-full bg-zinc-300 rounded-lg overflow-hidden">
-                  <Image src="/vladslav.png" alt="Vladyslav Permohorov" fill className="object-cover" />
-                </div>
-              </div>
-              <h3 className="text-2xl md:text-4xl font-bold text-white leading-tight mb-2 md:mb-3" style={{ fontFamily: "var(--font-space-grotesk)" }}>
-                VLADYSLAV<br />PERMOHOROV
-              </h3>
-              <p className="text-sm md:text-lg italic mb-3 md:mb-4" style={{ color: "#46F1C5" }}>
-                CHIEF MARKETING OFFICER
-              </p>
-              <p className="text-sm md:text-base leading-relaxed mb-3 md:mb-4 max-w-sm" style={{ color: "#A6AABE" }}>
-                Over 10 years in marketing with expertise in crypto, fintech, edutech, and e-commerce. Built marketing departments from scratch, developed go-to-market strategies, and led large cross-functional teams across EU, UK, Eastern Europe, and US markets.
-              </p>
-              <a href="#" className="text-sm md:text-base transition-colors hover:text-white" style={{ color: "#A6AABE" }}>LinkedIn</a>
             </div>
           </div>
         </div>

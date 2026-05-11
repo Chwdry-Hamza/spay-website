@@ -1,16 +1,11 @@
 "use client";
 
 const currencies = [
-  { pair: "BTC/USD", price: "$64,251.50", change: "+8.2%" },
   { pair: "ETH/USD", price: "$3,452.12", change: "+1.4%" },
-  { pair: "SOL/USD", price: "$142.33", change: "-0.5%" },
-  { pair: "DOT/USD", price: "$7.21", change: "+4.1%" },
-  { pair: "LINK/USD", price: "$18.90", change: "+2.8%" },
-  { pair: "ADA/USD", price: "$0.48", change: "+1.1%" },
-  { pair: "XRP/USD", price: "$0.62", change: "+0.9%" },
-  { pair: "AVAX/USD", price: "$36.75", change: "+3.2%" },
-  { pair: "MATIC/USD", price: "$0.91", change: "-1.2%" },
-  { pair: "DOGE/USD", price: "$0.15", change: "+5.4%" },
+  { pair: "TRX/USD", price: "$0.32", change: "+2.6%" },
+  { pair: "USDT (TRC20)", price: "$1.00", change: "+0.0%" },
+  { pair: "USDT (ERC20)", price: "$1.00", change: "+0.0%" },
+  { pair: "USDC (ERC20)", price: "$1.00", change: "+0.0%" },
 ];
 
 export default function Currencies() {

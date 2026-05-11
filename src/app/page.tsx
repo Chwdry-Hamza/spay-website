@@ -3,9 +3,7 @@ import FeaturesSection from "@/components/FeaturesSection";
 import Currencies from "@/components/currencies";
 import PaymentSection from "@/components/PaymentSection";
 import TransferSection from "@/components/TransferSection";
-import LinkedAccountsSection from "@/components/LinkedAccountsSection";
 import CryptoSection from "@/components/CryptoSection";
-import EarnSection from "@/components/EarnSection";
 import JoinUsSection from "@/components/JoinUsSection";
 import CollaborationsSection from "@/components/CollaborationsSection";
 import Footer from "@/components/Footer";
@@ -37,19 +35,9 @@ export default function Home() {
           <TransferSection />
         </PreviewSection>
       </PreviewVisible>
-      <PreviewVisible id="linkedAccounts">
-        <PreviewSection id="linkedAccounts">
-          <LinkedAccountsSection />
-        </PreviewSection>
-      </PreviewVisible>
       <PreviewVisible id="crypto">
         <PreviewSection id="crypto">
           <CryptoSection />
-        </PreviewSection>
-      </PreviewVisible>
-      <PreviewVisible id="earn">
-        <PreviewSection id="earn">
-          <EarnSection />
         </PreviewSection>
       </PreviewVisible>
       <PreviewVisible id="featureGrid">
