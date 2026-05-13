@@ -193,7 +193,8 @@
 
 "use client";
 
-import { useSectionData } from "@/preview/PreviewProvider";
+import { useSectionData, useSectionBackground } from "@/preview/PreviewProvider";
+import { pickTextColors } from "@/preview/useSectionTextColor";
 
 type TitlePart = { text: string; color: string };
 type FeatureCard = { title: string; desc: string; image: string; bgStart: string; bgEnd: string };
@@ -229,7 +230,7 @@ const FEATURES_DEFAULTS: FeaturesData = {
     {
       title: "HISTORY",
       desc: "Get a wide range of innovative financial tools for unlimited wealth-building opportunities.",
-      image: "/notification.jpeg",
+      image: "/notifications.jpeg",
       bgStart: "#46F1C5",
       bgEnd: "#004132",
     },
@@ -238,12 +239,18 @@ const FEATURES_DEFAULTS: FeaturesData = {
 
 export default function FeaturesSection() {
   const data = useSectionData<FeaturesData>("features", FEATURES_DEFAULTS);
+  const cmsBg = useSectionBackground("features");
+  const t = pickTextColors(data, {
+    eyebrow: "#A6AABE",
+    cardTitle: "#FFFFFF",
+    cardDesc: "rgba(255,255,255,0.8)",
+  });
   const cards = data.cards;
   return (
     <section
       className="relative pt-2 sm:pt-4 lg:pt-6 pb-8 sm:pb-10 lg:pb-16 overflow-hidden"
       style={{
-        background: 'linear-gradient(to bottom, #090e1c 0%, #071414 50%, #090e1c 100%)',
+        background: cmsBg ?? 'linear-gradient(to bottom, #090e1c 0%, #071414 50%, #090e1c 100%)',
       }}
     >
       <div className="relative z-10 text-center mb-8 sm:mb-10 lg:mb-12 px-4 sm:px-6">
@@ -260,7 +267,10 @@ export default function FeaturesSection() {
             zIndex: -1,
           }}
         />
-        <p className="text-[#A6AABE] font-inter font-normal not-italic tracking-[6px] text-xs md:text-sm uppercase mb-5">
+        <p
+          className="font-inter font-normal not-italic tracking-[6px] text-xs md:text-sm uppercase mb-5"
+          style={{ color: t.eyebrow }}
+        >
           {data.eyebrow}
         </p>
         <h2
@@ -321,7 +331,7 @@ export default function FeaturesSection() {
                       style={{
                         fontFamily: "var(--font-inter)",
                         fontWeight: 400,
-                        color: "#FFFFFF",
+                        color: t.cardTitle,
                         lineHeight: 1.1,
                       }}
                     >
@@ -332,7 +342,7 @@ export default function FeaturesSection() {
                       style={{
                         fontFamily: "var(--font-inter)",
                         fontWeight: 300,
-                        color: "rgba(255,255,255,0.8)",
+                        color: t.cardDesc,
                       }}
                     >
                       {c.desc}

@@ -89,7 +89,8 @@
 "use client";
 
 import FlipCard from "./FlipCard";
-import { useSectionData } from "@/preview/PreviewProvider";
+import { useSectionData, useSectionBackground } from "@/preview/PreviewProvider";
+import { pickTextColors } from "@/preview/useSectionTextColor";
 
 type TitlePart = { text: string; color: string };
 type PaymentData = {
@@ -113,12 +114,14 @@ const PAYMENT_DEFAULTS: PaymentData = {
 
 export default function PaymentSection() {
   const data = useSectionData<PaymentData>("payment", PAYMENT_DEFAULTS);
+  const cmsBg = useSectionBackground("payment");
+  const t = pickTextColors(data, { eyebrow: "#A6AABE", subtitle: "#A6AABE" });
   return (
     <section
       id="payment"
       className="relative pt-20 md:pt-32 pb-0 overflow-hidden"
       style={{
-        background: '#090e1c',
+        background: cmsBg ?? '#090e1c',
       }}
     >
       {/* Soft teal radial glow center — Mobile & Tablet (bottom spill reduced) */}
@@ -143,7 +146,7 @@ export default function PaymentSection() {
 
       <div className="relative z-10 w-full max-w-3xl mx-auto px-6 flex flex-col items-center">
 
-        <p className="text-zinc-400 text-xs md:text-sm tracking-[0.25em] uppercase mb-5">
+        <p className="text-xs md:text-sm tracking-[0.25em] uppercase mb-5" style={{ color: t.eyebrow }}>
           {data.eyebrow}
         </p>
         <h2
@@ -154,7 +157,7 @@ export default function PaymentSection() {
             <span key={i} style={{ color: p.color }}>{p.text}</span>
           ))}
         </h2>
-        <p className="text-zinc-400 text-sm md:text-base text-center mb-12 md:mb-16 max-w-md">
+        <p className="text-sm md:text-base text-center mb-12 md:mb-16 max-w-md" style={{ color: t.subtitle }}>
           {data.subtitle}
         </p>
 

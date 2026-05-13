@@ -1,6 +1,7 @@
 "use client";
 
-import { useSectionData } from "@/preview/PreviewProvider";
+import { useSectionData, useSectionBackground } from "@/preview/PreviewProvider";
+import { pickTextColors } from "@/preview/useSectionTextColor";
 
 type TitlePart = { text: string; color: string };
 type TransferData = {
@@ -24,13 +25,15 @@ const TRANSFER_DEFAULTS: TransferData = {
 
 export default function TransferSection() {
   const data = useSectionData<TransferData>("transfer", TRANSFER_DEFAULTS);
+  const cmsBg = useSectionBackground("transfer");
+  const t = pickTextColors(data, { eyebrow: "#A6AABE", subtitle: "#A6AABE" });
   const fontFamily = 'var(--font-space-grotesk)';
 
   return (
     <section
       id="transfer"
       className="relative pt-0 pb-4 md:pb-8 overflow-hidden"
-      style={{ background: '#090e1c', fontFamily }}
+      style={{ background: cmsBg ?? '#090e1c', fontFamily }}
     >
       {/* Mobile + Tablet glow behind phone */}
       <div
@@ -70,7 +73,7 @@ export default function TransferSection() {
         {/* Header */}
         <p
           className="text-[10px] sm:text-xs md:text-sm uppercase mb-4 sm:mb-5 md:mb-6 text-center"
-          style={{ fontFamily: 'var(--font-inter)', fontWeight: 400, color: '#A6AABE', letterSpacing: '6px' }}
+          style={{ fontFamily: 'var(--font-inter)', fontWeight: 400, color: t.eyebrow, letterSpacing: '6px' }}
         >
           {data.eyebrow}
         </p>
@@ -96,7 +99,7 @@ export default function TransferSection() {
         */}
         <p
           className="text-[11px] sm:text-xs md:text-base mb-6 sm:mb-8 md:mb-10 pb-2 leading-relaxed text-center max-w-xl md:max-w-2xl mx-auto"
-          style={{ fontFamily: 'var(--font-inter)', fontWeight: 400, color: '#A6AABE' }}
+          style={{ fontFamily: 'var(--font-inter)', fontWeight: 400, color: t.subtitle }}
         >
           {data.subtitle}
         </p>
@@ -119,9 +122,9 @@ export default function TransferSection() {
           <div className="max-w-md lg:max-w-lg xl:max-w-xl mt-6 lg:mt-8 xl:mt-10">
             <p
               className="text-[11px] lg:text-xs xl:text-sm uppercase mb-10 lg:mb-12 xl:mb-14"
-              style={{ fontFamily: 'var(--font-inter)', fontWeight: 400, color: '#A6AABE', letterSpacing: '6px' }}
+              style={{ fontFamily: 'var(--font-inter)', fontWeight: 400, color: t.eyebrow, letterSpacing: '6px' }}
             >
-              TRANSFERS WITHOUT BARRIERS
+              {data.eyebrow}
             </p>
             <h2
               className="text-3xl lg:text-5xl xl:text-6xl font-bold text-white leading-tight mb-5 lg:mb-7 xl:mb-9 whitespace-pre-line"
@@ -142,7 +145,7 @@ export default function TransferSection() {
             */}
             <p
               className="text-xs lg:text-sm leading-relaxed pb-2"
-              style={{ fontFamily: 'var(--font-inter)', fontWeight: 400, color: '#A6AABE' }}
+              style={{ fontFamily: 'var(--font-inter)', fontWeight: 400, color: t.subtitle }}
             >
               {data.subtitle}
             </p>

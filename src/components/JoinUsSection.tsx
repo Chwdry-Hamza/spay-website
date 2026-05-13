@@ -1,7 +1,8 @@
 "use client";
 
 import Image from "next/image";
-import { useSectionData } from "@/preview/PreviewProvider";
+import { useSectionData, useSectionBackground } from "@/preview/PreviewProvider";
+import { pickTextColors } from "@/preview/useSectionTextColor";
 
 type TitlePart = { text: string; color: string };
 type JoinUsData = {
@@ -26,10 +27,17 @@ const JOIN_US_DEFAULTS: JoinUsData = {
 
 export default function JoinUsSection() {
   const data = useSectionData<JoinUsData>("joinUs", JOIN_US_DEFAULTS);
+  const cmsBg = useSectionBackground("joinUs");
+  const t = pickTextColors(data, {
+    eyebrow: "#A6AABE",
+    subtitle: "#A6AABE",
+    ctaText: "#0a2a23",
+    ctaBg: "#04babf",
+  });
   return (
     <section
       className="relative pt-16 md:pt-32 pb-24 md:pb-48 overflow-hidden"
-      style={{ backgroundColor: "#090e1c" }}
+      style={{ background: cmsBg ?? "#090e1c" }}
     >
       {/* Photo Grid Background */}
       <div
@@ -85,7 +93,7 @@ export default function JoinUsSection() {
           style={{
             fontFamily: "var(--font-inter)",
             fontWeight: 400,
-            color: "#A6AABE",
+            color: t.eyebrow,
             letterSpacing: "6px",
           }}
         >
@@ -104,7 +112,7 @@ export default function JoinUsSection() {
           style={{
             fontFamily: "var(--font-inter)",
             fontWeight: 400,
-            color: "#A6AABE",
+            color: t.subtitle,
           }}
         >
           {data.subtitle}
@@ -115,8 +123,8 @@ export default function JoinUsSection() {
           rel="noopener noreferrer"
           className="inline-block font-semibold px-6 py-2.5 rounded-xl text-sm transition-all hover:opacity-90"
           style={{
-            background: "#04babf",
-            color: "#0a2a23",
+            background: t.ctaBg,
+            color: t.ctaText,
           }}
         >
           {data.ctaLabel}

@@ -1,6 +1,7 @@
 "use client";
 
-import { useSectionData } from "@/preview/PreviewProvider";
+import { useSectionData, useSectionBackground } from "@/preview/PreviewProvider";
+import { pickTextColors } from "@/preview/useSectionTextColor";
 
 type TitlePart = { text: string; color: string };
 type EarnData = {
@@ -22,14 +23,16 @@ const EARN_DEFAULTS: EarnData = {
 
 export default function EarnSection() {
   const data = useSectionData<EarnData>("earn", EARN_DEFAULTS);
+  const cmsBg = useSectionBackground("earn");
+  const t = pickTextColors(data, { eyebrow: "#A6AABE", subtitle: "#A6AABE" });
   return (
-    <section id="earn" className="relative overflow-hidden" style={{ backgroundColor: "#090e1c" }}>
+    <section id="earn" className="relative overflow-hidden" style={{ background: cmsBg ?? "#090e1c" }}>
       {/* Mobile + Tablet Layout */}
       <div className="lg:hidden relative z-10 w-full px-4 sm:px-8 md:px-12 pt-2 sm:pt-4 md:pt-6 pb-16 md:pb-20">
         {/* Header */}
         <p
           className="text-[10px] sm:text-xs md:text-sm uppercase mb-4 sm:mb-5 md:mb-6 text-center"
-          style={{ fontFamily: 'var(--font-inter)', fontWeight: 400, color: '#A6AABE', letterSpacing: '6px' }}
+          style={{ fontFamily: 'var(--font-inter)', fontWeight: 400, color: t.eyebrow, letterSpacing: '6px' }}
         >
           {data.eyebrow}
         </p>
@@ -47,7 +50,7 @@ export default function EarnSection() {
         {/* Subtitle */}
         <p
           className="text-sm sm:text-base md:text-lg mb-10 sm:mb-12 leading-relaxed text-center max-w-xl md:max-w-2xl mx-auto"
-          style={{ fontFamily: 'var(--font-inter)', fontWeight: 400, color: '#A6AABE' }}
+          style={{ fontFamily: 'var(--font-inter)', fontWeight: 400, color: t.subtitle }}
         >
           {data.subtitle}
         </p>
@@ -157,7 +160,7 @@ export default function EarnSection() {
           <div className="max-w-xl">
             <p
               className="text-base uppercase mb-10 lg:mb-14 xl:mb-16"
-              style={{ fontFamily: 'var(--font-inter)', fontWeight: 400, color: '#A6AABE', letterSpacing: '6px' }}
+              style={{ fontFamily: 'var(--font-inter)', fontWeight: 400, color: t.eyebrow, letterSpacing: '6px' }}
             >
               EARN WITH SPAY
             </p>
@@ -171,7 +174,7 @@ export default function EarnSection() {
             </h2>
             <p
               className="text-xl leading-relaxed"
-              style={{ fontFamily: 'var(--font-inter)', fontWeight: 400, color: '#A6AABE' }}
+              style={{ fontFamily: 'var(--font-inter)', fontWeight: 400, color: t.subtitle }}
             >
               {data.subtitle}
             </p>

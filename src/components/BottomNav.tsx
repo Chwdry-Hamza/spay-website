@@ -2,9 +2,34 @@
 import Link from "next/link";
 
 import { useState, useEffect } from "react";
+import { useSectionData } from "@/preview/PreviewProvider";
+import { pickTextColors } from "@/preview/useSectionTextColor";
+
+type BottomNavItem = { label: string; icon: string; href: string };
+type BottomNavData = { items: BottomNavItem[] };
+
+const BOTTOM_NAV_DEFAULTS: BottomNavData = {
+  items: [
+    { label: "How to pay", icon: "card", href: "#payment" },
+    { label: "Send", icon: "arrow-right", href: "#transfer" },
+    { label: "Crypto", icon: "branch", href: "#crypto" },
+    { label: "Earn", icon: "trend-up", href: "#earn" },
+  ],
+};
+
+// Positional fallback icons used when the CMS item count <= 4.
+// Items beyond position 4 fall back to CardIcon.
+const NAV_ICON_BY_POSITION = [CardIcon, SendIcon, CryptoIcon, EarnIcon];
 
 export default function BottomNav() {
   const [activeSection, setActiveSection] = useState<string>("");
+  const data = useSectionData<BottomNavData>("bottomNav", BOTTOM_NAV_DEFAULTS);
+  const t = pickTextColors(data, {
+    tileLabel: "#d4d4d8",
+    tileIcon: "#04babf",
+    ctaText: "#0a2a23",
+    ctaBg: "#04babf",
+  });
 
   useEffect(() => {
     const sections = ["payment", "transfer", "crypto", "earn"];
@@ -58,8 +83,8 @@ export default function BottomNav() {
             rel="noopener noreferrer"
             className="font-semibold px-5 py-2.5 rounded-lg text-xs transition-all hover:opacity-90"
             style={{
-              background: "#04babf",
-              color: "#0a2a23",
+              background: t.ctaBg,
+              color: t.ctaText,
             }}
           >
             GET THE APP
@@ -79,10 +104,21 @@ export default function BottomNav() {
 
           {/* Navigation Items */}
           <div className="flex items-center gap-6 lg:gap-8 xl:gap-14">
-            <NavItem icon={<CardIcon />} label="How to pay" href="#payment" isActive={activeSection === "payment"} />
-            <NavItem icon={<SendIcon />} label="Send" href="#transfer" isActive={activeSection === "transfer"} />
-            <NavItem icon={<CryptoIcon />} label="Crypto" href="#crypto" isActive={activeSection === "crypto"} />
-            <NavItem icon={<EarnIcon />} label="Earn" href="#earn" isActive={activeSection === "earn"} />
+            {data.items.map((item, i) => {
+              const IconComp = NAV_ICON_BY_POSITION[i] ?? CardIcon;
+              const sectionId = item.href.replace(/^#/, "");
+              return (
+                <NavItem
+                  key={`${item.href}-${i}`}
+                  icon={<IconComp />}
+                  label={item.label}
+                  href={item.href}
+                  isActive={activeSection === sectionId}
+                  iconColor={t.tileIcon}
+                  labelColor={t.tileLabel}
+                />
+              );
+            })}
           </div>
 
           {/* CTA Button — matches HomeHero appbar GET SPAY APP style; right margin aligns it vertically with the appbar button */}
@@ -92,8 +128,8 @@ export default function BottomNav() {
             rel="noopener noreferrer"
             className="shrink-0 font-semibold px-4 py-2.5 text-xs lg:px-7 lg:py-3 lg:text-sm xl:px-10 xl:py-4 xl:text-base rounded-xl transition-all hover:opacity-90 whitespace-nowrap mr-2 lg:mr-2 xl:mr-[34px] lg:ml-8 xl:ml-12"
             style={{
-              background: "#04babf",
-              color: "#0a2a23",
+              background: t.ctaBg,
+              color: t.ctaText,
             }}
           >
             GET SPAY APP
@@ -104,11 +140,35 @@ export default function BottomNav() {
   );
 }
 
-function NavItem({ icon, label, href, isActive }: { icon: React.ReactNode; label: string; href: string; isActive: boolean }) {
+function NavItem({
+  icon,
+  label,
+  href,
+  isActive,
+  iconColor,
+  labelColor,
+}: {
+  icon: React.ReactNode;
+  label: string;
+  href: string;
+  isActive: boolean;
+  iconColor?: string;
+  labelColor?: string;
+}) {
   return (
-    <a href={href} className={`flex flex-col items-center gap-1.5 lg:gap-2 transition-colors cursor-pointer ${isActive ? "text-white" : "text-zinc-300 hover:text-white"}`}>
-      <span className="w-7 h-7 lg:w-7 lg:h-7 xl:w-8 xl:h-8">{icon}</span>
-      <span className={`text-sm lg:text-sm xl:text-base whitespace-nowrap ${isActive ? "font-bold" : "font-medium"}`}>{label}</span>
+    <a
+      href={href}
+      className="flex flex-col items-center gap-1.5 lg:gap-2 transition-colors cursor-pointer hover:opacity-90"
+      style={{ color: labelColor }}
+    >
+      <span className="w-7 h-7 lg:w-7 lg:h-7 xl:w-8 xl:h-8" style={{ color: iconColor }}>
+        {icon}
+      </span>
+      <span
+        className={`text-sm lg:text-sm xl:text-base whitespace-nowrap ${isActive ? "font-bold" : "font-medium"}`}
+      >
+        {label}
+      </span>
     </a>
   );
 }

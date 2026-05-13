@@ -2,11 +2,33 @@
 
 import Link from "next/link";
 import { persistCookieConsent, useCookieConsent } from "@/hooks/useCookieConsent";
-import { useIsPreview } from "@/preview/PreviewProvider";
+import { useIsPreview, useSectionData } from "@/preview/PreviewProvider";
+import { pickTextColors } from "@/preview/useSectionTextColor";
+
+type CookieConsentData = {
+  message: string;
+  acceptLabel: string;
+  declineLabel: string;
+  learnMoreUrl: string;
+};
+
+const COOKIE_DEFAULTS: CookieConsentData = {
+  message:
+    "We use cookies to improve your experience and analyze traffic. See our Privacy Policy.",
+  acceptLabel: "Accept",
+  declineLabel: "Decline",
+  learnMoreUrl: "/privacy-policy",
+};
 
 export default function CookieConsent() {
   const consent = useCookieConsent();
   const isPreview = useIsPreview();
+  const data = useSectionData<CookieConsentData>("cookieConsent", COOKIE_DEFAULTS);
+  const t = pickTextColors(data, {
+    message: "#A6AABE",
+    ctaText: "#090e1c",
+    ctaBg: "#46F1C5",
+  });
 
   // In CMS preview, force-render so editors can see and style the banner.
   // On the live site, only show while consent is still pending.
@@ -25,34 +47,32 @@ export default function CookieConsent() {
       }}
     >
       <div className="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between sm:gap-8">
-        <p className="text-base sm:text-lg leading-relaxed" style={{ color: "#A6AABE" }}>
-          We use cookies to improve your experience and analyze traffic. See
-          our{" "}
+        <p className="text-base sm:text-lg leading-relaxed" style={{ color: t.message }}>
+          {data.message}{" "}
           <Link
-            href="/privacy-policy"
+            href={data.learnMoreUrl}
             className="underline-offset-2 hover:underline"
-            style={{ color: "#46F1C5" }}
+            style={{ color: t.ctaBg }}
           >
-            Privacy Policy
+            Learn more
           </Link>
-          .
         </p>
         <div className="flex shrink-0 gap-3">
           <button
             type="button"
             onClick={() => persistCookieConsent("declined")}
             className="rounded-full border px-6 py-3 text-base font-medium transition-colors hover:bg-white/5"
-            style={{ borderColor: "#A6AABE", color: "#A6AABE" }}
+            style={{ borderColor: t.message, color: t.message }}
           >
-            Decline
+            {data.declineLabel}
           </button>
           <button
             type="button"
             onClick={() => persistCookieConsent("accepted")}
             className="rounded-full px-6 py-3 text-base font-semibold transition-opacity hover:opacity-90"
-            style={{ background: "#46F1C5", color: "#090e1c" }}
+            style={{ background: t.ctaBg, color: t.ctaText }}
           >
-            Accept
+            {data.acceptLabel}
           </button>
         </div>
       </div>

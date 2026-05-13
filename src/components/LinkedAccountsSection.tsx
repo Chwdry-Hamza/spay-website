@@ -1,6 +1,7 @@
 "use client";
 
-import { useSectionData } from "@/preview/PreviewProvider";
+import { useSectionData, useSectionBackground } from "@/preview/PreviewProvider";
+import { pickTextColors } from "@/preview/useSectionTextColor";
 
 type TitlePart = { text: string; color: string };
 type Wallet = { name: string; status: string; label: string; balance: string };
@@ -38,8 +39,10 @@ const LINKED_DEFAULTS: LinkedAccountsData = {
 
 export default function LinkedAccountsSection() {
   const data = useSectionData<LinkedAccountsData>("linkedAccounts", LINKED_DEFAULTS);
+  const cmsBg = useSectionBackground("linkedAccounts");
+  const t = pickTextColors(data, { eyebrow: "#A6AABE", subtitle: "#A6AABE" });
   return (
-    <section className="relative pt-0 pb-12 md:pb-20 overflow-hidden" style={{ background: '#090e1c' }}>
+    <section className="relative pt-0 pb-12 md:pb-20 overflow-hidden" style={{ background: cmsBg ?? '#090e1c' }}>
       {/* Animation styles - translate only; rotation handled by responsive Tailwind utilities */}
       <style jsx>{`
         @keyframes floatY15 { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
@@ -84,7 +87,7 @@ export default function LinkedAccountsSection() {
           <div className="relative">
             <p
               className="text-[10px] sm:text-xs md:text-sm uppercase mb-3 sm:mb-4"
-              style={{ fontFamily: 'var(--font-inter)', fontWeight: 400, color: '#A6AABE', letterSpacing: '6px' }}
+              style={{ fontFamily: 'var(--font-inter)', fontWeight: 400, color: t.eyebrow, letterSpacing: '6px' }}
             >
               {data.eyebrow}
             </p>
@@ -98,7 +101,7 @@ export default function LinkedAccountsSection() {
             </h2>
             <p
               className="text-sm sm:text-base md:text-lg max-w-2xl mx-auto"
-              style={{ fontFamily: 'var(--font-inter)', fontWeight: 400, color: '#A6AABE' }}
+              style={{ fontFamily: 'var(--font-inter)', fontWeight: 400, color: t.subtitle }}
             >
               {data.subtitle}
             </p>

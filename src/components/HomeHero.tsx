@@ -2,7 +2,8 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useState, useEffect } from "react";
-import { useSectionData } from "@/preview/PreviewProvider";
+import { useSectionData, useSectionBackground } from "@/preview/PreviewProvider";
+import { pickTextColors } from "@/preview/useSectionTextColor";
 
 type Breakpoint = "mobile" | "tablet" | "desktop";
 
@@ -163,6 +164,12 @@ function useBreakpoint(): Breakpoint {
 export default function HomeHero() {
   const bp = useBreakpoint();
   const data = useSectionData<HomeHeroData>("homeHero", HOME_HERO_DEFAULTS);
+  const cmsBg = useSectionBackground("homeHero");
+  const t = pickTextColors(data, {
+    subtitle: "#A6AABE",
+    ctaText: "#0a2a23",
+    ctaBg: "#04babf",
+  });
 
   const a = data.gradientStart;
   const b = data.gradientEnd;
@@ -195,7 +202,7 @@ export default function HomeHero() {
   return (
     <section
       className="relative overflow-hidden"
-      style={{ background: sectionBackground }}
+      style={{ background: cmsBg ?? sectionBackground }}
     >
       {/* Adaptive radial teal glow — repositions to follow the phone */}
       <div className="absolute pointer-events-none" style={glowStyle} />
@@ -233,8 +240,8 @@ export default function HomeHero() {
             rel="noopener noreferrer"
             className="font-semibold px-3 py-2 sm:px-5 sm:py-2.5 lg:px-6 lg:py-2.5 rounded-lg lg:rounded-xl text-xs sm:text-sm transition-all hover:opacity-90"
             style={{
-              background: "#04babf",
-              color: "#0a2a23",
+              background: t.ctaBg,
+              color: t.ctaText,
             }}
           >
             {bp === "mobile" ? data.ctaMobileLabel ?? data.ctaLabel : data.ctaLabel}
@@ -275,14 +282,15 @@ export default function HomeHero() {
           </h1>
 
           {bp === "mobile" ? (
-            <p className="text-zinc-400 text-sm leading-relaxed mb-6 max-w-xs">
+            <p className="text-sm leading-relaxed mb-6 max-w-xs" style={{ color: t.subtitle }}>
               {data.mobileSubtitle}
             </p>
           ) : (
             <p
-              className={`text-zinc-400 text-sm sm:text-base leading-relaxed mb-6 sm:mb-8 ${
+              className={`text-sm sm:text-base leading-relaxed mb-6 sm:mb-8 ${
                 bp === "desktop" ? "max-w-sm" : "max-w-md"
               }`}
+              style={{ color: t.subtitle }}
             >
               {data.subtitle}
             </p>
@@ -294,8 +302,8 @@ export default function HomeHero() {
             rel="noopener noreferrer"
             className="inline-block font-semibold px-6 py-3 sm:px-8 sm:py-3.5 rounded-xl text-sm transition-all hover:opacity-90"
             style={{
-              background: "#04babf",
-              color: "#0a2a23",
+              background: t.ctaBg,
+              color: t.ctaText,
             }}
           >
             {data.ctaLabel}

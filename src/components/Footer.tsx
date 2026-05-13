@@ -1,7 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { useSectionData } from "@/preview/PreviewProvider";
+import { useSectionData, useSectionBackground } from "@/preview/PreviewProvider";
+import { pickTextColors } from "@/preview/useSectionTextColor";
 
 type FooterLink = { label: string; href: string };
 type FooterData = {
@@ -28,10 +29,16 @@ const FOOTER_DEFAULTS: FooterData = {
 
 export default function Footer() {
   const data = useSectionData<FooterData>("footer", FOOTER_DEFAULTS);
+  const cmsBg = useSectionBackground("footer");
+  const t = pickTextColors(data, {
+    tagline: "#6b7280",
+    link: "#A6AABE",
+    copyright: "#6b7280",
+  });
   return (
     <footer
       className="pt-4 md:pt-8 pb-0 md:pb-32"
-      style={{ backgroundColor: "#090e1c" }}
+      style={{ background: cmsBg ?? "#090e1c" }}
     >
       {/* Mobile Layout */}
       <div className="md:hidden w-full max-w-7xl mx-auto px-4 sm:px-8 pb-32">
@@ -41,7 +48,10 @@ export default function Footer() {
         </div>
 
         {/* Header */}
-        <p className="text-zinc-500 text-sm tracking-[0.2em] uppercase text-center mb-12">
+        <p
+          className="text-sm tracking-[0.2em] uppercase text-center mb-12"
+          style={{ color: t.tagline }}
+        >
           {data.tagline}
         </p>
 
@@ -51,7 +61,12 @@ export default function Footer() {
         {/* Navigation Links */}
         <div className="flex flex-col items-center gap-6 mb-12">
           {data.links.map((l) => (
-            <Link key={l.href} href={l.href} className="text-zinc-400 text-sm hover:text-white transition-colors">
+            <Link
+              key={l.href}
+              href={l.href}
+              className="text-sm hover:text-white transition-colors"
+              style={{ color: t.link }}
+            >
               {l.label}
             </Link>
           ))}
@@ -82,7 +97,7 @@ export default function Footer() {
         </div>
 
         {/* Copyright */}
-        <p className="text-zinc-500 text-sm text-center mb-8">{data.copyright}</p>
+        <p className="text-sm text-center mb-8" style={{ color: t.copyright }}>{data.copyright}</p>
       </div>
 
       {/* Desktop Layout */}
@@ -90,7 +105,7 @@ export default function Footer() {
         {/* Top Section - Logo */}
         <div className="flex flex-col items-start mb-12">
           <img src="/Spay.png" alt="SPAY" style={{ height: "2.2rem", width: "auto" }} />
-          <p className="text-zinc-500 text-sm tracking-widest mt-1">THE MONEY APP</p>
+          <p className="text-sm tracking-widest mt-1" style={{ color: t.tagline }}>{data.tagline}</p>
         </div>
 
         {/* Divider */}
@@ -99,7 +114,12 @@ export default function Footer() {
         {/* Navigation Links - Centered */}
         <div className="flex flex-wrap justify-center gap-x-12 gap-y-3 mb-10">
           {data.links.map((l) => (
-            <Link key={l.href} href={l.href} className="text-zinc-300 text-base hover:text-white transition-colors">
+            <Link
+              key={l.href}
+              href={l.href}
+              className="text-base hover:text-white transition-colors"
+              style={{ color: t.link }}
+            >
               {l.label}
             </Link>
           ))}
@@ -130,7 +150,7 @@ export default function Footer() {
         </div>
 
         {/* Copyright */}
-        <p className="text-zinc-500 text-sm text-center mb-8">{data.copyright}</p>
+        <p className="text-sm text-center mb-8" style={{ color: t.copyright }}>{data.copyright}</p>
       </div>
     </footer>
   );

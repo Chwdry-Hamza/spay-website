@@ -5,6 +5,7 @@ import ConditionalBottomNav from "@/components/ConditionalBottomNav";
 import CookieConsent from "@/components/CookieConsent";
 import GoogleAnalytics from "@/components/GoogleAnalytics";
 import { PreviewProvider } from "@/preview/PreviewProvider";
+import { getPublishedPage, digestPublishedPage } from "@/lib/cms";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -37,17 +38,27 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  // Fetch the latest published landing page from cms-backend. Returns null
+  // if the API is unreachable or nothing has been published yet — components
+  // will then fall back to their LOCAL_DEFAULTS.
+  const published = await getPublishedPage();
+  const { sectionsByKey, publishedKeys, layout } = digestPublishedPage(published);
+
   return (
     <html lang="en" className="h-full w-full scroll-smooth">
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${spaceGrotesk.variable} ${inter.variable} antialiased min-h-screen w-full overflow-x-hidden`}
       >
-        <PreviewProvider>
+        <PreviewProvider
+          publishedSections={sectionsByKey}
+          publishedKeys={publishedKeys}
+          publishedLayout={layout}
+        >
           {children}
           <ConditionalBottomNav />
           <CookieConsent />

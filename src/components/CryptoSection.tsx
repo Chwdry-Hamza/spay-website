@@ -1,6 +1,7 @@
 "use client";
 
-import { useSectionData } from "@/preview/PreviewProvider";
+import { useSectionData, useSectionBackground } from "@/preview/PreviewProvider";
+import { pickTextColors } from "@/preview/useSectionTextColor";
 
 type TitlePart = { text: string; color: string };
 type CryptoData = {
@@ -23,14 +24,16 @@ const CRYPTO_DEFAULTS: CryptoData = {
 
 export default function CryptoSection() {
   const data = useSectionData<CryptoData>("crypto", CRYPTO_DEFAULTS);
+  const cmsBg = useSectionBackground("crypto");
+  const t = pickTextColors(data, { eyebrow: "#A6AABE", subtitle: "#A6AABE" });
   return (
-    <section id="crypto" className="relative overflow-hidden" style={{ background: '#090e1c' }}>
+    <section id="crypto" className="relative overflow-hidden" style={{ background: cmsBg ?? '#090e1c' }}>
       {/* Mobile + Tablet Layout */}
       <div className="lg:hidden relative z-10 w-full px-4 sm:px-8 md:px-12 pt-8 sm:pt-12 md:pt-16 pb-4 md:pb-6 text-center">
         {/* Header */}
         <p
           className="text-[10px] sm:text-xs md:text-sm uppercase mb-3 sm:mb-4"
-          style={{ fontFamily: 'var(--font-inter)', fontWeight: 400, color: '#A6AABE', letterSpacing: '6px' }}
+          style={{ fontFamily: 'var(--font-inter)', fontWeight: 400, color: t.eyebrow, letterSpacing: '6px' }}
         >
           {data.eyebrow}
         </p>
@@ -48,7 +51,7 @@ export default function CryptoSection() {
         {/* Subtitle */}
         <p
           className="text-sm sm:text-base md:text-lg mb-8 sm:mb-10 leading-relaxed max-w-xl md:max-w-2xl mx-auto"
-          style={{ fontFamily: 'var(--font-inter)', fontWeight: 400, color: '#A6AABE' }}
+          style={{ fontFamily: 'var(--font-inter)', fontWeight: 400, color: t.subtitle }}
         >
           {data.subtitle}
         </p>
@@ -85,7 +88,7 @@ export default function CryptoSection() {
             <div className="max-w-xl">
               <p
                 className="text-[11px] lg:text-xs xl:text-sm uppercase mb-10 lg:mb-14 xl:mb-16"
-                style={{ fontFamily: 'var(--font-inter)', fontWeight: 400, color: '#A6AABE', letterSpacing: '6px' }}
+                style={{ fontFamily: 'var(--font-inter)', fontWeight: 400, color: t.eyebrow, letterSpacing: '6px' }}
               >
                 MANAGE CRYPTO
               </p>
@@ -99,7 +102,7 @@ export default function CryptoSection() {
               </h2>
               <p
                 className="text-xs lg:text-sm leading-relaxed"
-                style={{ fontFamily: 'var(--font-inter)', fontWeight: 400, color: '#A6AABE' }}
+                style={{ fontFamily: 'var(--font-inter)', fontWeight: 400, color: t.subtitle }}
               >
                 {data.subtitle}
               </p>
