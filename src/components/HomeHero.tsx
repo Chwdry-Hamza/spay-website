@@ -4,12 +4,14 @@ import Image from "next/image";
 import { useState, useEffect } from "react";
 import { useSectionData, useSectionBackground } from "@/preview/PreviewProvider";
 import { pickTextColors } from "@/preview/useSectionTextColor";
+import { slotSizeOverride, slotTag } from "@/lib/headingTag";
 
 type Breakpoint = "mobile" | "tablet" | "desktop";
 
 type TitlePart = { text: string; color: string };
 type HomeHeroData = {
   titleParts: TitlePart[];
+  style?: { headings?: Record<string, string> };
   subtitle: string;
   mobileSubtitle: string;
   ctaLabel: string;
@@ -170,6 +172,10 @@ export default function HomeHero() {
     ctaText: "#0a2a23",
     ctaBg: "#04babf",
   });
+  const HeadingTag = slotTag(data.style, "title", "h1");
+  const SubtitleTag = slotTag(data.style, "subtitle", "p");
+  const titleSize = slotSizeOverride(data.style, "title");
+  const subtitleSize = slotSizeOverride(data.style, "subtitle");
 
   const a = data.gradientStart;
   const b = data.gradientEnd;
@@ -270,30 +276,30 @@ export default function HomeHero() {
               : "w-fit max-w-full mr-auto self-start text-left"
           }`}
         >
-          <h1
+          <HeadingTag
             className="text-3xl sm:text-5xl lg:text-6xl font-bold leading-tight mb-4 sm:mb-6"
-            style={{ fontFamily: "var(--font-space-grotesk)" }}
+            style={{ fontFamily: "var(--font-space-grotesk)", ...titleSize }}
           >
             {data.titleParts.map((p, i) => (
               <span key={i} style={{ color: p.color }}>
                 {p.text}
               </span>
             ))}
-          </h1>
+          </HeadingTag>
 
           {bp === "mobile" ? (
-            <p className="text-sm leading-relaxed mb-6 max-w-xs" style={{ color: t.subtitle }}>
+            <SubtitleTag className="text-sm leading-relaxed mb-6 max-w-xs" style={{ color: t.subtitle, ...subtitleSize }}>
               {data.mobileSubtitle}
-            </p>
+            </SubtitleTag>
           ) : (
-            <p
+            <SubtitleTag
               className={`text-sm sm:text-base leading-relaxed mb-6 sm:mb-8 ${
                 bp === "desktop" ? "max-w-sm" : "max-w-md"
               }`}
-              style={{ color: t.subtitle }}
+              style={{ color: t.subtitle, ...subtitleSize }}
             >
               {data.subtitle}
-            </p>
+            </SubtitleTag>
           )}
 
           <a

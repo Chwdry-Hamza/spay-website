@@ -1,11 +1,9 @@
 import type { NextConfig } from "next";
 
-// NOTE: this app uses `output: "export"`, which produces a static bundle.
-// Static export does NOT execute `headers()` — set CSP at the hosting layer
-// (Vercel, CloudFront, Nginx) for production. In `next dev`, no
-// X-Frame-Options is applied by default, so the CMS iframe works locally.
+// Standard SSR/ISR build — required for CMS-driven dynamic routes (e.g. the
+// `[slug]` content-page route, where new pages appear at runtime and would
+// not be known to a static-export `generateStaticParams()`).
 const nextConfig: NextConfig = {
-  output: "export",
   trailingSlash: true,
   images: {
     unoptimized: true,

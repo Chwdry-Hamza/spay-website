@@ -2,11 +2,13 @@
 import React from "react";
 import { useSectionData, useSectionBackground } from "@/preview/PreviewProvider";
 import { pickTextColors } from "@/preview/useSectionTextColor";
+import { slotSizeOverride, slotTag } from "@/lib/headingTag";
 
 type TitlePart = { text: string; color: string };
 type FeatureGridData = {
   eyebrow: string;
   titleParts: TitlePart[];
+  style?: { headings?: Record<string, string> };
 
   send: { label: string; title: string; body: string; badgeText: string };
   grow: { label: string; statValue: string; statUnit: string; body: string };
@@ -186,6 +188,14 @@ const FeaturesGrid: React.FC = () => {
     tileIcon: "#46F1C5",
     accent: "#5BE3A1",
   });
+  const HeadingTag = slotTag(data.style, "title", "h2");
+  const titleSize = slotSizeOverride(data.style, "title");
+  const EyebrowTag = slotTag(data.style, "eyebrow", "p");
+  const TileLabelTag = slotTag(data.style, "tileLabel", "p");
+  // Shared across all tile titles — defaults to `h3` so existing pages render
+  // with the same markup as before the Style-panel heading control existed.
+  const TileTitleTag = slotTag(data.style, "tileTitle", "h3");
+  const TileBodyTag = slotTag(data.style, "tileBody", "p");
   return (
     <section
       className="relative py-16 md:py-20 lg:py-[100px] overflow-hidden"
@@ -212,11 +222,12 @@ const FeaturesGrid: React.FC = () => {
           >
             {data.eyebrow}
           </p>
-          <h2
+          <HeadingTag
             className="font-bold leading-[1.05] tracking-[-0.02em] m-0 whitespace-pre-line"
             style={{
               fontFamily: "var(--font-space-grotesk)",
               fontSize: "clamp(32px, 5.2vw, 68px)",
+              ...titleSize,
             }}
           >
             {data.titleParts.map((p, i) => (
@@ -224,21 +235,19 @@ const FeaturesGrid: React.FC = () => {
                 {p.text}
               </span>
             ))}
-          </h2>
+          </HeadingTag>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-5">
           {/* HERO TILE — SEND (span 2 on desktop) */}
           <article className={`${tileBase} lg:col-span-2 flex flex-col`} style={tileStyle}>
-            <p className={eyebrowClass} style={{ ...eyebrowStyle, color: t.tileLabel }}>
-              {data.send.label}
-            </p>
-            <h3 className={headingClass} style={{ ...headingStyle, color: t.tileTitle }}>
+            <TileLabelTag className={eyebrowClass} style={{ ...eyebrowStyle, color: t.tileLabel }}>
+              {data.send.label}</TileLabelTag>
+            <TileTitleTag className={headingClass} style={{ ...headingStyle, color: t.tileTitle }}>
               {data.send.title}
-            </h3>
-            <p className={`${bodyClass} max-w-[380px]`} style={{ ...bodyStyle, color: t.body }}>
-              {data.send.body}
-            </p>
+            </TileTitleTag>
+            <TileBodyTag className={`${bodyClass} max-w-[380px]`} style={{ ...bodyStyle, color: t.body }}>
+              {data.send.body}</TileBodyTag>
 
             <div className="mt-auto pt-6 flex items-center gap-4">
               <Avatar initial="M" bg="linear-gradient(135deg,#FF7A8A,#C73A56)" />
@@ -282,9 +291,8 @@ const FeaturesGrid: React.FC = () => {
 
           {/* STAT TILE — GROW */}
           <article className={`${tileBase} flex flex-col`} style={tileStyle}>
-            <p className={eyebrowClass} style={{ ...eyebrowStyle, color: t.tileLabel }}>
-              {data.grow.label}
-            </p>
+            <TileLabelTag className={eyebrowClass} style={{ ...eyebrowStyle, color: t.tileLabel }}>
+              {data.grow.label}</TileLabelTag>
             <div className="flex items-baseline gap-1.5 mb-3">
               <span
                 className="font-bold leading-none tracking-[-0.04em]"
@@ -306,19 +314,17 @@ const FeaturesGrid: React.FC = () => {
                 {data.grow.statUnit}
               </span>
             </div>
-            <p className={bodyClass} style={{ ...bodyStyle, color: t.body }}>
-              {data.grow.body}
-            </p>
+            <TileBodyTag className={bodyClass} style={{ ...bodyStyle, color: t.body }}>
+              {data.grow.body}</TileBodyTag>
           </article>
 
           {/* CARD TILE — SPEND */}
           <article className={`${tileBase} flex flex-col`} style={tileStyle}>
-            <p className={eyebrowClass} style={{ ...eyebrowStyle, color: t.tileLabel }}>
-              {data.spend.label}
-            </p>
-            <h3 className={headingClass} style={{ ...headingStyle, color: t.tileTitle }}>
+            <TileLabelTag className={eyebrowClass} style={{ ...eyebrowStyle, color: t.tileLabel }}>
+              {data.spend.label}</TileLabelTag>
+            <TileTitleTag className={headingClass} style={{ ...headingStyle, color: t.tileTitle }}>
               {data.spend.title}
-            </h3>
+            </TileTitleTag>
 
             <div className="pt-4 flex justify-center">
               {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -342,12 +348,11 @@ const FeaturesGrid: React.FC = () => {
             <div className={iconBadgeClass} style={iconBadgeStyle}>
               <SplitIcon color={t.tileIcon} />
             </div>
-            <h3 className={headingClass} style={{ ...headingStyle, color: t.tileTitle }}>
+            <TileTitleTag className={headingClass} style={{ ...headingStyle, color: t.tileTitle }}>
               {data.split.title}
-            </h3>
-            <p className={`${bodyClass} mb-5`} style={{ ...bodyStyle, color: t.body }}>
-              {data.split.body}
-            </p>
+            </TileTitleTag>
+            <TileBodyTag className={`${bodyClass} mb-5`} style={{ ...bodyStyle, color: t.body }}>
+              {data.split.body}</TileBodyTag>
             <div className="mt-auto flex items-center">
               <div className="flex">
                 <Avatar initial="M" bg="linear-gradient(135deg,#FF7A8A,#C73A56)" size={40} />
@@ -375,12 +380,11 @@ const FeaturesGrid: React.FC = () => {
             <div className={iconBadgeClass} style={iconBadgeStyle}>
               <BusinessIcon color={t.tileIcon} />
             </div>
-            <h3 className={headingClass} style={{ ...headingStyle, color: t.tileTitle }}>
+            <TileTitleTag className={headingClass} style={{ ...headingStyle, color: t.tileTitle }}>
               {data.business.title}
-            </h3>
-            <p className={`${bodyClass} mb-5`} style={{ ...bodyStyle, color: t.body }}>
-              {data.business.body}
-            </p>
+            </TileTitleTag>
+            <TileBodyTag className={`${bodyClass} mb-5`} style={{ ...bodyStyle, color: t.body }}>
+              {data.business.body}</TileBodyTag>
             <div className="mt-auto flex flex-wrap gap-2">
               {data.business.pills.map((p, i) => (
                 <Pill key={i}>{p}</Pill>
@@ -392,18 +396,15 @@ const FeaturesGrid: React.FC = () => {
           <article className={`${tileBase} lg:col-span-2`} style={tileStyle}>
             <div className="flex flex-col lg:flex-row gap-6 lg:gap-8 h-full">
               <div className="flex-1 flex flex-col">
-                <p className={eyebrowClass} style={{ ...eyebrowStyle, color: t.tileLabel }}>
-                  {data.protect.label}
-                </p>
-                <h3 className={headingClass} style={{ ...headingStyle, color: t.tileTitle }}>
+                <TileLabelTag className={eyebrowClass} style={{ ...eyebrowStyle, color: t.tileLabel }}>
+                  {data.protect.label}</TileLabelTag>
+                <TileTitleTag className={headingClass} style={{ ...headingStyle, color: t.tileTitle }}>
                   {data.protect.title}
-                </h3>
-                <p
-                  className={`${bodyClass} mb-5 max-w-[460px]`}
+                </TileTitleTag>
+                <TileBodyTag className={`${bodyClass} mb-5 max-w-[460px]`}
                   style={{ ...bodyStyle, color: t.body }}
                 >
-                  {data.protect.body}
-                </p>
+                  {data.protect.body}</TileBodyTag>
                 <div className="mt-auto flex flex-wrap gap-2">
                   {data.protect.pills.map((p, i) => (
                     <Pill key={i}>{p}</Pill>

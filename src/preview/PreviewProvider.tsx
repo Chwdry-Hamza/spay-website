@@ -24,6 +24,13 @@ export type PreviewMessage =
   | { type: "PREVIEW_SELECT"; payload: { id: string } }
   | { type: "PREVIEW_SCROLL_TO"; payload: { id: string } };
 
+export type PublishedContentPageRef = {
+  slug: string;
+  title: string;
+  footerLabel: string | null;
+  showInFooter: boolean;
+};
+
 type PreviewState = {
   active: boolean;
   data: Record<string, Record<string, unknown>>;
@@ -40,6 +47,9 @@ type PreviewState = {
   layout: LayoutItem[];
   /** True if a successful CMS fetch has populated publishedSections/publishedKeys. */
   hasPublishedData: boolean;
+  /** Every published content page (About, Privacy, plus anything the user has
+   * created). The Footer renders this list so new pages auto-appear. */
+  publishedContentPages: PublishedContentPageRef[];
 };
 
 type PreviewContextValue = PreviewState & {
@@ -55,6 +65,7 @@ const PreviewContext = React.createContext<PreviewContextValue>({
   publishedKeys: new Set(),
   layout: [],
   hasPublishedData: false,
+  publishedContentPages: [],
   setSelected: () => {},
 });
 
@@ -62,7 +73,7 @@ const PreviewContext = React.createContext<PreviewContextValue>({
  * Carries the current section's `instanceId` down to `useSectionData` /
  * `useSectionBackground` so the same component file can render any instance
  * by reading data scoped to its own instance. When this context is unset
- * (e.g. subpages that hardcode <AppHeader />), the helpers fall back to the
+ * (e.g. subpages that hardcode <Footer />), the helpers fall back to the
  * literal sectionKey the component passes — preserving subpage behavior.
  */
 const SectionInstanceContext = React.createContext<string | null>(null);
@@ -91,11 +102,13 @@ export function PreviewProvider({
   publishedSections = {},
   publishedKeys = [],
   publishedLayout = [],
+  publishedContentPages = [],
 }: {
   children: React.ReactNode;
   publishedSections?: Record<string, Record<string, unknown>>;
   publishedKeys?: string[];
   publishedLayout?: LayoutItem[];
+  publishedContentPages?: PublishedContentPageRef[];
 }) {
   // Read once on mount to avoid hydration mismatches.
   const [active, setActive] = React.useState(false);
@@ -104,6 +117,12 @@ export function PreviewProvider({
   const [selectedId, setSelectedId] = React.useState<string | null>(null);
   // The live, ordered layout pushed from the CMS while in preview mode.
   const [liveLayout, setLiveLayout] = React.useState<LayoutItem[]>([]);
+  // Mirror of the live layout for use inside the message handler — avoids
+  // re-binding the listener every time the layout changes.
+  const liveLayoutRef = React.useRef<LayoutItem[]>([]);
+  React.useEffect(() => {
+    liveLayoutRef.current = liveLayout;
+  }, [liveLayout]);
   const publishedKeysSet = React.useMemo(() => new Set(publishedKeys), [publishedKeys]);
   const hasPublishedData = publishedKeys.length > 0;
 
@@ -120,7 +139,19 @@ export function PreviewProvider({
       switch (msg.type) {
         case "PREVIEW_INIT": {
           const sections = msg.payload.sections as Record<string, Record<string, unknown>>;
-          setData(sections);
+          const layout = msg.payload.layout ?? [];
+          // Double-key the initial data by both instanceId AND sectionKey
+          // (first-instance wins) so components rendered from layout.tsx —
+          // BottomNav, Footer, CookieConsent — which look up by sectionKey
+          // rather than instanceId still resolve their data.
+          const expanded: Record<string, Record<string, unknown>> = { ...sections };
+          for (const item of layout) {
+            const payload = sections[item.instanceId];
+            if (payload && !(item.sectionKey in expanded)) {
+              expanded[item.sectionKey] = payload;
+            }
+          }
+          setData(expanded);
           setVisibility(msg.payload.visibility ?? {});
           if (msg.payload.layout) setLiveLayout(msg.payload.layout);
           if (msg.payload.selectedId) setSelectedId(msg.payload.selectedId);
@@ -132,12 +163,35 @@ export function PreviewProvider({
         }
         case "PREVIEW_PATCH": {
           const { id, data: patch } = msg.payload;
-          setData((prev) => ({ ...prev, [id]: { ...(prev[id] || {}), ...patch } }));
+          setData((prev) => {
+            const next: Record<string, Record<string, unknown>> = {
+              ...prev,
+              [id]: { ...(prev[id] || {}), ...patch },
+            };
+            // Mirror the patch under the section's sectionKey so layout-level
+            // components (BottomNav, Footer, CookieConsent) that resolve data
+            // by sectionKey re-render too.
+            const layoutItem = liveLayoutRef.current.find((l) => l.instanceId === id);
+            if (layoutItem && layoutItem.sectionKey !== id) {
+              next[layoutItem.sectionKey] = {
+                ...(prev[layoutItem.sectionKey] || {}),
+                ...patch,
+              };
+            }
+            return next;
+          });
           break;
         }
         case "PREVIEW_VISIBILITY": {
           const { id, visible } = msg.payload;
-          setVisibility((prev) => ({ ...prev, [id]: visible }));
+          setVisibility((prev) => {
+            const next: Record<string, boolean> = { ...prev, [id]: visible };
+            const layoutItem = liveLayoutRef.current.find((l) => l.instanceId === id);
+            if (layoutItem && layoutItem.sectionKey !== id) {
+              next[layoutItem.sectionKey] = visible;
+            }
+            return next;
+          });
           break;
         }
         case "PREVIEW_SELECT": {
@@ -212,9 +266,10 @@ export function PreviewProvider({
       publishedKeys: publishedKeysSet,
       layout,
       hasPublishedData,
+      publishedContentPages,
       setSelected: (id) => setSelectedId(id),
     }),
-    [active, data, visibility, selectedId, publishedSections, publishedKeysSet, layout, hasPublishedData]
+    [active, data, visibility, selectedId, publishedSections, publishedKeysSet, layout, hasPublishedData, publishedContentPages]
   );
 
   return <PreviewContext.Provider value={value}>{children}</PreviewContext.Provider>;
@@ -261,6 +316,14 @@ export function useIsPreview(): boolean {
  */
 export function useLayout(): LayoutItem[] {
   return React.useContext(PreviewContext).layout;
+}
+
+/**
+ * All currently-published content pages. Used by the Footer so new pages
+ * created in the CMS auto-appear as footer links.
+ */
+export function usePublishedContentPages(): PublishedContentPageRef[] {
+  return React.useContext(PreviewContext).publishedContentPages;
 }
 
 type SectionBackground = {

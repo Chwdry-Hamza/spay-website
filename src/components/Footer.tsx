@@ -1,12 +1,20 @@
 "use client";
 
 import Link from "next/link";
-import { useSectionData, useSectionBackground } from "@/preview/PreviewProvider";
+import {
+  useSectionData,
+  useSectionBackground,
+  usePublishedContentPages,
+} from "@/preview/PreviewProvider";
 import { pickTextColors } from "@/preview/useSectionTextColor";
 
 type FooterLink = { label: string; href: string };
 type FooterData = {
   tagline: string;
+  // `links` is kept for back-compat with the CMS footer-section inspector but
+  // is no longer the source of truth — see `usePublishedContentPages()` below.
+  // It is rendered only as a fallback when the CMS list is empty (e.g. the
+  // cms-backend is unreachable on first paint).
   links: FooterLink[];
   copyright: string;
   appStoreUrl: string;
@@ -30,6 +38,21 @@ const FOOTER_DEFAULTS: FooterData = {
 export default function Footer() {
   const data = useSectionData<FooterData>("footer", FOOTER_DEFAULTS);
   const cmsBg = useSectionBackground("footer");
+  // The footer link list now mirrors the CMS Pages catalog — anything the user
+  // publishes via /content-pages shows up automatically. Per-page `footerLabel`
+  // overrides the title; `showInFooter: false` hides the page from this list.
+  // Falls back to the section's hardcoded `links` only when the CMS list is
+  // empty (e.g. cms-backend unreachable on first paint).
+  const contentPages = usePublishedContentPages();
+  const renderedLinks: FooterLink[] =
+    contentPages.length > 0
+      ? contentPages
+          .filter((p) => p.showInFooter)
+          .map((p) => ({
+            label: (p.footerLabel?.trim() || p.title) ?? p.title,
+            href: `/${p.slug}`,
+          }))
+      : data.links;
   const t = pickTextColors(data, {
     tagline: "#6b7280",
     link: "#A6AABE",
@@ -60,7 +83,7 @@ export default function Footer() {
 
         {/* Navigation Links */}
         <div className="flex flex-col items-center gap-6 mb-12">
-          {data.links.map((l) => (
+          {renderedLinks.map((l) => (
             <Link
               key={l.href}
               href={l.href}
@@ -113,7 +136,7 @@ export default function Footer() {
 
         {/* Navigation Links - Centered */}
         <div className="flex flex-wrap justify-center gap-x-12 gap-y-3 mb-10">
-          {data.links.map((l) => (
+          {renderedLinks.map((l) => (
             <Link
               key={l.href}
               href={l.href}

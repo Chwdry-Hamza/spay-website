@@ -7,8 +7,6 @@ import Currencies from "@/components/currencies";
 import PaymentSection from "@/components/PaymentSection";
 import TransferSection from "@/components/TransferSection";
 import CryptoSection from "@/components/CryptoSection";
-import EarnSection from "@/components/EarnSection";
-import LinkedAccountsSection from "@/components/LinkedAccountsSection";
 import JoinUsSection from "@/components/JoinUsSection";
 import CollaborationsSection from "@/components/CollaborationsSection";
 import CustomSection from "@/components/CustomSection";
@@ -29,8 +27,6 @@ const COMPONENT_MAP: Record<string, React.ComponentType> = {
   payment: PaymentSection,
   transfer: TransferSection,
   crypto: CryptoSection,
-  earn: EarnSection,
-  linkedAccounts: LinkedAccountsSection,
   joinUs: JoinUsSection,
   collaborations: CollaborationsSection,
   customSection: CustomSection,

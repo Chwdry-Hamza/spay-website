@@ -91,11 +91,13 @@
 import FlipCard from "./FlipCard";
 import { useSectionData, useSectionBackground } from "@/preview/PreviewProvider";
 import { pickTextColors } from "@/preview/useSectionTextColor";
+import { slotSizeOverride, slotTag } from "@/lib/headingTag";
 
 type TitlePart = { text: string; color: string };
 type PaymentData = {
   eyebrow: string;
   titleParts: TitlePart[];
+  style?: { headings?: Record<string, string> };
   subtitle: string;
   cardFront: string;
   cardBack: string;
@@ -116,6 +118,10 @@ export default function PaymentSection() {
   const data = useSectionData<PaymentData>("payment", PAYMENT_DEFAULTS);
   const cmsBg = useSectionBackground("payment");
   const t = pickTextColors(data, { eyebrow: "#A6AABE", subtitle: "#A6AABE" });
+  const HeadingTag = slotTag(data.style, "title", "h2");
+  const titleSize = slotSizeOverride(data.style, "title");
+  const EyebrowTag = slotTag(data.style, "eyebrow", "p");
+  const SubtitleTag = slotTag(data.style, "subtitle", "p");
   return (
     <section
       id="payment"
@@ -146,20 +152,20 @@ export default function PaymentSection() {
 
       <div className="relative z-10 w-full max-w-3xl mx-auto px-6 flex flex-col items-center">
 
-        <p className="text-xs md:text-sm tracking-[0.25em] uppercase mb-5" style={{ color: t.eyebrow }}>
+        <EyebrowTag className="text-xs md:text-sm tracking-[0.25em] uppercase mb-5" style={{ color: t.eyebrow }}>
           {data.eyebrow}
-        </p>
-        <h2
+        </EyebrowTag>
+        <HeadingTag
           className="text-4xl md:text-6xl font-bold leading-tight text-center mb-5"
-          style={{ fontFamily: 'var(--font-space-grotesk)' }}
+          style={{ fontFamily: 'var(--font-space-grotesk)' , ...titleSize }}
         >
           {data.titleParts.map((p, i) => (
             <span key={i} style={{ color: p.color }}>{p.text}</span>
           ))}
-        </h2>
-        <p className="text-sm md:text-base text-center mb-12 md:mb-16 max-w-md" style={{ color: t.subtitle }}>
+        </HeadingTag>
+        <SubtitleTag className="text-sm md:text-base text-center mb-12 md:mb-16 max-w-md" style={{ color: t.subtitle }}>
           {data.subtitle}
-        </p>
+        </SubtitleTag>
 
         <FlipCard
           frontSrc={data.cardFront}

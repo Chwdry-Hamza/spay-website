@@ -1,5 +1,6 @@
 "use client";
 
+import * as React from "react";
 import Link from "next/link";
 import { persistCookieConsent, useCookieConsent } from "@/hooks/useCookieConsent";
 import { useIsPreview, useSectionData } from "@/preview/PreviewProvider";
@@ -30,9 +31,22 @@ export default function CookieConsent() {
     ctaBg: "#46F1C5",
   });
 
-  // In CMS preview, force-render so editors can see and style the banner.
+  // Local "this page view dismissed it" flag. Makes the Accept/Decline buttons
+  // hide the banner instantly even in CMS preview, where localStorage may be
+  // blocked (cross-origin iframe) or where preview mode would otherwise force
+  // the banner to stay visible. Refreshing the iframe restores it.
+  const [locallyDismissed, setLocallyDismissed] = React.useState(false);
+
+  // In CMS preview, force-render so editors can see and style the banner —
+  // unless the editor just clicked Accept/Decline, in which case respect that.
   // On the live site, only show while consent is still pending.
+  if (locallyDismissed) return null;
   if (!isPreview && consent !== "pending") return null;
+
+  const handleDecision = (choice: "accepted" | "declined") => {
+    persistCookieConsent(choice);
+    setLocallyDismissed(true);
+  };
 
   return (
     <div
@@ -60,7 +74,7 @@ export default function CookieConsent() {
         <div className="flex shrink-0 gap-3">
           <button
             type="button"
-            onClick={() => persistCookieConsent("declined")}
+            onClick={() => handleDecision("declined")}
             className="rounded-full border px-6 py-3 text-base font-medium transition-colors hover:bg-white/5"
             style={{ borderColor: t.message, color: t.message }}
           >
@@ -68,7 +82,7 @@ export default function CookieConsent() {
           </button>
           <button
             type="button"
-            onClick={() => persistCookieConsent("accepted")}
+            onClick={() => handleDecision("accepted")}
             className="rounded-full px-6 py-3 text-base font-semibold transition-opacity hover:opacity-90"
             style={{ background: t.ctaBg, color: t.ctaText }}
           >

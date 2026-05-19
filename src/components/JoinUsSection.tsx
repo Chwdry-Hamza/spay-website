@@ -3,11 +3,13 @@
 import Image from "next/image";
 import { useSectionData, useSectionBackground } from "@/preview/PreviewProvider";
 import { pickTextColors } from "@/preview/useSectionTextColor";
+import { slotSizeOverride, slotTag } from "@/lib/headingTag";
 
 type TitlePart = { text: string; color: string };
 type JoinUsData = {
   eyebrow: string;
   titleParts: TitlePart[];
+  style?: { headings?: Record<string, string> };
   subtitle: string;
   ctaLabel: string;
   ctaUrl: string;
@@ -34,6 +36,10 @@ export default function JoinUsSection() {
     ctaText: "#0a2a23",
     ctaBg: "#04babf",
   });
+  const HeadingTag = slotTag(data.style, "title", "h2");
+  const titleSize = slotSizeOverride(data.style, "title");
+  const EyebrowTag = slotTag(data.style, "eyebrow", "p");
+  const SubtitleTag = slotTag(data.style, "subtitle", "p");
   return (
     <section
       className="relative pt-16 md:pt-32 pb-24 md:pb-48 overflow-hidden"
@@ -88,7 +94,7 @@ export default function JoinUsSection() {
 
       {/* Content */}
       <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-8 lg:px-16 text-center py-24">
-        <p
+        <EyebrowTag
           className="text-[10px] sm:text-xs md:text-sm uppercase mb-4 sm:mb-6 md:mb-8"
           style={{
             fontFamily: "var(--font-inter)",
@@ -98,16 +104,16 @@ export default function JoinUsSection() {
           }}
         >
           {data.eyebrow}
-        </p>
-        <h2
+        </EyebrowTag>
+        <HeadingTag
           className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold leading-tight mb-4 sm:mb-6 md:mb-8"
-          style={{ fontFamily: "var(--font-space-grotesk)" }}
+          style={{ fontFamily: "var(--font-space-grotesk)" , ...titleSize }}
         >
           {data.titleParts.map((p, i) => (
             <span key={i} style={{ color: p.color }}>{p.text}</span>
           ))}
-        </h2>
-        <p
+        </HeadingTag>
+        <SubtitleTag
           className="text-sm sm:text-base md:text-lg lg:text-xl max-w-2xl mx-auto mb-4 leading-relaxed"
           style={{
             fontFamily: "var(--font-inter)",
@@ -116,7 +122,7 @@ export default function JoinUsSection() {
           }}
         >
           {data.subtitle}
-        </p>
+        </SubtitleTag>
         <a
           href={data.ctaUrl}
           target="_blank"

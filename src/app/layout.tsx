@@ -5,7 +5,11 @@ import ConditionalBottomNav from "@/components/ConditionalBottomNav";
 import CookieConsent from "@/components/CookieConsent";
 import GoogleAnalytics from "@/components/GoogleAnalytics";
 import { PreviewProvider } from "@/preview/PreviewProvider";
-import { getPublishedPage, digestPublishedPage } from "@/lib/cms";
+import {
+  getPublishedPage,
+  digestPublishedPage,
+  listPublishedContentPages,
+} from "@/lib/cms";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -28,9 +32,19 @@ const inter = Inter({
   weight: ["300", "400", "500", "600", "700"],
 });
 
+const SITE_URL =
+  process.env.NEXT_PUBLIC_SITE_URL || "https://spay.example.com";
+
 export const metadata: Metadata = {
-  title: "SPay",
+  // `title.default` is used when a child route doesn't set its own title.
+  // `title.template` wraps any child title — e.g. About → "About · SPay".
+  title: {
+    default: "SPay - Your financial companion",
+    template: "%s · SPay",
+  },
   description: "SPay - Your financial companion",
+  // Resolves relative OG/Twitter image URLs (e.g. "/og.png") and canonicals.
+  metadataBase: new URL(SITE_URL),
   icons: {
     icon: [{ url: "/spayLogo.jpeg", type: "image/jpeg" }],
     shortcut: "/spayLogo.jpeg",
@@ -46,7 +60,10 @@ export default async function RootLayout({
   // Fetch the latest published landing page from cms-backend. Returns null
   // if the API is unreachable or nothing has been published yet — components
   // will then fall back to their LOCAL_DEFAULTS.
-  const published = await getPublishedPage();
+  const [published, contentPages] = await Promise.all([
+    getPublishedPage(),
+    listPublishedContentPages(),
+  ]);
   const { sectionsByKey, publishedKeys, layout } = digestPublishedPage(published);
 
   return (
@@ -58,6 +75,7 @@ export default async function RootLayout({
           publishedSections={sectionsByKey}
           publishedKeys={publishedKeys}
           publishedLayout={layout}
+          publishedContentPages={contentPages}
         >
           {children}
           <ConditionalBottomNav />

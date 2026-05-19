@@ -2,11 +2,13 @@
 
 import { useSectionData, useSectionBackground } from "@/preview/PreviewProvider";
 import { pickTextColors } from "@/preview/useSectionTextColor";
+import { slotSizeOverride, slotTag } from "@/lib/headingTag";
 
 type TitlePart = { text: string; color: string };
 type CryptoData = {
   eyebrow: string;
   titleParts: TitlePart[];
+  style?: { headings?: Record<string, string> };
   subtitle: string;
   mockupImage: string;
 };
@@ -26,35 +28,39 @@ export default function CryptoSection() {
   const data = useSectionData<CryptoData>("crypto", CRYPTO_DEFAULTS);
   const cmsBg = useSectionBackground("crypto");
   const t = pickTextColors(data, { eyebrow: "#A6AABE", subtitle: "#A6AABE" });
+  const HeadingTag = slotTag(data.style, "title", "h2");
+  const titleSize = slotSizeOverride(data.style, "title");
+  const EyebrowTag = slotTag(data.style, "eyebrow", "p");
+  const SubtitleTag = slotTag(data.style, "subtitle", "p");
   return (
     <section id="crypto" className="relative overflow-hidden" style={{ background: cmsBg ?? '#090e1c' }}>
       {/* Mobile + Tablet Layout */}
       <div className="lg:hidden relative z-10 w-full px-4 sm:px-8 md:px-12 pt-8 sm:pt-12 md:pt-16 pb-4 md:pb-6 text-center">
         {/* Header */}
-        <p
+        <EyebrowTag
           className="text-[10px] sm:text-xs md:text-sm uppercase mb-3 sm:mb-4"
           style={{ fontFamily: 'var(--font-inter)', fontWeight: 400, color: t.eyebrow, letterSpacing: '6px' }}
         >
           {data.eyebrow}
-        </p>
+        </EyebrowTag>
 
         {/* Main Heading */}
-        <h2
+        <HeadingTag
           className="text-3xl sm:text-4xl md:text-5xl font-bold text-white leading-tight mb-4 sm:mb-6"
-          style={{ fontFamily: 'var(--font-space-grotesk)' }}
+          style={{ fontFamily: 'var(--font-space-grotesk)' , ...titleSize }}
         >
           {data.titleParts.map((p, i) => (
             <span key={i} style={{ color: p.color }}>{p.text}</span>
           ))}
-        </h2>
+        </HeadingTag>
 
         {/* Subtitle */}
-        <p
+        <SubtitleTag
           className="text-sm sm:text-base md:text-lg mb-8 sm:mb-10 leading-relaxed max-w-xl md:max-w-2xl mx-auto"
           style={{ fontFamily: 'var(--font-inter)', fontWeight: 400, color: t.subtitle }}
         >
           {data.subtitle}
-        </p>
+        </SubtitleTag>
 
         {/* Phone Mockup - Mobile/Tablet with glow */}
         <div className="relative w-full flex justify-center items-center">
@@ -92,20 +98,20 @@ export default function CryptoSection() {
               >
                 MANAGE CRYPTO
               </p>
-              <h2
+              <HeadingTag
                 className="text-3xl lg:text-5xl xl:text-6xl font-bold text-white leading-tight mb-10 lg:mb-14 xl:mb-16"
-                style={{ fontFamily: 'var(--font-space-grotesk)' }}
+                style={{ fontFamily: 'var(--font-space-grotesk)' , ...titleSize }}
               >
                 {data.titleParts.map((p, i) => (
                   <span key={i} style={{ color: p.color }}>{p.text}</span>
                 ))}
-              </h2>
-              <p
+              </HeadingTag>
+              <SubtitleTag
                 className="text-xs lg:text-sm leading-relaxed"
                 style={{ fontFamily: 'var(--font-inter)', fontWeight: 400, color: t.subtitle }}
               >
                 {data.subtitle}
-              </p>
+              </SubtitleTag>
             </div>
 
             {/* Right - Phone */}

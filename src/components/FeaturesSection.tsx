@@ -195,12 +195,20 @@
 
 import { useSectionData, useSectionBackground } from "@/preview/PreviewProvider";
 import { pickTextColors } from "@/preview/useSectionTextColor";
+import { slotSizeOverride, slotTag } from "@/lib/headingTag";
 
 type TitlePart = { text: string; color: string };
-type FeatureCard = { title: string; desc: string; image: string; bgStart: string; bgEnd: string };
+type FeatureCard = {
+  title: string;
+  desc: string;
+  image: string;
+  bgStart: string;
+  bgEnd: string;
+};
 type FeaturesData = {
   eyebrow: string;
   titleParts: TitlePart[];
+  style?: { headings?: Record<string, string> };
   cards: FeatureCard[];
 };
 
@@ -246,6 +254,11 @@ export default function FeaturesSection() {
     cardDesc: "rgba(255,255,255,0.8)",
   });
   const cards = data.cards;
+  const HeadingTag = slotTag(data.style, "title", "h2");
+  const titleSize = slotSizeOverride(data.style, "title");
+  const EyebrowTag = slotTag(data.style, "eyebrow", "p");
+  const CardTitleTag = slotTag(data.style, "cardTitle", "h3");
+  const CardDescTag = slotTag(data.style, "cardDesc", "p");
   return (
     <section
       className="relative pt-2 sm:pt-4 lg:pt-6 pb-8 sm:pb-10 lg:pb-16 overflow-hidden"
@@ -267,20 +280,20 @@ export default function FeaturesSection() {
             zIndex: -1,
           }}
         />
-        <p
+        <EyebrowTag
           className="font-inter font-normal not-italic tracking-[6px] text-xs md:text-sm uppercase mb-5"
           style={{ color: t.eyebrow }}
         >
           {data.eyebrow}
-        </p>
-        <h2
+        </EyebrowTag>
+        <HeadingTag
           className="text-3xl sm:text-4xl lg:text-6xl font-bold leading-tight text-white whitespace-pre-line"
-          style={{ fontFamily: 'var(--font-space-grotesk)' }}
+          style={{ fontFamily: 'var(--font-space-grotesk)' , ...titleSize }}
         >
           {data.titleParts.map((p, i) => (
             <span key={i} style={{ color: p.color }}>{p.text}</span>
           ))}
-        </h2>
+        </HeadingTag>
       </div>
 
       <div className="relative z-10 text-center mb-6 sm:mb-8 lg:mb-10">
@@ -326,7 +339,7 @@ export default function FeaturesSection() {
                     />
                   </div>
                   <div className="text-left mt-2 sm:mt-2 lg:mt-4">
-                    <h3
+                    <CardTitleTag
                       className="mb-0.5 sm:mb-0.5 lg:mb-1 text-[14px] sm:text-[13px] lg:text-[20px]"
                       style={{
                         fontFamily: "var(--font-inter)",
@@ -336,8 +349,8 @@ export default function FeaturesSection() {
                       }}
                     >
                       {c.title}
-                    </h3>
-                    <p
+                    </CardTitleTag>
+                    <CardDescTag
                       className="leading-snug text-[9px] sm:text-[8px] lg:text-[10px]"
                       style={{
                         fontFamily: "var(--font-inter)",
@@ -346,7 +359,7 @@ export default function FeaturesSection() {
                       }}
                     >
                       {c.desc}
-                    </p>
+                    </CardDescTag>
                   </div>
                 </div>
               </div>

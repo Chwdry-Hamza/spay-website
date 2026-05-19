@@ -2,6 +2,7 @@
 
 import { useSectionData, useSectionBackground } from "@/preview/PreviewProvider";
 import { pickTextColors } from "@/preview/useSectionTextColor";
+import { slotSizeOverride, slotTag } from "@/lib/headingTag";
 
 type TitlePart = { text: string; color: string };
 type Layout = "text-only" | "image-left" | "image-right";
@@ -9,6 +10,7 @@ type CustomSectionData = {
   layout: Layout;
   eyebrow: string;
   titleParts: TitlePart[];
+  style?: { headings?: Record<string, string> };
   subtitle: string;
   imageUrl: string;
   ctaLabel: string;
@@ -46,32 +48,36 @@ export default function CustomSection() {
   const hasCta = Boolean(data.ctaLabel && data.ctaUrl);
   const hasImage = Boolean(data.imageUrl);
   const showImage = hasImage && layout !== "text-only";
+  const HeadingTag = slotTag(data.style, "title", "h2");
+  const titleSize = slotSizeOverride(data.style, "title");
+  const EyebrowTag = slotTag(data.style, "eyebrow", "p");
+  const SubtitleTag = slotTag(data.style, "subtitle", "p");
 
   const textBlock = (
     <div className={layout === "text-only" ? "text-center max-w-3xl mx-auto" : ""}>
       {data.eyebrow && (
-        <p
+        <EyebrowTag
           className="text-xs md:text-sm font-bold tracking-[0.18em] uppercase mb-3"
           style={{ color: t.eyebrow }}
         >
           {data.eyebrow}
-        </p>
+        </EyebrowTag>
       )}
-      <h2
+      <HeadingTag
         className="text-3xl md:text-4xl lg:text-5xl font-bold leading-tight mb-4 md:mb-6"
-        style={{ fontFamily: "var(--font-space-grotesk)", whiteSpace: "pre-line" }}
+        style={{ fontFamily: "var(--font-space-grotesk)", whiteSpace: "pre-line" , ...titleSize }}
       >
         {data.titleParts.map((p, i) => (
           <span key={i} style={{ color: p.color }}>{p.text}</span>
         ))}
-      </h2>
+      </HeadingTag>
       {data.subtitle && (
-        <p
+        <SubtitleTag
           className="text-sm md:text-base lg:text-lg leading-relaxed mb-6"
           style={{ color: t.subtitle }}
         >
           {data.subtitle}
-        </p>
+        </SubtitleTag>
       )}
       {hasCta && (
         <a
