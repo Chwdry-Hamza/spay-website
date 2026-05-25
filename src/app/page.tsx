@@ -1,43 +1,27 @@
-import type { Metadata } from "next";
-import DynamicPage from "@/components/DynamicPage";
-import { getPublishedPage } from "@/lib/cms";
-
-export async function generateMetadata(): Promise<Metadata> {
-  const page = await getPublishedPage();
-
-  // The home page bypasses the "%s · SPay" template (set in layout) by
-  // returning `title.absolute` — we don't want "SPay · SPay".
-  const titleText =
-    page?.seoTitle?.trim() || page?.title || "SPay - Your financial companion";
-  const description =
-    page?.seoDescription?.trim() || "SPay - Your financial companion";
-  const images = page?.ogImage ? [{ url: page.ogImage }] : undefined;
-
-  return {
-    title: { absolute: titleText },
-    description,
-    keywords: page?.seoKeywords?.trim() || undefined,
-    alternates: { canonical: "/" },
-    robots: page?.noindex
-      ? { index: false, follow: false }
-      : { index: true, follow: true },
-    openGraph: {
-      title: titleText,
-      description,
-      url: "/",
-      type: "website",
-      siteName: "SPay",
-      images,
-    },
-    twitter: {
-      card: images ? "summary_large_image" : "summary",
-      title: titleText,
-      description,
-      images,
-    },
-  };
-}
+import HomeHero from "@/components/HomeHero";
+import FeaturesSection from "@/components/FeaturesSection";
+import Currencies from "@/components/currencies";
+import PaymentSection from "@/components/PaymentSection";
+import TransferSection from "@/components/TransferSection";
+import CryptoSection from "@/components/CryptoSection";
+import JoinUsSection from "@/components/JoinUsSection";
+import CollaborationsSection from "@/components/CollaborationsSection";
+import Footer from "@/components/Footer";
+import FeaturesGrid from "@/components/FeatureGrid";
 
 export default function Home() {
-  return <DynamicPage />;
+  return (
+    <main className="pb-0">
+      <HomeHero />
+      <FeaturesSection />
+      <Currencies />
+      <PaymentSection />
+      <TransferSection />
+      <CryptoSection />
+      <FeaturesGrid />
+      <JoinUsSection />
+      <CollaborationsSection />
+      <Footer />
+    </main>
+  );
 }

@@ -2,8 +2,7 @@
 import Link from "next/link";
 
 import * as React from "react";
-import { useSectionData } from "@/preview/PreviewProvider";
-import { pickTextColors } from "@/preview/useSectionTextColor";
+import { linkTarget } from "@/lib/linkTarget";
 
 type BottomNavItem = { label: string; icon: string; href: string };
 type BottomNavData = {
@@ -15,7 +14,7 @@ type BottomNavData = {
   items: BottomNavItem[];
 };
 
-const BOTTOM_NAV_DEFAULTS: BottomNavData = {
+const BOTTOM_NAV_DATA: BottomNavData = {
   logoSrc: "/Spay.png",
   logoAlt: "SPay",
   ctaLabel: "GET SPAY APP",
@@ -30,13 +29,13 @@ const BOTTOM_NAV_DEFAULTS: BottomNavData = {
 
 export default function BottomNav() {
   const [activeSection, setActiveSection] = React.useState<string>("");
-  const data = useSectionData<BottomNavData>("bottomNav", BOTTOM_NAV_DEFAULTS);
-  const t = pickTextColors(data, {
+  const data = BOTTOM_NAV_DATA;
+  const t = {
     tileLabel: "#d4d4d8",
     tileIcon: "#04babf",
     ctaText: "#0a2a23",
     ctaBg: "#04babf",
-  });
+  };
 
   // Watch the in-page sections referenced by each item so the active label
   // bolds while that section is in view. Works for both "#payment" and
@@ -62,11 +61,12 @@ export default function BottomNav() {
     return () => observer.disconnect();
   }, [data.items]);
 
+  const ctaLinkTarget = linkTarget(data.ctaUrl);
   const renderCta = (label: string, mobile = false) => (
     <a
       href={data.ctaUrl}
-      target={data.ctaUrl.startsWith("http") ? "_blank" : undefined}
-      rel={data.ctaUrl.startsWith("http") ? "noopener noreferrer" : undefined}
+      target={ctaLinkTarget.target}
+      rel={ctaLinkTarget.rel}
       className={
         mobile
           ? "font-semibold px-5 py-2.5 rounded-lg text-xs transition-all hover:opacity-90"
@@ -179,8 +179,13 @@ function NavItem({
   labelColor?: string;
 }) {
   const Icon = NAV_ICONS[iconName] ?? NAV_ICONS.card;
+  const tg = linkTarget(href);
 
   const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    // If the editor explicitly asked for a new tab (or the URL is external),
+    // bypass the in-page anchor scroll handler — the browser's default
+    // `target="_blank"` opens a new tab cleanly, no scroll needed.
+    if (tg.target === "_blank") return;
     const target = anchorTargetFor(href);
     if (target === null) return; // External / multi-segment path — let browser navigate.
     if (target === "") {
@@ -197,6 +202,8 @@ function NavItem({
   return (
     <a
       href={href}
+      target={tg.target}
+      rel={tg.rel}
       onClick={handleClick}
       className="flex flex-col items-center gap-1.5 lg:gap-2 transition-colors cursor-pointer hover:opacity-90"
       style={{ color: labelColor }}

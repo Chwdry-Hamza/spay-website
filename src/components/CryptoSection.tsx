@@ -1,19 +1,12 @@
-"use client";
-
-import { useSectionData, useSectionBackground } from "@/preview/PreviewProvider";
-import { pickTextColors } from "@/preview/useSectionTextColor";
-import { slotSizeOverride, slotTag } from "@/lib/headingTag";
-
 type TitlePart = { text: string; color: string };
 type CryptoData = {
   eyebrow: string;
   titleParts: TitlePart[];
-  style?: { headings?: Record<string, string> };
   subtitle: string;
   mockupImage: string;
 };
 
-const CRYPTO_DEFAULTS: CryptoData = {
+const CRYPTO_DATA: CryptoData = {
   eyebrow: "MANAGE CRYPTO",
   titleParts: [
     { text: "DEPOSIT AND INVEST WITH ", color: "#ffffff" },
@@ -25,42 +18,37 @@ const CRYPTO_DEFAULTS: CryptoData = {
 };
 
 export default function CryptoSection() {
-  const data = useSectionData<CryptoData>("crypto", CRYPTO_DEFAULTS);
-  const cmsBg = useSectionBackground("crypto");
-  const t = pickTextColors(data, { eyebrow: "#A6AABE", subtitle: "#A6AABE" });
-  const HeadingTag = slotTag(data.style, "title", "h2");
-  const titleSize = slotSizeOverride(data.style, "title");
-  const EyebrowTag = slotTag(data.style, "eyebrow", "p");
-  const SubtitleTag = slotTag(data.style, "subtitle", "p");
+  const data = CRYPTO_DATA;
+  const t = { eyebrow: "#A6AABE", subtitle: "#A6AABE" };
   return (
-    <section id="crypto" className="relative overflow-hidden" style={{ background: cmsBg ?? '#090e1c' }}>
+    <section id="crypto" className="relative overflow-hidden" style={{ background: '#090e1c' }}>
       {/* Mobile + Tablet Layout */}
       <div className="lg:hidden relative z-10 w-full px-4 sm:px-8 md:px-12 pt-8 sm:pt-12 md:pt-16 pb-4 md:pb-6 text-center">
         {/* Header */}
-        <EyebrowTag
+        <p
           className="text-[10px] sm:text-xs md:text-sm uppercase mb-3 sm:mb-4"
           style={{ fontFamily: 'var(--font-inter)', fontWeight: 400, color: t.eyebrow, letterSpacing: '6px' }}
         >
           {data.eyebrow}
-        </EyebrowTag>
+        </p>
 
         {/* Main Heading */}
-        <HeadingTag
+        <h2
           className="text-3xl sm:text-4xl md:text-5xl font-bold text-white leading-tight mb-4 sm:mb-6"
-          style={{ fontFamily: 'var(--font-space-grotesk)' , ...titleSize }}
+          style={{ fontFamily: 'var(--font-space-grotesk)' }}
         >
           {data.titleParts.map((p, i) => (
             <span key={i} style={{ color: p.color }}>{p.text}</span>
           ))}
-        </HeadingTag>
+        </h2>
 
         {/* Subtitle */}
-        <SubtitleTag
+        <p
           className="text-sm sm:text-base md:text-lg mb-8 sm:mb-10 leading-relaxed max-w-xl md:max-w-2xl mx-auto"
           style={{ fontFamily: 'var(--font-inter)', fontWeight: 400, color: t.subtitle }}
         >
           {data.subtitle}
-        </SubtitleTag>
+        </p>
 
         {/* Phone Mockup - Mobile/Tablet with glow */}
         <div className="relative w-full flex justify-center items-center">
@@ -98,20 +86,20 @@ export default function CryptoSection() {
               >
                 MANAGE CRYPTO
               </p>
-              <HeadingTag
+              <h2
                 className="text-3xl lg:text-5xl xl:text-6xl font-bold text-white leading-tight mb-10 lg:mb-14 xl:mb-16"
-                style={{ fontFamily: 'var(--font-space-grotesk)' , ...titleSize }}
+                style={{ fontFamily: 'var(--font-space-grotesk)' }}
               >
                 {data.titleParts.map((p, i) => (
                   <span key={i} style={{ color: p.color }}>{p.text}</span>
                 ))}
-              </HeadingTag>
-              <SubtitleTag
+              </h2>
+              <p
                 className="text-xs lg:text-sm leading-relaxed"
                 style={{ fontFamily: 'var(--font-inter)', fontWeight: 400, color: t.subtitle }}
               >
                 {data.subtitle}
-              </SubtitleTag>
+              </p>
             </div>
 
             {/* Right - Phone */}

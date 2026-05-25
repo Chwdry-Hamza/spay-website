@@ -86,24 +86,18 @@
 //   );
 // }
 
-"use client";
-
 import FlipCard from "./FlipCard";
-import { useSectionData, useSectionBackground } from "@/preview/PreviewProvider";
-import { pickTextColors } from "@/preview/useSectionTextColor";
-import { slotSizeOverride, slotTag } from "@/lib/headingTag";
 
 type TitlePart = { text: string; color: string };
 type PaymentData = {
   eyebrow: string;
   titleParts: TitlePart[];
-  style?: { headings?: Record<string, string> };
   subtitle: string;
   cardFront: string;
   cardBack: string;
 };
 
-const PAYMENT_DEFAULTS: PaymentData = {
+const PAYMENT_DATA: PaymentData = {
   eyebrow: "Fiat and Crypto",
   titleParts: [
     { text: "CHOOSE ", color: "#46F1C5" },
@@ -115,19 +109,14 @@ const PAYMENT_DEFAULTS: PaymentData = {
 };
 
 export default function PaymentSection() {
-  const data = useSectionData<PaymentData>("payment", PAYMENT_DEFAULTS);
-  const cmsBg = useSectionBackground("payment");
-  const t = pickTextColors(data, { eyebrow: "#A6AABE", subtitle: "#A6AABE" });
-  const HeadingTag = slotTag(data.style, "title", "h2");
-  const titleSize = slotSizeOverride(data.style, "title");
-  const EyebrowTag = slotTag(data.style, "eyebrow", "p");
-  const SubtitleTag = slotTag(data.style, "subtitle", "p");
+  const data = PAYMENT_DATA;
+  const t = { eyebrow: "#A6AABE", subtitle: "#A6AABE" };
   return (
     <section
       id="payment"
       className="relative pt-20 md:pt-32 pb-0 overflow-hidden"
       style={{
-        background: cmsBg ?? '#090e1c',
+        background: '#090e1c',
       }}
     >
       {/* Soft teal radial glow center — Mobile & Tablet (bottom spill reduced) */}
@@ -152,20 +141,20 @@ export default function PaymentSection() {
 
       <div className="relative z-10 w-full max-w-3xl mx-auto px-6 flex flex-col items-center">
 
-        <EyebrowTag className="text-xs md:text-sm tracking-[0.25em] uppercase mb-5" style={{ color: t.eyebrow }}>
+        <p className="text-xs md:text-sm tracking-[0.25em] uppercase mb-5" style={{ color: t.eyebrow }}>
           {data.eyebrow}
-        </EyebrowTag>
-        <HeadingTag
+        </p>
+        <h2
           className="text-4xl md:text-6xl font-bold leading-tight text-center mb-5"
-          style={{ fontFamily: 'var(--font-space-grotesk)' , ...titleSize }}
+          style={{ fontFamily: 'var(--font-space-grotesk)' }}
         >
           {data.titleParts.map((p, i) => (
             <span key={i} style={{ color: p.color }}>{p.text}</span>
           ))}
-        </HeadingTag>
-        <SubtitleTag className="text-sm md:text-base text-center mb-12 md:mb-16 max-w-md" style={{ color: t.subtitle }}>
+        </h2>
+        <p className="text-sm md:text-base text-center mb-12 md:mb-16 max-w-md" style={{ color: t.subtitle }}>
           {data.subtitle}
-        </SubtitleTag>
+        </p>
 
         <FlipCard
           frontSrc={data.cardFront}

@@ -2,16 +2,13 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useState, useEffect } from "react";
-import { useSectionData, useSectionBackground } from "@/preview/PreviewProvider";
-import { pickTextColors } from "@/preview/useSectionTextColor";
-import { slotSizeOverride, slotTag } from "@/lib/headingTag";
+import { linkTarget } from "@/lib/linkTarget";
 
 type Breakpoint = "mobile" | "tablet" | "desktop";
 
 type TitlePart = { text: string; color: string };
 type HomeHeroData = {
   titleParts: TitlePart[];
-  style?: { headings?: Record<string, string> };
   subtitle: string;
   mobileSubtitle: string;
   ctaLabel: string;
@@ -23,7 +20,7 @@ type HomeHeroData = {
   gradientEnd: string;
 };
 
-const HOME_HERO_DEFAULTS: HomeHeroData = {
+const HOME_HERO_DATA: HomeHeroData = {
   titleParts: [
     { text: "THE ", color: "#ffffff" },
     { text: "MONEY ", color: "#46F1C5" },
@@ -165,17 +162,13 @@ function useBreakpoint(): Breakpoint {
 
 export default function HomeHero() {
   const bp = useBreakpoint();
-  const data = useSectionData<HomeHeroData>("homeHero", HOME_HERO_DEFAULTS);
-  const cmsBg = useSectionBackground("homeHero");
-  const t = pickTextColors(data, {
+  const data = HOME_HERO_DATA;
+  const t = {
     subtitle: "#A6AABE",
     ctaText: "#0a2a23",
     ctaBg: "#04babf",
-  });
-  const HeadingTag = slotTag(data.style, "title", "h1");
-  const SubtitleTag = slotTag(data.style, "subtitle", "p");
-  const titleSize = slotSizeOverride(data.style, "title");
-  const subtitleSize = slotSizeOverride(data.style, "subtitle");
+  };
+  const ctaLinkTarget = linkTarget(data.ctaUrl);
 
   const a = data.gradientStart;
   const b = data.gradientEnd;
@@ -208,7 +201,7 @@ export default function HomeHero() {
   return (
     <section
       className="relative overflow-hidden"
-      style={{ background: cmsBg ?? sectionBackground }}
+      style={{ background: sectionBackground }}
     >
       {/* Adaptive radial teal glow — repositions to follow the phone */}
       <div className="absolute pointer-events-none" style={glowStyle} />
@@ -242,8 +235,8 @@ export default function HomeHero() {
           </Link>
           <a
             href={data.ctaUrl}
-            target="_blank"
-            rel="noopener noreferrer"
+            target={ctaLinkTarget.target}
+            rel={ctaLinkTarget.rel}
             className="font-semibold px-3 py-2 sm:px-5 sm:py-2.5 lg:px-6 lg:py-2.5 rounded-lg lg:rounded-xl text-xs sm:text-sm transition-all hover:opacity-90"
             style={{
               background: t.ctaBg,
@@ -276,36 +269,36 @@ export default function HomeHero() {
               : "w-fit max-w-full mr-auto self-start text-left"
           }`}
         >
-          <HeadingTag
+          <h1
             className="text-3xl sm:text-5xl lg:text-6xl font-bold leading-tight mb-4 sm:mb-6"
-            style={{ fontFamily: "var(--font-space-grotesk)", ...titleSize }}
+            style={{ fontFamily: "var(--font-space-grotesk)" }}
           >
             {data.titleParts.map((p, i) => (
               <span key={i} style={{ color: p.color }}>
                 {p.text}
               </span>
             ))}
-          </HeadingTag>
+          </h1>
 
           {bp === "mobile" ? (
-            <SubtitleTag className="text-sm leading-relaxed mb-6 max-w-xs" style={{ color: t.subtitle, ...subtitleSize }}>
+            <p className="text-sm leading-relaxed mb-6 max-w-xs" style={{ color: t.subtitle }}>
               {data.mobileSubtitle}
-            </SubtitleTag>
+            </p>
           ) : (
-            <SubtitleTag
+            <p
               className={`text-sm sm:text-base leading-relaxed mb-6 sm:mb-8 ${
                 bp === "desktop" ? "max-w-sm" : "max-w-md"
               }`}
-              style={{ color: t.subtitle, ...subtitleSize }}
+              style={{ color: t.subtitle }}
             >
               {data.subtitle}
-            </SubtitleTag>
+            </p>
           )}
 
           <a
             href={data.ctaUrl}
-            target="_blank"
-            rel="noopener noreferrer"
+            target={ctaLinkTarget.target}
+            rel={ctaLinkTarget.rel}
             className="inline-block font-semibold px-6 py-3 sm:px-8 sm:py-3.5 rounded-xl text-sm transition-all hover:opacity-90"
             style={{
               background: t.ctaBg,

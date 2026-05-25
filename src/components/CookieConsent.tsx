@@ -3,17 +3,8 @@
 import * as React from "react";
 import Link from "next/link";
 import { persistCookieConsent, useCookieConsent } from "@/hooks/useCookieConsent";
-import { useIsPreview, useSectionData } from "@/preview/PreviewProvider";
-import { pickTextColors } from "@/preview/useSectionTextColor";
 
-type CookieConsentData = {
-  message: string;
-  acceptLabel: string;
-  declineLabel: string;
-  learnMoreUrl: string;
-};
-
-const COOKIE_DEFAULTS: CookieConsentData = {
+const COOKIE_DATA = {
   message:
     "We use cookies to improve your experience and analyze traffic. See our Privacy Policy.",
   acceptLabel: "Accept",
@@ -23,25 +14,17 @@ const COOKIE_DEFAULTS: CookieConsentData = {
 
 export default function CookieConsent() {
   const consent = useCookieConsent();
-  const isPreview = useIsPreview();
-  const data = useSectionData<CookieConsentData>("cookieConsent", COOKIE_DEFAULTS);
-  const t = pickTextColors(data, {
+  const data = COOKIE_DATA;
+  const t = {
     message: "#A6AABE",
     ctaText: "#090e1c",
     ctaBg: "#46F1C5",
-  });
+  };
 
-  // Local "this page view dismissed it" flag. Makes the Accept/Decline buttons
-  // hide the banner instantly even in CMS preview, where localStorage may be
-  // blocked (cross-origin iframe) or where preview mode would otherwise force
-  // the banner to stay visible. Refreshing the iframe restores it.
   const [locallyDismissed, setLocallyDismissed] = React.useState(false);
 
-  // In CMS preview, force-render so editors can see and style the banner —
-  // unless the editor just clicked Accept/Decline, in which case respect that.
-  // On the live site, only show while consent is still pending.
   if (locallyDismissed) return null;
-  if (!isPreview && consent !== "pending") return null;
+  if (consent !== "pending") return null;
 
   const handleDecision = (choice: "accepted" | "declined") => {
     persistCookieConsent(choice);

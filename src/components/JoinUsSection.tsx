@@ -1,21 +1,16 @@
-"use client";
-
 import Image from "next/image";
-import { useSectionData, useSectionBackground } from "@/preview/PreviewProvider";
-import { pickTextColors } from "@/preview/useSectionTextColor";
-import { slotSizeOverride, slotTag } from "@/lib/headingTag";
+import { linkTarget } from "@/lib/linkTarget";
 
 type TitlePart = { text: string; color: string };
 type JoinUsData = {
   eyebrow: string;
   titleParts: TitlePart[];
-  style?: { headings?: Record<string, string> };
   subtitle: string;
   ctaLabel: string;
   ctaUrl: string;
 };
 
-const JOIN_US_DEFAULTS: JoinUsData = {
+const JOIN_US_DATA: JoinUsData = {
   eyebrow: "JOIN US",
   titleParts: [
     { text: "TIME IS ", color: "#ffffff" },
@@ -28,22 +23,18 @@ const JOIN_US_DEFAULTS: JoinUsData = {
 };
 
 export default function JoinUsSection() {
-  const data = useSectionData<JoinUsData>("joinUs", JOIN_US_DEFAULTS);
-  const cmsBg = useSectionBackground("joinUs");
-  const t = pickTextColors(data, {
+  const data = JOIN_US_DATA;
+  const t = {
     eyebrow: "#A6AABE",
     subtitle: "#A6AABE",
     ctaText: "#0a2a23",
     ctaBg: "#04babf",
-  });
-  const HeadingTag = slotTag(data.style, "title", "h2");
-  const titleSize = slotSizeOverride(data.style, "title");
-  const EyebrowTag = slotTag(data.style, "eyebrow", "p");
-  const SubtitleTag = slotTag(data.style, "subtitle", "p");
+  };
+  const ctaLinkTarget = linkTarget(data.ctaUrl);
   return (
     <section
       className="relative pt-16 md:pt-32 pb-24 md:pb-48 overflow-hidden"
-      style={{ background: cmsBg ?? "#090e1c" }}
+      style={{ background: "#090e1c" }}
     >
       {/* Photo Grid Background */}
       <div
@@ -94,7 +85,7 @@ export default function JoinUsSection() {
 
       {/* Content */}
       <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-8 lg:px-16 text-center py-24">
-        <EyebrowTag
+        <p
           className="text-[10px] sm:text-xs md:text-sm uppercase mb-4 sm:mb-6 md:mb-8"
           style={{
             fontFamily: "var(--font-inter)",
@@ -104,16 +95,16 @@ export default function JoinUsSection() {
           }}
         >
           {data.eyebrow}
-        </EyebrowTag>
-        <HeadingTag
+        </p>
+        <h2
           className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold leading-tight mb-4 sm:mb-6 md:mb-8"
-          style={{ fontFamily: "var(--font-space-grotesk)" , ...titleSize }}
+          style={{ fontFamily: "var(--font-space-grotesk)" }}
         >
           {data.titleParts.map((p, i) => (
             <span key={i} style={{ color: p.color }}>{p.text}</span>
           ))}
-        </HeadingTag>
-        <SubtitleTag
+        </h2>
+        <p
           className="text-sm sm:text-base md:text-lg lg:text-xl max-w-2xl mx-auto mb-4 leading-relaxed"
           style={{
             fontFamily: "var(--font-inter)",
@@ -122,11 +113,11 @@ export default function JoinUsSection() {
           }}
         >
           {data.subtitle}
-        </SubtitleTag>
+        </p>
         <a
           href={data.ctaUrl}
-          target="_blank"
-          rel="noopener noreferrer"
+          target={ctaLinkTarget.target}
+          rel={ctaLinkTarget.rel}
           className="inline-block font-semibold px-6 py-2.5 rounded-xl text-sm transition-all hover:opacity-90"
           style={{
             background: t.ctaBg,

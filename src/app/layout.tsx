@@ -4,12 +4,6 @@ import "./globals.css";
 import ConditionalBottomNav from "@/components/ConditionalBottomNav";
 import CookieConsent from "@/components/CookieConsent";
 import GoogleAnalytics from "@/components/GoogleAnalytics";
-import { PreviewProvider } from "@/preview/PreviewProvider";
-import {
-  getPublishedPage,
-  digestPublishedPage,
-  listPublishedContentPages,
-} from "@/lib/cms";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -36,14 +30,11 @@ const SITE_URL =
   process.env.NEXT_PUBLIC_SITE_URL || "https://spay.example.com";
 
 export const metadata: Metadata = {
-  // `title.default` is used when a child route doesn't set its own title.
-  // `title.template` wraps any child title — e.g. About → "About · SPay".
   title: {
     default: "SPay - Your financial companion",
     template: "%s · SPay",
   },
   description: "SPay - Your financial companion",
-  // Resolves relative OG/Twitter image URLs (e.g. "/og.png") and canonicals.
   metadataBase: new URL(SITE_URL),
   icons: {
     icon: [{ url: "/spayLogo.jpeg", type: "image/jpeg" }],
@@ -52,36 +43,20 @@ export const metadata: Metadata = {
   },
 };
 
-export default async function RootLayout({
+export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  // Fetch the latest published landing page from cms-backend. Returns null
-  // if the API is unreachable or nothing has been published yet — components
-  // will then fall back to their LOCAL_DEFAULTS.
-  const [published, contentPages] = await Promise.all([
-    getPublishedPage(),
-    listPublishedContentPages(),
-  ]);
-  const { sectionsByKey, publishedKeys, layout } = digestPublishedPage(published);
-
   return (
     <html lang="en" className="h-full w-full scroll-smooth">
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${spaceGrotesk.variable} ${inter.variable} antialiased min-h-screen w-full overflow-x-hidden`}
       >
-        <PreviewProvider
-          publishedSections={sectionsByKey}
-          publishedKeys={publishedKeys}
-          publishedLayout={layout}
-          publishedContentPages={contentPages}
-        >
-          {children}
-          <ConditionalBottomNav />
-          <CookieConsent />
-          <GoogleAnalytics />
-        </PreviewProvider>
+        {children}
+        <ConditionalBottomNav />
+        <CookieConsent />
+        <GoogleAnalytics />
       </body>
     </html>
   );

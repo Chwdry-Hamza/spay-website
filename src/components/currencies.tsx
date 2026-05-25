@@ -1,44 +1,33 @@
 "use client";
 
-import { useSectionData, useSectionBackground } from "@/preview/PreviewProvider";
-import { pickTextColors } from "@/preview/useSectionTextColor";
-
 type Ticker = { pair: string; price: string; change: string };
-type CurrenciesData = {
-  tickers: Ticker[];
-  scrollSeconds: number;
-};
 
-const CURRENCIES_DEFAULTS: CurrenciesData = {
-  tickers: [
-    { pair: "ETH/USD", price: "$3,452.12", change: "+1.4%" },
-    { pair: "TRX/USD", price: "$0.32", change: "+2.6%" },
-    { pair: "USDT (TRC20)", price: "$1.00", change: "+0.0%" },
-    { pair: "USDT (ERC20)", price: "$1.00", change: "+0.0%" },
-    { pair: "USDC (ERC20)", price: "$1.00", change: "+0.0%" },
-  ],
-  scrollSeconds: 40,
-};
+const TICKERS: Ticker[] = [
+  { pair: "ETH/USD", price: "$3,452.12", change: "+1.4%" },
+  { pair: "TRX/USD", price: "$0.32", change: "+2.6%" },
+  { pair: "USDT (TRC20)", price: "$1.00", change: "+0.0%" },
+  { pair: "USDT (ERC20)", price: "$1.00", change: "+0.0%" },
+  { pair: "USDC (ERC20)", price: "$1.00", change: "+0.0%" },
+];
+
+const SCROLL_SECONDS = 40;
 
 export default function Currencies() {
-  const data = useSectionData<CurrenciesData>("currencies", CURRENCIES_DEFAULTS);
-  const cmsBg = useSectionBackground("currencies");
-  const t = pickTextColors(data, {
+  const t = {
     pair: "#ffffff",
     price: "#d4d4d8",
     up: "#2ee8a0",
     down: "#ef4444",
-  });
-
-  const tickers = data.tickers?.length ? data.tickers : CURRENCIES_DEFAULTS.tickers;
-  const seconds = data.scrollSeconds ?? CURRENCIES_DEFAULTS.scrollSeconds;
+  };
+  const tickers = TICKERS;
+  const seconds = SCROLL_SECONDS;
 
   return (
     <section
       className="relative overflow-hidden py-5"
       style={{
         background:
-          cmsBg ?? "linear-gradient(to right, #090e1c 25%,  #0e2e2e 65%, #090e1c 100%)",
+          "linear-gradient(to right, #090e1c 25%,  #0e2e2e 65%, #090e1c 100%)",
         borderTop: "1px solid rgba(46,232,160,0.08)",
         borderBottom: "1px solid rgba(46,232,160,0.08)",
       }}

@@ -191,12 +191,6 @@
 //   );
 // }
 
-"use client";
-
-import { useSectionData, useSectionBackground } from "@/preview/PreviewProvider";
-import { pickTextColors } from "@/preview/useSectionTextColor";
-import { slotSizeOverride, slotTag } from "@/lib/headingTag";
-
 type TitlePart = { text: string; color: string };
 type FeatureCard = {
   title: string;
@@ -208,11 +202,10 @@ type FeatureCard = {
 type FeaturesData = {
   eyebrow: string;
   titleParts: TitlePart[];
-  style?: { headings?: Record<string, string> };
   cards: FeatureCard[];
 };
 
-const FEATURES_DEFAULTS: FeaturesData = {
+const FEATURES_DATA: FeaturesData = {
   eyebrow: "A new era of digital banking",
   titleParts: [
     { text: "TAKE ", color: "#ffffff" },
@@ -246,24 +239,18 @@ const FEATURES_DEFAULTS: FeaturesData = {
 };
 
 export default function FeaturesSection() {
-  const data = useSectionData<FeaturesData>("features", FEATURES_DEFAULTS);
-  const cmsBg = useSectionBackground("features");
-  const t = pickTextColors(data, {
+  const data = FEATURES_DATA;
+  const t = {
     eyebrow: "#A6AABE",
     cardTitle: "#FFFFFF",
     cardDesc: "rgba(255,255,255,0.8)",
-  });
+  };
   const cards = data.cards;
-  const HeadingTag = slotTag(data.style, "title", "h2");
-  const titleSize = slotSizeOverride(data.style, "title");
-  const EyebrowTag = slotTag(data.style, "eyebrow", "p");
-  const CardTitleTag = slotTag(data.style, "cardTitle", "h3");
-  const CardDescTag = slotTag(data.style, "cardDesc", "p");
   return (
     <section
       className="relative pt-2 sm:pt-4 lg:pt-6 pb-8 sm:pb-10 lg:pb-16 overflow-hidden"
       style={{
-        background: cmsBg ?? 'linear-gradient(to bottom, #090e1c 0%, #071414 50%, #090e1c 100%)',
+        background: 'linear-gradient(to bottom, #090e1c 0%, #071414 50%, #090e1c 100%)',
       }}
     >
       <div className="relative z-10 text-center mb-8 sm:mb-10 lg:mb-12 px-4 sm:px-6">
@@ -280,20 +267,20 @@ export default function FeaturesSection() {
             zIndex: -1,
           }}
         />
-        <EyebrowTag
+        <p
           className="font-inter font-normal not-italic tracking-[6px] text-xs md:text-sm uppercase mb-5"
           style={{ color: t.eyebrow }}
         >
           {data.eyebrow}
-        </EyebrowTag>
-        <HeadingTag
+        </p>
+        <h2
           className="text-3xl sm:text-4xl lg:text-6xl font-bold leading-tight text-white whitespace-pre-line"
-          style={{ fontFamily: 'var(--font-space-grotesk)' , ...titleSize }}
+          style={{ fontFamily: 'var(--font-space-grotesk)' }}
         >
           {data.titleParts.map((p, i) => (
             <span key={i} style={{ color: p.color }}>{p.text}</span>
           ))}
-        </HeadingTag>
+        </h2>
       </div>
 
       <div className="relative z-10 text-center mb-6 sm:mb-8 lg:mb-10">
@@ -339,7 +326,7 @@ export default function FeaturesSection() {
                     />
                   </div>
                   <div className="text-left mt-2 sm:mt-2 lg:mt-4">
-                    <CardTitleTag
+                    <h3
                       className="mb-0.5 sm:mb-0.5 lg:mb-1 text-[14px] sm:text-[13px] lg:text-[20px]"
                       style={{
                         fontFamily: "var(--font-inter)",
@@ -349,8 +336,8 @@ export default function FeaturesSection() {
                       }}
                     >
                       {c.title}
-                    </CardTitleTag>
-                    <CardDescTag
+                    </h3>
+                    <p
                       className="leading-snug text-[9px] sm:text-[8px] lg:text-[10px]"
                       style={{
                         fontFamily: "var(--font-inter)",
@@ -359,7 +346,7 @@ export default function FeaturesSection() {
                       }}
                     >
                       {c.desc}
-                    </CardDescTag>
+                    </p>
                   </div>
                 </div>
               </div>
