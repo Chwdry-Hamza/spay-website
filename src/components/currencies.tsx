@@ -1,5 +1,3 @@
-"use client";
-
 type Ticker = { pair: string; price: string; change: string };
 
 const TICKERS: Ticker[] = [
@@ -19,8 +17,6 @@ export default function Currencies() {
     up: "#2ee8a0",
     down: "#ef4444",
   };
-  const tickers = TICKERS;
-  const seconds = SCROLL_SECONDS;
 
   return (
     <section
@@ -32,9 +28,15 @@ export default function Currencies() {
         borderBottom: "1px solid rgba(46,232,160,0.08)",
       }}
     >
-      <div className="flex whitespace-nowrap ticker-track">
+      <div
+        className="flex whitespace-nowrap"
+        style={{
+          width: "max-content",
+          animation: `marquee ${SCROLL_SECONDS}s linear infinite`,
+        }}
+      >
         {/* Render twice for a seamless infinite loop */}
-        {[...tickers, ...tickers].map((c, i) => (
+        {[...TICKERS, ...TICKERS].map((c, i) => (
           <div key={i} className="flex items-center gap-3 px-8">
             <span
               className="font-semibold text-sm md:text-base tracking-wide"
@@ -54,24 +56,6 @@ export default function Currencies() {
           </div>
         ))}
       </div>
-
-      <style jsx>{`
-        .ticker-track {
-          animation: scroll-left ${seconds}s linear infinite;
-          width: max-content;
-        }
-        @keyframes scroll-left {
-          0% {
-            transform: translateX(0);
-          }
-          100% {
-            transform: translateX(-50%);
-          }
-        }
-        .ticker-track:hover {
-          animation-play-state: paused;
-        }
-      `}</style>
     </section>
   );
 }
