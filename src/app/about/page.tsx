@@ -1,5 +1,21 @@
+import type { Metadata } from "next";
 import Footer from "@/components/Footer";
+import PerformanceScripts from "@/components/cms/PerformanceScripts";
 import AppHeader from "@/components/AppHeader";
+import { getRouteSeoPage, getSeoSetting } from "@/lib/cms";
+import { buildMetadataFromCMS } from "@/lib/cms-meta";
+
+export async function generateMetadata(): Promise<Metadata> {
+  const site = await getSeoSetting();
+  const page = await getRouteSeoPage("/about", "About", "Content");
+  return buildMetadataFromCMS({
+    seo: page?.seo,
+    title: page?.title || "About",
+    description: page?.excerpt,
+    path: "/about",
+    site,
+  });
+}
 
 export default function AboutPage() {
   return (
@@ -287,6 +303,7 @@ export default function AboutPage() {
       </div>
 
       <Footer />
+      <PerformanceScripts perf={undefined} />
     </main>
   );
 }

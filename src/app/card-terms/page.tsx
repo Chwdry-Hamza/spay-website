@@ -1,5 +1,21 @@
+import type { Metadata } from "next";
 import Footer from "@/components/Footer";
+import PerformanceScripts from "@/components/cms/PerformanceScripts";
 import AppHeader from "@/components/AppHeader";
+import { getRouteSeoPage, getSeoSetting } from "@/lib/cms";
+import { buildMetadataFromCMS } from "@/lib/cms-meta";
+
+export async function generateMetadata(): Promise<Metadata> {
+  const site = await getSeoSetting();
+  const page = await getRouteSeoPage("/card-terms", "Card Terms", "Legal");
+  return buildMetadataFromCMS({
+    seo: page?.seo,
+    title: page?.title || "Card Terms",
+    description: page?.excerpt,
+    path: "/card-terms",
+    site,
+  });
+}
 
 export default function CardTermsPage() {
   const headingClass = "text-2xl md:text-3xl font-bold text-white mt-10 mb-4";
@@ -251,6 +267,7 @@ export default function CardTermsPage() {
         </div>
       </section>
       <Footer />
+      <PerformanceScripts perf={undefined} />
     </main>
   );
 }

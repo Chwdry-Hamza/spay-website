@@ -1,5 +1,21 @@
+import type { Metadata } from "next";
 import Footer from "@/components/Footer";
+import PerformanceScripts from "@/components/cms/PerformanceScripts";
 import AppHeader from "@/components/AppHeader";
+import { getRouteSeoPage, getSeoSetting } from "@/lib/cms";
+import { buildMetadataFromCMS } from "@/lib/cms-meta";
+
+export async function generateMetadata(): Promise<Metadata> {
+  const site = await getSeoSetting();
+  const page = await getRouteSeoPage("/support", "Support", "Content");
+  return buildMetadataFromCMS({
+    seo: page?.seo,
+    title: page?.title || "Support",
+    description: page?.excerpt,
+    path: "/support",
+    site,
+  });
+}
 
 const SUPPORT_EMAIL = "support@spay.finance";
 const GENERAL_EMAIL = "it@spay.finance";
@@ -293,6 +309,7 @@ export default function SupportPage() {
       </section>
 
       <Footer />
+      <PerformanceScripts perf={undefined} />
     </main>
   );
 }

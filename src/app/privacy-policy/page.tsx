@@ -1,5 +1,21 @@
+import type { Metadata } from "next";
 import Footer from "@/components/Footer";
+import PerformanceScripts from "@/components/cms/PerformanceScripts";
 import AppHeader from "@/components/AppHeader";
+import { getRouteSeoPage, getSeoSetting } from "@/lib/cms";
+import { buildMetadataFromCMS } from "@/lib/cms-meta";
+
+export async function generateMetadata(): Promise<Metadata> {
+  const site = await getSeoSetting();
+  const page = await getRouteSeoPage("/privacy-policy", "Privacy Policy", "Legal");
+  return buildMetadataFromCMS({
+    seo: page?.seo,
+    title: page?.title || "Privacy Policy",
+    description: page?.excerpt,
+    path: "/privacy-policy",
+    site,
+  });
+}
 
 export default function PrivacyPolicyPage() {
   return (
@@ -189,6 +205,7 @@ export default function PrivacyPolicyPage() {
         </div>
       </section>
       <Footer />
+      <PerformanceScripts perf={undefined} />
     </main>
   );
 }

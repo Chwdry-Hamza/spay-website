@@ -1,5 +1,21 @@
+import type { Metadata } from "next";
 import Footer from "@/components/Footer";
+import PerformanceScripts from "@/components/cms/PerformanceScripts";
 import AppHeader from "@/components/AppHeader";
+import { getRouteSeoPage, getSeoSetting } from "@/lib/cms";
+import { buildMetadataFromCMS } from "@/lib/cms-meta";
+
+export async function generateMetadata(): Promise<Metadata> {
+  const site = await getSeoSetting();
+  const page = await getRouteSeoPage("/e-sign-consent", "E-Sign Consent", "Legal");
+  return buildMetadataFromCMS({
+    seo: page?.seo,
+    title: page?.title || "E-Sign Consent",
+    description: page?.excerpt,
+    path: "/e-sign-consent",
+    site,
+  });
+}
 
 export default function ESignConsentPage() {
   const subheadingClass = "text-xl font-semibold text-white mt-6 mb-3";
@@ -64,6 +80,7 @@ export default function ESignConsentPage() {
         </div>
       </section>
       <Footer />
+      <PerformanceScripts perf={undefined} />
     </main>
   );
 }
