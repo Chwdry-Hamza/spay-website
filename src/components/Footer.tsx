@@ -1,5 +1,8 @@
 import Link from "next/link";
 import { linkTarget } from "@/lib/linkTarget";
+import { getPages, getPosts } from "@/lib/cms";
+import { STATIC_ROUTES } from "@/lib/static-routes";
+import FooterBlogsDropdown, { type FooterBlogLink } from "./FooterBlogsDropdown";
 
 type FooterLink = { label: string; href: string };
 type FooterData = {
@@ -25,11 +28,30 @@ const FOOTER_DATA: FooterData = {
   playStoreUrl: "https://play.google.com/store/apps/details?id=com.sicash",
 };
 
-export default function Footer() {
+export default async function Footer() {
   const data = FOOTER_DATA;
   const appStoreLinkTarget = linkTarget(data.appStoreUrl);
   const playStoreLinkTarget = linkTarget(data.playStoreUrl);
-  const renderedLinks: FooterLink[] = data.links;
+
+  // Every published CMS page that ISN'T one of the hard-coded static brand
+  // pages above is added automatically — so a newly created page shows up in
+  // the footer by its title, with no code change. (Home '/' is excluded.)
+  const staticSlugs = new Set(STATIC_ROUTES.map((r) => r.slug));
+  const cmsPages = await getPages();
+  const dynamicLinks: FooterLink[] = cmsPages
+    .filter((p) => p.slug && p.slug !== "/" && !staticSlugs.has(p.slug))
+    .map((p) => ({ label: p.title, href: p.slug }));
+
+  const renderedLinks: FooterLink[] = [...data.links, ...dynamicLinks];
+
+  // Latest posts for the footer "Blogs" dropdown (safe if the CMS is down).
+  let latestBlogs: FooterBlogLink[] = [];
+  try {
+    const { items } = await getPosts({ limit: 5 });
+    latestBlogs = items.map((p) => ({ title: p.title, slug: p.slug }));
+  } catch {
+    latestBlogs = [];
+  }
   const t = {
     tagline: "#6b7280",
     link: "#A6AABE",
@@ -75,6 +97,7 @@ export default function Footer() {
               </Link>
             );
           })}
+          <FooterBlogsDropdown posts={latestBlogs} textClassName="text-sm" />
         </div>
 
         {/* App Store Buttons */}
@@ -117,7 +140,7 @@ export default function Footer() {
         <div className="h-px mb-10" style={{ background: "#0e2e2e" }} />
 
         {/* Navigation Links - Centered */}
-        <div className="flex flex-wrap justify-center gap-x-12 gap-y-3 mb-10">
+        <div className="flex flex-wrap items-center justify-center gap-x-12 gap-y-3 mb-10">
           {renderedLinks.map((l) => {
             const tg = linkTarget(l.href);
             return (
@@ -133,6 +156,7 @@ export default function Footer() {
               </Link>
             );
           })}
+          <FooterBlogsDropdown posts={latestBlogs} textClassName="text-base" />
         </div>
 
         {/* App Store Buttons - Centered */}
