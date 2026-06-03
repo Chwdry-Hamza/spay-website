@@ -104,6 +104,8 @@ export type CmsPage = {
   status: 'draft' | 'published' | 'scheduled';
   template?: string;
   content?: TiptapDoc;
+  /** Structured section overrides for code-driven pages (e.g. the homepage). */
+  sections?: Record<string, unknown> | null;
   excerpt?: string;
   seo?: CmsSeo;
   schema?: CmsStructuredData;

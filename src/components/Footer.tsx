@@ -1,191 +1,45 @@
-import Link from "next/link";
-import { linkTarget } from "@/lib/linkTarget";
-import { getPages, getPosts } from "@/lib/cms";
+import { getPages, getPosts, getHomePage } from "@/lib/cms";
+import { resolveHomeContent } from "@/lib/homeContent";
 import { STATIC_ROUTES } from "@/lib/static-routes";
-import FooterBlogsDropdown, { type FooterBlogLink } from "./FooterBlogsDropdown";
+import { type FooterBlogLink } from "./FooterBlogsDropdown";
+import FooterView, { type FooterLink } from "./FooterView";
 
-type FooterLink = { label: string; href: string };
-type FooterData = {
-  tagline: string;
-  links: FooterLink[];
-  copyright: string;
-  appStoreUrl: string;
-  playStoreUrl: string;
-};
-
-const FOOTER_DATA: FooterData = {
-  tagline: "THE MONEY APP",
-  links: [
-    { label: "About SPay", href: "/about" },
-    { label: "Support", href: "/support" },
-    { label: "Privacy Policy", href: "/privacy-policy" },
-    { label: "Card Terms", href: "/card-terms" },
-    { label: "E-Sign Consent", href: "/e-sign-consent" },
-    { label: "Prohibited Activities", href: "/prohibited-activities" },
-  ],
-  copyright: "© 2026 SPay. All rights reserved.",
-  appStoreUrl: "https://apps.apple.com/app/sicash",
-  playStoreUrl: "https://play.google.com/store/apps/details?id=com.sicash",
-};
-
-export default async function Footer() {
-  const data = FOOTER_DATA;
-  const appStoreLinkTarget = linkTarget(data.appStoreUrl);
-  const playStoreLinkTarget = linkTarget(data.playStoreUrl);
-
-  // Every published CMS page that ISN'T one of the hard-coded static brand
-  // pages above is added automatically — so a newly created page shows up in
-  // the footer by its title, with no code change. (Home '/' is excluded.)
+/**
+ * Dynamic footer extras shared by the server Footer and the homepage preview
+ * bridge: CMS pages (auto-listed) + latest blog posts for the dropdown.
+ */
+export async function getFooterExtras(): Promise<{
+  dynamicLinks: FooterLink[];
+  latestBlogs: FooterBlogLink[];
+}> {
   const staticSlugs = new Set(STATIC_ROUTES.map((r) => r.slug));
-  const cmsPages = await getPages();
+
+  // Fetch pages + posts in parallel (both are cached) so the footer doesn't add
+  // two sequential round-trips to every page render.
+  const [cmsPages, postsResult] = await Promise.all([
+    getPages(),
+    getPosts({ limit: 5 }).catch(() => null),
+  ]);
+
   const dynamicLinks: FooterLink[] = cmsPages
     .filter((p) => p.slug && p.slug !== "/" && !staticSlugs.has(p.slug))
     .map((p) => ({ label: p.title, href: p.slug }));
 
-  const renderedLinks: FooterLink[] = [...data.links, ...dynamicLinks];
+  const latestBlogs: FooterBlogLink[] = (postsResult?.items ?? []).map((p) => ({
+    title: p.title,
+    slug: p.slug,
+  }));
 
-  // Latest posts for the footer "Blogs" dropdown (safe if the CMS is down).
-  let latestBlogs: FooterBlogLink[] = [];
-  try {
-    const { items } = await getPosts({ limit: 5 });
-    latestBlogs = items.map((p) => ({ title: p.title, slug: p.slug }));
-  } catch {
-    latestBlogs = [];
-  }
-  const t = {
-    tagline: "#6b7280",
-    link: "#A6AABE",
-    copyright: "#6b7280",
-  };
-  return (
-    <footer
-      className="pt-4 md:pt-8 pb-0 md:pb-32"
-      style={{ background: "#090e1c" }}
-    >
-      {/* Mobile Layout */}
-      <div className="md:hidden w-full max-w-7xl mx-auto px-4 sm:px-8 pb-32">
-        {/* Logo */}
-        <div className="flex justify-center mb-2">
-          <img src="/Spay.png" alt="SPAY" style={{ height: "2.5rem", width: "auto" }} />
-        </div>
+  return { dynamicLinks, latestBlogs };
+}
 
-        {/* Header */}
-        <p
-          className="text-sm tracking-[0.2em] uppercase text-center mb-12"
-          style={{ color: t.tagline }}
-        >
-          {data.tagline}
-        </p>
+export default async function Footer() {
+  // Footer content is CMS-editable via the home page's `sections.footer`
+  // (managed from the CMS homepage editor). Falls back to built-in defaults.
+  const [homePage, extras] = await Promise.all([getHomePage(), getFooterExtras()]);
+  const content = resolveHomeContent(homePage?.sections).footer;
+  const { dynamicLinks, latestBlogs } = extras;
+  const renderedLinks: FooterLink[] = [...content.links, ...dynamicLinks];
 
-        {/* Divider */}
-        <div className="h-px mb-10" style={{ background: "#0e2e2e" }} />
-
-        {/* Navigation Links */}
-        <div className="flex flex-col items-center gap-6 mb-12">
-          {renderedLinks.map((l) => {
-            const tg = linkTarget(l.href);
-            return (
-              <Link
-                key={l.href}
-                href={l.href}
-                target={tg.target}
-                rel={tg.rel}
-                className="text-sm hover:text-white transition-colors"
-                style={{ color: t.link }}
-              >
-                {l.label}
-              </Link>
-            );
-          })}
-          <FooterBlogsDropdown posts={latestBlogs} textClassName="text-sm" />
-        </div>
-
-        {/* App Store Buttons */}
-        <div className="flex flex-col gap-3 mb-8 items-center">
-          {/* App Store */}
-          <a href={data.appStoreUrl} target={appStoreLinkTarget.target} rel={appStoreLinkTarget.rel} className="flex items-center justify-center gap-3 bg-zinc-900 border border-zinc-700 rounded-xl px-6 py-3 hover:bg-zinc-800 transition-colors w-full max-w-xs">
-            <svg className="w-7 h-7 text-white" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z" />
-            </svg>
-            <div className="text-left">
-              <p className="text-[10px] text-zinc-400">Download on the</p>
-              <p className="text-white text-base font-semibold -mt-0.5">App Store</p>
-            </div>
-          </a>
-          {/* Google Play */}
-          <a href={data.playStoreUrl} target={playStoreLinkTarget.target} rel={playStoreLinkTarget.rel} className="flex items-center justify-center gap-3 bg-zinc-900 border border-zinc-700 rounded-xl px-6 py-3 hover:bg-zinc-800 transition-colors w-full max-w-xs">
-            <svg className="w-7 h-7 text-white" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M3 20.5v-17c0-.59.34-1.11.84-1.35L13.69 12l-9.85 9.85c-.5-.24-.84-.76-.84-1.35zm13.81-5.38L6.05 21.34l8.49-8.49 2.27 2.27zm3.35-4.31c.34.27.64.79.64 1.18 0 .4-.24.9-.64 1.18l-2.61 1.51-2.38-2.38 2.38-2.38 2.61 1.51zm-3.35-4.31l2.27 2.27-8.49 8.49L6.05 2.66l10.76 4.22z" />
-            </svg>
-            <div className="text-left">
-              <p className="text-[10px] text-zinc-400">GET IT ON</p>
-              <p className="text-white text-base font-semibold -mt-0.5">Google Play</p>
-            </div>
-          </a>
-        </div>
-
-        {/* Copyright */}
-        <p className="text-sm text-center mb-8" style={{ color: t.copyright }}>{data.copyright}</p>
-      </div>
-
-      {/* Desktop Layout */}
-      <div className="hidden md:block w-full max-w-7xl mx-auto px-4 sm:px-8 lg:px-16">
-        {/* Top Section - Logo */}
-        <div className="flex flex-col items-start mb-12">
-          <img src="/Spay.png" alt="SPAY" style={{ height: "2.2rem", width: "auto" }} />
-          <p className="text-sm tracking-widest mt-1" style={{ color: t.tagline }}>{data.tagline}</p>
-        </div>
-
-        {/* Divider */}
-        <div className="h-px mb-10" style={{ background: "#0e2e2e" }} />
-
-        {/* Navigation Links - Centered */}
-        <div className="flex flex-wrap items-center justify-center gap-x-12 gap-y-3 mb-10">
-          {renderedLinks.map((l) => {
-            const tg = linkTarget(l.href);
-            return (
-              <Link
-                key={l.href}
-                href={l.href}
-                target={tg.target}
-                rel={tg.rel}
-                className="text-base hover:text-white transition-colors"
-                style={{ color: t.link }}
-              >
-                {l.label}
-              </Link>
-            );
-          })}
-          <FooterBlogsDropdown posts={latestBlogs} textClassName="text-base" />
-        </div>
-
-        {/* App Store Buttons - Centered */}
-        <div className="flex justify-center gap-4 mb-10">
-          {/* App Store */}
-          <a href={data.appStoreUrl} target={appStoreLinkTarget.target} rel={appStoreLinkTarget.rel} className="flex items-center gap-3 bg-zinc-900 border border-zinc-700 rounded-xl px-6 py-3 hover:bg-zinc-800 transition-colors">
-            <svg className="w-7 h-7 text-white" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z" />
-            </svg>
-            <div className="text-left">
-              <p className="text-[10px] text-zinc-400">Download on the</p>
-              <p className="text-white text-base font-semibold -mt-0.5">App Store</p>
-            </div>
-          </a>
-          {/* Google Play */}
-          <a href={data.playStoreUrl} target={playStoreLinkTarget.target} rel={playStoreLinkTarget.rel} className="flex items-center gap-3 bg-zinc-900 border border-zinc-700 rounded-xl px-6 py-3 hover:bg-zinc-800 transition-colors">
-            <svg className="w-7 h-7 text-white" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M3 20.5v-17c0-.59.34-1.11.84-1.35L13.69 12l-9.85 9.85c-.5-.24-.84-.76-.84-1.35zm13.81-5.38L6.05 21.34l8.49-8.49 2.27 2.27zm3.35-4.31c.34.27.64.79.64 1.18 0 .4-.24.9-.64 1.18l-2.61 1.51-2.38-2.38 2.38-2.38 2.61 1.51zm-3.35-4.31l2.27 2.27-8.49 8.49L6.05 2.66l10.76 4.22z" />
-            </svg>
-            <div className="text-left">
-              <p className="text-[10px] text-zinc-400">GET IT ON</p>
-              <p className="text-white text-base font-semibold -mt-0.5">Google Play</p>
-            </div>
-          </a>
-        </div>
-
-        {/* Copyright */}
-        <p className="text-sm text-center mb-8" style={{ color: t.copyright }}>{data.copyright}</p>
-      </div>
-    </footer>
-  );
+  return <FooterView content={content} renderedLinks={renderedLinks} latestBlogs={latestBlogs} />;
 }

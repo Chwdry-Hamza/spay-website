@@ -1,16 +1,12 @@
-type Ticker = { pair: string; price: string; change: string };
-
-const TICKERS: Ticker[] = [
-  { pair: "ETH/USD", price: "$3,452.12", change: "+1.4%" },
-  { pair: "TRX/USD", price: "$0.32", change: "+2.6%" },
-  { pair: "USDT (TRC20)", price: "$1.00", change: "+0.0%" },
-  { pair: "USDT (ERC20)", price: "$1.00", change: "+0.0%" },
-  { pair: "USDC (ERC20)", price: "$1.00", change: "+0.0%" },
-];
+import { HOME_CONTENT_DEFAULTS, type HomeContent } from "@/lib/homeContent";
 
 const SCROLL_SECONDS = 40;
 
-export default function Currencies() {
+export default function Currencies({
+  content = HOME_CONTENT_DEFAULTS.currencies,
+}: {
+  content?: HomeContent["currencies"];
+}) {
   const t = {
     pair: "#ffffff",
     price: "#d4d4d8",
@@ -36,7 +32,7 @@ export default function Currencies() {
         }}
       >
         {/* Render twice for a seamless infinite loop */}
-        {[...TICKERS, ...TICKERS].map((c, i) => (
+        {[...content.tickers, ...content.tickers].map((c, i) => (
           <div key={i} className="flex items-center gap-3 px-8">
             <span
               className="font-semibold text-sm md:text-base tracking-wide"

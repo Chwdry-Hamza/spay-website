@@ -3,40 +3,9 @@ import Link from "next/link";
 import Image from "next/image";
 import { useState, useEffect } from "react";
 import { linkTarget } from "@/lib/linkTarget";
+import { HOME_CONTENT_DEFAULTS, type HomeContent } from "@/lib/homeContent";
 
 type Breakpoint = "mobile" | "tablet" | "desktop";
-
-type TitlePart = { text: string; color: string };
-type HomeHeroData = {
-  titleParts: TitlePart[];
-  subtitle: string;
-  mobileSubtitle: string;
-  ctaLabel: string;
-  ctaUrl: string;
-  ctaMobileLabel?: string;
-  heroImage: string;
-  logoSrc: string;
-  gradientStart: string;
-  gradientEnd: string;
-};
-
-const HOME_HERO_DATA: HomeHeroData = {
-  titleParts: [
-    { text: "THE ", color: "#ffffff" },
-    { text: "MONEY ", color: "#46F1C5" },
-    { text: "APP", color: "#ffffff" },
-  ],
-  subtitle:
-    "Experience institutional-grade security with the agility of decentralized finance. Secure, fast, and rewarding crypto platform for the next generation.",
-  mobileSubtitle: "Secure, fast, and rewarding crypto platform.",
-  ctaLabel: "GET THE APP",
-  ctaMobileLabel: "GET APP",
-  ctaUrl: "https://apps.apple.com/app/sicash",
-  heroImage: "/heroImageSpay.png",
-  logoSrc: "/Spay.png",
-  gradientStart: "#090e1c",
-  gradientEnd: "#0e2e2e",
-};
 
 function useBreakpoint(): Breakpoint {
   const [bp, setBp] = useState<Breakpoint>("desktop");
@@ -160,8 +129,13 @@ function useBreakpoint(): Breakpoint {
 //   );
 // }
 
-export default function HomeHero() {
+export default function HomeHero({
+  content = HOME_CONTENT_DEFAULTS.hero,
+}: {
+  content?: HomeContent["hero"];
+}) {
   const bp = useBreakpoint();
+  const HOME_HERO_DATA = content;
   const data = HOME_HERO_DATA;
   const t = {
     subtitle: "#A6AABE",

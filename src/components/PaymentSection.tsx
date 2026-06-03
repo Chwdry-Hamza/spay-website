@@ -87,28 +87,14 @@
 // }
 
 import FlipCard from "./FlipCard";
+import { HOME_CONTENT_DEFAULTS, type HomeContent } from "@/lib/homeContent";
 
-type TitlePart = { text: string; color: string };
-type PaymentData = {
-  eyebrow: string;
-  titleParts: TitlePart[];
-  subtitle: string;
-  cardFront: string;
-  cardBack: string;
-};
-
-const PAYMENT_DATA: PaymentData = {
-  eyebrow: "Fiat and Crypto",
-  titleParts: [
-    { text: "CHOOSE ", color: "#46F1C5" },
-    { text: "HOW TO PAY", color: "#ffffff" },
-  ],
-  subtitle: "Switch between fiat and crypto in a Second",
-  cardFront: "/spayFront.png",
-  cardBack: "/spayBack.png",
-};
-
-export default function PaymentSection() {
+export default function PaymentSection({
+  content = HOME_CONTENT_DEFAULTS.payment,
+}: {
+  content?: HomeContent["payment"];
+}) {
+  const PAYMENT_DATA = content;
   const data = PAYMENT_DATA;
   const t = { eyebrow: "#A6AABE", subtitle: "#A6AABE" };
   return (
@@ -159,8 +145,8 @@ export default function PaymentSection() {
         <FlipCard
           frontSrc={data.cardFront}
           backSrc={data.cardBack}
-          frontAlt="SPAY Card Front"
-          backAlt="SPAY Card Back"
+          frontAlt={data.cardFrontAlt}
+          backAlt={data.cardBackAlt}
         />
 
         

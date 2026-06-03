@@ -191,54 +191,14 @@
 //   );
 // }
 
-type TitlePart = { text: string; color: string };
-type FeatureCard = {
-  title: string;
-  desc: string;
-  image: string;
-  bgStart: string;
-  bgEnd: string;
-};
-type FeaturesData = {
-  eyebrow: string;
-  titleParts: TitlePart[];
-  cards: FeatureCard[];
-};
+import { HOME_CONTENT_DEFAULTS, type HomeContent } from "@/lib/homeContent";
 
-const FEATURES_DATA: FeaturesData = {
-  eyebrow: "A new era of digital banking",
-  titleParts: [
-    { text: "TAKE ", color: "#ffffff" },
-    { text: "CONTROL", color: "#46F1C5" },
-    { text: " OF ALL\nYOUR ", color: "#ffffff" },
-    { text: "MONEY", color: "#46F1C5" },
-  ],
-  cards: [
-    {
-      title: "TRANSACTION",
-      desc: "Manage all your finances with a single tap. Forget about banking hassles.",
-      image: "/transactions.jpeg",
-      bgStart: "#46F1C5",
-      bgEnd: "#004132",
-    },
-    {
-      title: "CRYPTO",
-      desc: "Safely hold, effortlessly send, receive, and monitor your cryptocurrency holding.",
-      image: "/crypto.jpeg",
-      bgStart: "#46F1C5",
-      bgEnd: "#004132",
-    },
-    {
-      title: "HISTORY",
-      desc: "Get a wide range of innovative financial tools for unlimited wealth-building opportunities.",
-      image: "/notifications.jpeg",
-      bgStart: "#46F1C5",
-      bgEnd: "#004132",
-    },
-  ],
-};
-
-export default function FeaturesSection() {
+export default function FeaturesSection({
+  content = HOME_CONTENT_DEFAULTS.features,
+}: {
+  content?: HomeContent["features"];
+}) {
+  const FEATURES_DATA = content;
   const data = FEATURES_DATA;
   const t = {
     eyebrow: "#A6AABE",

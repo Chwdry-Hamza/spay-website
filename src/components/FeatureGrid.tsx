@@ -1,59 +1,5 @@
 import React from "react";
-
-type TitlePart = { text: string; color: string };
-type FeatureGridData = {
-  eyebrow: string;
-  titleParts: TitlePart[];
-
-  send: { label: string; title: string; body: string; badgeText: string };
-  grow: { label: string; statValue: string; statUnit: string; body: string };
-  spend: { label: string; title: string; cardImage: string };
-  split: { title: string; body: string; amountText: string };
-  business: { title: string; body: string; pills: string[] };
-  protect: { label: string; title: string; body: string; pills: string[] };
-};
-
-const FEATURE_GRID_DATA: FeatureGridData = {
-  eyebrow: "Your crypto, everyday spending",
-  titleParts: [
-    { text: "PAY WITH ", color: "#FFFFFF" },
-    { text: "CRYPTO", color: "#46F1C5" },
-    { text: " ANYWHERE\nA CARD WORKS.", color: "#FFFFFF" },
-  ],
-  send: {
-    label: "Send",
-    title: "Send money in seconds, not days.",
-    body: "Move funds to friends, family, or any wallet — across the city or across the world. Every transfer settles instantly.",
-    badgeText: "+ 50 USDC · 1.2s",
-  },
-  grow: {
-    label: "Grow",
-    statValue: "5.0",
-    statUnit: "% APY",
-    body: "Earn yield on your idle balance, paid out daily. No lockups, no minimums, withdraw anytime.",
-  },
-  spend: {
-    label: "Spend",
-    title: "Tap, swipe, or shop online — with crypto.",
-    cardImage: "/spayFront.png",
-  },
-  split: {
-    title: "Spend crypto like cash, anywhere.",
-    body: "Tap your SPay card at any store or pay online — crypto converts to fiat at checkout, automatically.",
-    amountText: "$37.42 each",
-  },
-  business: {
-    title: "For businesses, get paid in crypto.",
-    body: "Online checkouts, in-store payments, and crypto invoices — with same-day payouts to your wallet or bank.",
-    pills: ["Online checkout", "In-store POS", "Crypto invoicing"],
-  },
-  protect: {
-    label: "Protect",
-    title: "Your funds, fully protected.",
-    body: "Multi-sig cold storage on every wallet. Biometric login on every device. 24/7 anomaly detection — your crypto stays yours, always.",
-    pills: ["Multi-sig vault", "Biometric login", "SOC 2 Type II"],
-  },
-};
+import { HOME_CONTENT_DEFAULTS, type HomeContent } from "@/lib/homeContent";
 
 const tileBase =
   "relative rounded-[20px] p-6 md:p-7 border overflow-hidden min-h-[220px] transition-[transform,box-shadow] duration-200 ease-out hover:-translate-y-1";
@@ -172,8 +118,12 @@ const iconBadgeStyle: React.CSSProperties = {
   border: "1px solid rgba(70, 241, 197, 0.3)",
 };
 
-const FeaturesGrid: React.FC = () => {
-  const data = FEATURE_GRID_DATA;
+const FeaturesGrid = ({
+  content = HOME_CONTENT_DEFAULTS.featureGrid,
+}: {
+  content?: HomeContent["featureGrid"];
+}) => {
+  const data = content;
   const t = {
     eyebrow: "#A6AABE",
     body: "#A6AABE",

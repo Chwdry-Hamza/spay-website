@@ -1,24 +1,11 @@
-type TitlePart = { text: string; color: string };
-type TransferData = {
-  eyebrow: string;
-  titleParts: TitlePart[];
-  subtitle: string;
-  mockupImage: string;
-};
+import { HOME_CONTENT_DEFAULTS, type HomeContent } from "@/lib/homeContent";
 
-const TRANSFER_DATA: TransferData = {
-  eyebrow: "TRANSFERS WITHOUT BARRIERS",
-  titleParts: [
-    { text: "SEND ", color: "#ffffff" },
-    { text: "CRYPTO", color: "#46F1C5" },
-    { text: " EASILY,\nANYWHERE, TO ANYONE", color: "#ffffff" },
-  ],
-  subtitle:
-    "Spend your crypto anywhere a card is accepted — our card and app make it as easy as using a regular bank card.",
-  mockupImage: "/paymentMobile.png",
-};
-
-export default function TransferSection() {
+export default function TransferSection({
+  content = HOME_CONTENT_DEFAULTS.transfer,
+}: {
+  content?: HomeContent["transfer"];
+}) {
+  const TRANSFER_DATA = content;
   const data = TRANSFER_DATA;
   const t = { eyebrow: "#A6AABE", subtitle: "#A6AABE" };
   const fontFamily = 'var(--font-space-grotesk)';

@@ -1,29 +1,13 @@
 import Image from "next/image";
 import { linkTarget } from "@/lib/linkTarget";
+import { HOME_CONTENT_DEFAULTS, type HomeContent } from "@/lib/homeContent";
 
-type TitlePart = { text: string; color: string };
-type JoinUsData = {
-  eyebrow: string;
-  titleParts: TitlePart[];
-  subtitle: string;
-  ctaLabel: string;
-  ctaUrl: string;
-};
-
-const JOIN_US_DATA: JoinUsData = {
-  eyebrow: "JOIN US",
-  titleParts: [
-    { text: "TIME IS ", color: "#ffffff" },
-    { text: "MONEY", color: "#46F1C5" },
-  ],
-  subtitle:
-    "Say goodbye to juggling multiple apps and tools for your financial transactions. SPay is your one-stop solution for all your money needs.",
-  ctaLabel: "GET SPAY APP",
-  ctaUrl: "https://apps.apple.com/app/sicash",
-};
-
-export default function JoinUsSection() {
-  const data = JOIN_US_DATA;
+export default function JoinUsSection({
+  content = HOME_CONTENT_DEFAULTS.joinUs,
+}: {
+  content?: HomeContent["joinUs"];
+}) {
+  const data = content;
   const t = {
     eyebrow: "#A6AABE",
     subtitle: "#A6AABE",
@@ -43,42 +27,42 @@ export default function JoinUsSection() {
       >
         {/* Row 1 */}
         <div className="h-64 rounded-lg overflow-hidden relative">
-          <Image src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop&crop=face" alt="" fill className="object-cover grayscale opacity-40" />
+          <Image src={data.photoGrid[0]} alt="" fill className="object-cover grayscale opacity-40" />
         </div>
         <div className="h-64 rounded-lg overflow-hidden relative">
-          <Image src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&h=400&fit=crop&crop=face" alt="" fill className="object-cover grayscale opacity-40" />
+          <Image src={data.photoGrid[1]} alt="" fill className="object-cover grayscale opacity-40" />
         </div>
         <div className="h-64 rounded-lg overflow-hidden relative">
-          <Image src="https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=400&h=400&fit=crop&crop=face" alt="" fill className="object-cover grayscale opacity-40" />
+          <Image src={data.photoGrid[2]} alt="" fill className="object-cover grayscale opacity-40" />
         </div>
         <div className="h-64 rounded-lg overflow-hidden relative">
-          <Image src="https://images.unsplash.com/photo-1517841905240-472988babdf9?w=400&h=400&fit=crop&crop=face" alt="" fill className="object-cover grayscale opacity-40" />
+          <Image src={data.photoGrid[3]} alt="" fill className="object-cover grayscale opacity-40" />
         </div>
         {/* Row 2 */}
         <div className="h-64 rounded-lg overflow-hidden relative">
-          <Image src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=400&h=400&fit=crop&crop=face" alt="" fill className="object-cover grayscale opacity-40" />
+          <Image src={data.photoGrid[4]} alt="" fill className="object-cover grayscale opacity-40" />
         </div>
         <div className="h-64 rounded-lg overflow-hidden relative">
-          <Image src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=400&h=400&fit=crop&crop=face" alt="" fill className="object-cover grayscale opacity-40" />
+          <Image src={data.photoGrid[5]} alt="" fill className="object-cover grayscale opacity-40" />
         </div>
         <div className="h-64 rounded-lg overflow-hidden relative">
-          <Image src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400&h=400&fit=crop&crop=face" alt="" fill className="object-cover grayscale opacity-40" />
+          <Image src={data.photoGrid[6]} alt="" fill className="object-cover grayscale opacity-40" />
         </div>
         <div className="h-64 rounded-lg overflow-hidden relative">
-          <Image src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&h=400&fit=crop&crop=face" alt="" fill className="object-cover grayscale opacity-40" />
+          <Image src={data.photoGrid[7]} alt="" fill className="object-cover grayscale opacity-40" />
         </div>
         {/* Row 3 */}
         <div className="h-64 rounded-lg overflow-hidden relative">
-          <Image src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400&h=400&fit=crop&crop=face" alt="" fill className="object-cover grayscale opacity-40" />
+          <Image src={data.photoGrid[8]} alt="" fill className="object-cover grayscale opacity-40" />
         </div>
         <div className="h-64 rounded-lg overflow-hidden relative">
-          <Image src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&h=400&fit=crop&crop=face" alt="" fill className="object-cover grayscale opacity-40" />
+          <Image src={data.photoGrid[9]} alt="" fill className="object-cover grayscale opacity-40" />
         </div>
         <div className="h-64 rounded-lg overflow-hidden relative">
-          <Image src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=400&h=400&fit=crop&crop=face" alt="" fill className="object-cover grayscale opacity-40" />
+          <Image src={data.photoGrid[10]} alt="" fill className="object-cover grayscale opacity-40" />
         </div>
         <div className="h-64 rounded-lg overflow-hidden relative">
-          <Image src="https://images.unsplash.com/photo-1552058544-f2b08422138a?w=400&h=400&fit=crop&crop=face" alt="" fill className="object-cover grayscale opacity-40" />
+          <Image src={data.photoGrid[11]} alt="" fill className="object-cover grayscale opacity-40" />
         </div>
       </div>
 

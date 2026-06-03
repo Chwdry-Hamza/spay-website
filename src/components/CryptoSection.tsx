@@ -1,23 +1,11 @@
-type TitlePart = { text: string; color: string };
-type CryptoData = {
-  eyebrow: string;
-  titleParts: TitlePart[];
-  subtitle: string;
-  mockupImage: string;
-};
+import { HOME_CONTENT_DEFAULTS, type HomeContent } from "@/lib/homeContent";
 
-const CRYPTO_DATA: CryptoData = {
-  eyebrow: "MANAGE CRYPTO",
-  titleParts: [
-    { text: "DEPOSIT AND INVEST WITH ", color: "#ffffff" },
-    { text: "SPAY", color: "#46F1C5" },
-  ],
-  subtitle:
-    "Purchase, spend, sell, and hold cryptocurrencies, all from the convenience of your device. Delve into the world of digital currencies effortlessly.",
-  mockupImage: "/tabletMobile.png",
-};
-
-export default function CryptoSection() {
+export default function CryptoSection({
+  content = HOME_CONTENT_DEFAULTS.crypto,
+}: {
+  content?: HomeContent["crypto"];
+}) {
+  const CRYPTO_DATA = content;
   const data = CRYPTO_DATA;
   const t = { eyebrow: "#A6AABE", subtitle: "#A6AABE" };
   return (
@@ -84,7 +72,7 @@ export default function CryptoSection() {
                 className="text-[11px] lg:text-xs xl:text-sm uppercase mb-10 lg:mb-14 xl:mb-16"
                 style={{ fontFamily: 'var(--font-inter)', fontWeight: 400, color: t.eyebrow, letterSpacing: '6px' }}
               >
-                MANAGE CRYPTO
+                {data.eyebrow}
               </p>
               <h2
                 className="text-3xl lg:text-5xl xl:text-6xl font-bold text-white leading-tight mb-10 lg:mb-14 xl:mb-16"

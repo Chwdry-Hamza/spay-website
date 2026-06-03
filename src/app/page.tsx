@@ -1,17 +1,10 @@
-import HomeHero from "@/components/HomeHero";
-import FeaturesSection from "@/components/FeaturesSection";
-import Currencies from "@/components/currencies";
-import PaymentSection from "@/components/PaymentSection";
-import TransferSection from "@/components/TransferSection";
-import CryptoSection from "@/components/CryptoSection";
-import JoinUsSection from "@/components/JoinUsSection";
-import CollaborationsSection from "@/components/CollaborationsSection";
-import Footer from "@/components/Footer";
+import HomeSections from "@/components/HomeSections";
+import { getFooterExtras } from "@/components/Footer";
 import PerformanceScripts from "@/components/cms/PerformanceScripts";
-import FeaturesGrid from "@/components/FeatureGrid";
 import type { Metadata } from "next";
-import { getRouteSeoPage, getSeoSetting } from "@/lib/cms";
+import { getRouteSeoPage, getSeoSetting, getHomePage } from "@/lib/cms";
 import { buildMetadataFromCMS } from "@/lib/cms-meta";
+import { resolveHomeContent } from "@/lib/homeContent";
 
 export async function generateMetadata(): Promise<Metadata> {
   const site = await getSeoSetting();
@@ -30,20 +23,21 @@ export async function generateMetadata(): Promise<Metadata> {
   return meta;
 }
 
-export default function Home() {
+export default async function Home() {
+  // CMS-editable text/images for the landing page. Falls back to built-in
+  // design defaults when the CMS record is empty or unreachable.
+  const page = await getHomePage();
+  const content = resolveHomeContent(page?.sections);
+  const { dynamicLinks, latestBlogs } = await getFooterExtras();
+
   return (
-    <main className="pb-0">
-      <HomeHero />
-      <FeaturesSection />
-      <Currencies />
-      <PaymentSection />
-      <TransferSection />
-      <CryptoSection />
-      <FeaturesGrid />
-      <JoinUsSection />
-      <CollaborationsSection />
-      <Footer />
+    <>
+      <HomeSections
+        initialContent={content}
+        footerDynamicLinks={dynamicLinks}
+        latestBlogs={latestBlogs}
+      />
       <PerformanceScripts perf={undefined} />
-    </main>
+    </>
   );
 }
