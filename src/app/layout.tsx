@@ -5,6 +5,7 @@ import ConditionalBottomNav from "@/components/ConditionalBottomNav";
 import CookieConsent from "@/components/CookieConsent";
 import { getSeoSetting, getOrganizationSetting, getHomePage } from "@/lib/cms";
 import { buildOrganization } from "@/lib/structured-data";
+import { serializeJsonLd } from "@/lib/sanitize";
 import { resolveHomeContent } from "@/lib/homeContent";
 
 const geistSans = Geist({
@@ -37,10 +38,12 @@ const SITE_URL =
 export async function generateMetadata(): Promise<Metadata> {
   const seo = await getSeoSetting();
 
-  // The CMS "Default title template" controls the site-wide title pattern and
-  // is used exactly as written:
-  //   - contains a {title} placeholder → replaced with each page's own title
-  //     (Next's title.template uses %s).
+  // The CMS "Default title template" is the FALLBACK title for documents that
+  // have no per-page SEO title of their own. Pages WITH their own SEO title
+  // emit it as `title.absolute` and bypass this template entirely (see
+  // buildMetadataFromCMS / buildListingMetadata), so the template only ever
+  // applies to untitled documents. Used exactly as written:
+  //   - contains {title} → replaced with the document's own title (Next %s).
   //   - a non-empty literal with no placeholder → used verbatim (e.g. "SPAYS").
   //   - empty → falls back to the built-in "%s · SPay" pattern.
   const rawTemplate = seo?.titleTemplate?.trim();
@@ -93,7 +96,7 @@ export default async function RootLayout({
       >
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationLd) }}
+          dangerouslySetInnerHTML={{ __html: serializeJsonLd(organizationLd) }}
         />
         {children}
         <ConditionalBottomNav content={home.bottomNav} />

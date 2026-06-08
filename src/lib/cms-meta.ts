@@ -57,6 +57,10 @@ export function buildMetadataFromCMS(input: CmsMetaInput): Metadata {
   const { seo, title, description, path, site, fallbackImage } = input;
 
   const metaTitle = seo?.title || title;
+  // An explicit per-page SEO title is rendered EXACTLY (title.absolute), so it
+  // bypasses the site-wide title template. Without a custom title we return the
+  // fallback as a plain string and let the layout template append the brand.
+  const hasCustomTitle = Boolean(seo?.title?.trim());
   const metaDescription =
     seo?.description || description || site?.defaultDescription || undefined;
 
@@ -70,7 +74,7 @@ export function buildMetadataFromCMS(input: CmsMetaInput): Metadata {
     : canonicalUrl(path);
 
   const meta: Metadata = {
-    title: metaTitle,
+    title: hasCustomTitle ? { absolute: metaTitle } : metaTitle,
     description: metaDescription,
     alternates: { canonical },
     robots: robotsFrom(seo),
@@ -103,6 +107,13 @@ export type ListingMetaInput = {
   site?: SiteSeoSetting | null;
   /** Per-listing noindex override (rare). */
   noindex?: boolean;
+  /**
+   * When true, `title` is a per-listing custom SEO title and is rendered
+   * exactly (title.absolute), bypassing the site-wide title template. When
+   * false/omitted the title is a fallback and the layout template appends the
+   * brand.
+   */
+  exactTitle?: boolean;
 };
 
 /**
@@ -112,13 +123,13 @@ export type ListingMetaInput = {
  *  - page > 1 is noindex,follow (thin/duplicate), page 1 is index,follow.
  */
 export function buildListingMetadata(input: ListingMetaInput): Metadata {
-  const { basePath, page, title, description, site, noindex } = input;
+  const { basePath, page, title, description, site, noindex, exactTitle } = input;
   const canonical = canonicalUrl(basePath);
   const isPaged = page > 1;
   const pageTitle = isPaged ? `${title} – Page ${page}` : title;
 
   return {
-    title: pageTitle,
+    title: exactTitle ? { absolute: pageTitle } : pageTitle,
     description: description || site?.defaultDescription || undefined,
     alternates: { canonical },
     robots: {

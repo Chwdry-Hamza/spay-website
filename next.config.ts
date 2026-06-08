@@ -12,6 +12,11 @@ const nextConfig: NextConfig = {
         protocol: "https",
         hostname: "images.unsplash.com",
       },
+      {
+        // All CMS-uploaded media is served from Cloudinary.
+        protocol: "https",
+        hostname: "res.cloudinary.com",
+      },
     ],
   },
 };

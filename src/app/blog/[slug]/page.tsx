@@ -18,12 +18,13 @@ import {
   buildFromSchemaField,
   type Crumb,
 } from '@/lib/structured-data';
+import { serializeJsonLd } from '@/lib/sanitize';
 
 function JsonLd({ data }: { data: Record<string, unknown> }) {
   return (
     <script
       type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }}
+      dangerouslySetInnerHTML={{ __html: serializeJsonLd(data) }}
     />
   );
 }
@@ -89,7 +90,7 @@ export default async function BlogPostPage({
       {customRaw && (
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: customRaw }}
+          dangerouslySetInnerHTML={{ __html: serializeJsonLd(customRaw) }}
         />
       )}
 

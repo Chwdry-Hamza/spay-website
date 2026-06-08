@@ -32,6 +32,7 @@ export async function generateMetadata({
     basePath: `/blog/category/${slug}`,
     page: parsePage(page),
     title: cat.seo?.title || `${cat.name}`,
+    exactTitle: Boolean(cat.seo?.title?.trim()),
     description: cat.seo?.description || cat.description,
     site,
   });

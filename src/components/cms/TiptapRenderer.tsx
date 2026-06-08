@@ -17,6 +17,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { linkTarget } from '@/lib/linkTarget';
+import { safeHref } from '@/lib/sanitize';
 import type { TiptapDoc, TiptapNode } from '@/lib/cms';
 
 const ACCENT = '#46F1C5';
@@ -45,7 +46,7 @@ function renderText(node: TiptapNode, key: React.Key): React.ReactNode {
     const { target, rel } = linkTarget(href, newTab);
     el = (
       <Link
-        href={href || '#'}
+        href={safeHref(href)}
         target={target}
         rel={rel}
         style={{ color: ACCENT, textDecoration: 'underline' }}

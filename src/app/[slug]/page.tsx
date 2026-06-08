@@ -8,6 +8,7 @@ import PerformanceScripts from '@/components/cms/PerformanceScripts';
 import { getPageBySlug, getSeoSetting } from '@/lib/cms';
 import { buildMetadataFromCMS } from '@/lib/cms-meta';
 import { buildFromSchemaField, type Crumb } from '@/lib/structured-data';
+import { serializeJsonLd } from '@/lib/sanitize';
 
 /**
  * Slugs that already exist as hand-built static routes in this app. Next's
@@ -74,13 +75,13 @@ export default async function CmsPage({
         <script
           key={i}
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(node) }}
+          dangerouslySetInnerHTML={{ __html: serializeJsonLd(node) }}
         />
       ))}
       {customRaw && (
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: customRaw }}
+          dangerouslySetInnerHTML={{ __html: serializeJsonLd(customRaw) }}
         />
       )}
 

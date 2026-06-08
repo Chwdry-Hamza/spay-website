@@ -8,6 +8,7 @@
  */
 import Link from 'next/link';
 import { buildBreadcrumbList, type Crumb } from '@/lib/structured-data';
+import { serializeJsonLd } from '@/lib/sanitize';
 
 function ChevronRight() {
   return (
@@ -54,7 +55,7 @@ export default function Breadcrumbs({ crumbs }: { crumbs: Crumb[] }) {
       {jsonLd && (
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+          dangerouslySetInnerHTML={{ __html: serializeJsonLd(jsonLd) }}
         />
       )}
       <ol

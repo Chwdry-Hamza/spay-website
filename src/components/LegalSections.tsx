@@ -3,6 +3,7 @@
 import React from "react";
 import { resolveLegalContent, type LegalContent } from "@/lib/legalContent";
 import { useEditablePreview } from "@/hooks/usePreview";
+import { safeHref } from "@/lib/sanitize";
 
 /**
  * Renders a legal page (Prohibited Activities, Privacy Policy, E-Sign, Card
@@ -56,7 +57,7 @@ function rich(text: string): React.ReactNode[] {
   let m: RegExpExecArray | null;
   while ((m = re.exec(text)) !== null) {
     if (m.index > last) pushBold(parts, text.slice(last, m.index));
-    const href = m[2];
+    const href = safeHref(m[2]);
     parts.push(
       <a key={parts.length} href={href} style={{ color: LINK }} {...(href.startsWith("http") ? { target: "_blank", rel: "noopener noreferrer" } : {})}>
         {m[1]}
