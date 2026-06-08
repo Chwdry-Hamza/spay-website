@@ -15,11 +15,12 @@
  *
  * Pass `perf={undefined}` on static pages (no per-page overrides). This is an
  * async server component that reads the `analytics` setting once per render
- * (cached). It runs ALONGSIDE the site's existing global GoogleAnalytics
- * component — both are intentionally allowed to coexist.
+ * (cached). It is the SINGLE source of GA4/GTM on the site — the old
+ * env-driven GoogleAnalytics component was removed so GA4 is managed entirely
+ * from the CMS Analytics settings.
  */
-import Script from 'next/script';
 import { getAnalyticsSetting, type CmsPerformance } from '@/lib/cms';
+import ConsentedAnalytics from './ConsentedAnalytics';
 
 /** Inject a raw HTML/script snippet exactly as authored in the CMS. */
 function RawSnippet({ html, id }: { html: string; id: string }) {
@@ -43,41 +44,8 @@ export default async function PerformanceScripts({
 
   return (
     <>
-      {/* ── GA4 (gtag.js) ── */}
-      {ga4Id && (
-        <>
-          <Script
-            id="spay-ga4-src"
-            src={`https://www.googletagmanager.com/gtag/js?id=${ga4Id}`}
-            strategy="afterInteractive"
-          />
-          <Script id="spay-ga4-init" strategy="afterInteractive">
-            {`window.dataLayer = window.dataLayer || [];
-function gtag(){dataLayer.push(arguments);}
-window.gtag = window.gtag || gtag;
-gtag('js', new Date());
-gtag('config', '${ga4Id}');`}
-          </Script>
-        </>
-      )}
-
-      {/* ── Google Tag Manager ── */}
-      {gtmId && (
-        <>
-          <Script id="spay-gtm-init" strategy="afterInteractive">
-            {`(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','${gtmId}');`}
-          </Script>
-          <noscript>
-            <iframe
-              src={`https://www.googletagmanager.com/ns.html?id=${gtmId}`}
-              height="0"
-              width="0"
-              style={{ display: 'none', visibility: 'hidden' }}
-              title="gtm"
-            />
-          </noscript>
-        </>
-      )}
+      {/* ── GA4 + GTM — loaded client-side only after cookie consent ── */}
+      <ConsentedAnalytics ga4Id={ga4Id} gtmId={gtmId} />
 
       {/* ── Custom snippets ── */}
       {!skipCustom && (

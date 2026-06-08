@@ -3,9 +3,9 @@ import { Geist, Geist_Mono, Space_Grotesk, Inter } from "next/font/google";
 import "./globals.css";
 import ConditionalBottomNav from "@/components/ConditionalBottomNav";
 import CookieConsent from "@/components/CookieConsent";
-import GoogleAnalytics from "@/components/GoogleAnalytics";
-import { getSeoSetting, getOrganizationSetting } from "@/lib/cms";
+import { getSeoSetting, getOrganizationSetting, getHomePage } from "@/lib/cms";
 import { buildOrganization } from "@/lib/structured-data";
+import { resolveHomeContent } from "@/lib/homeContent";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -37,13 +37,18 @@ const SITE_URL =
 export async function generateMetadata(): Promise<Metadata> {
   const seo = await getSeoSetting();
 
-  // The CMS "Default title template" controls the site-wide title pattern.
-  // It uses a {title} placeholder; Next's title.template uses %s. Falls back
-  // to the built-in pattern when the CMS value is missing/invalid.
-  const titleTemplate =
-    seo?.titleTemplate && seo.titleTemplate.includes("{title}")
-      ? seo.titleTemplate.replace("{title}", "%s")
-      : "%s · SPay";
+  // The CMS "Default title template" controls the site-wide title pattern and
+  // is used exactly as written:
+  //   - contains a {title} placeholder → replaced with each page's own title
+  //     (Next's title.template uses %s).
+  //   - a non-empty literal with no placeholder → used verbatim (e.g. "SPAYS").
+  //   - empty → falls back to the built-in "%s · SPay" pattern.
+  const rawTemplate = seo?.titleTemplate?.trim();
+  const titleTemplate = rawTemplate
+    ? rawTemplate.includes("{title}")
+      ? rawTemplate.replace("{title}", "%s")
+      : rawTemplate
+    : "%s · SPay";
 
   const metadata: Metadata = {
     title: {
@@ -77,6 +82,10 @@ export default async function RootLayout({
   const org = await getOrganizationSetting();
   const organizationLd = buildOrganization(org);
 
+  // The global bottom nav + cookie banner are CMS-editable via the homepage
+  // `sections`; resolve them here so every page reflects saved edits.
+  const home = resolveHomeContent((await getHomePage())?.sections);
+
   return (
     <html lang="en" className="h-full w-full scroll-smooth">
       <body
@@ -87,9 +96,8 @@ export default async function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationLd) }}
         />
         {children}
-        <ConditionalBottomNav />
-        <CookieConsent />
-        <GoogleAnalytics />
+        <ConditionalBottomNav content={home.bottomNav} />
+        <CookieConsent content={home.cookieConsent} />
       </body>
     </html>
   );

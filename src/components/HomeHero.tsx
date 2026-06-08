@@ -193,24 +193,33 @@ export default function HomeHero({
         {/* Nav layout — SPAY logo always left-aligned, CTA on the right */}
         <div className="relative w-full max-w-7xl mx-auto px-4 sm:px-8 lg:px-16 flex items-center justify-between">
           <Link href="/" className="shrink-0">
-            <img
-              src={data.logoSrc}
-              alt="SiCash"
-              style={{
-                height:
-                  bp === "mobile"
-                    ? "1.6rem"
-                    : bp === "tablet"
-                    ? "2rem"
-                    : "2.2rem",
-                width: "auto",
-              }}
-            />
+            <span
+              data-cms-field="hero.logoSrc"
+              data-cms-type="image"
+              style={{ display: "inline-block" }}
+            >
+              <img
+                src={data.logoSrc}
+                alt="SiCash"
+                style={{
+                  height:
+                    bp === "mobile"
+                      ? "1.6rem"
+                      : bp === "tablet"
+                      ? "2rem"
+                      : "2.2rem",
+                  width: "auto",
+                }}
+              />
+            </span>
           </Link>
           <a
             href={data.ctaUrl}
             target={ctaLinkTarget.target}
             rel={ctaLinkTarget.rel}
+            data-cms-field="hero.ctaLabel"
+            data-cms-href="hero.ctaUrl"
+            data-cms-href-below
             className="font-semibold px-3 py-2 sm:px-5 sm:py-2.5 lg:px-6 lg:py-2.5 rounded-lg lg:rounded-xl text-xs sm:text-sm transition-all hover:opacity-90"
             style={{
               background: t.ctaBg,
@@ -248,14 +257,23 @@ export default function HomeHero({
             style={{ fontFamily: "var(--font-space-grotesk)" }}
           >
             {data.titleParts.map((p, i) => (
-              <span key={i} style={{ color: p.color }}>
+              <span
+                key={i}
+                style={{ color: p.color }}
+                data-cms-field={`hero.titleParts.${i}.text`}
+                data-cms-multiline
+              >
                 {p.text}
               </span>
             ))}
           </h1>
 
           {bp === "mobile" ? (
-            <p className="text-sm leading-relaxed mb-6 max-w-xs" style={{ color: t.subtitle }}>
+            <p
+              className="text-sm leading-relaxed mb-6 max-w-xs"
+              style={{ color: t.subtitle }}
+              data-cms-field="hero.mobileSubtitle"
+            >
               {data.mobileSubtitle}
             </p>
           ) : (
@@ -264,6 +282,7 @@ export default function HomeHero({
                 bp === "desktop" ? "max-w-sm" : "max-w-md"
               }`}
               style={{ color: t.subtitle }}
+              data-cms-field="hero.subtitle"
             >
               {data.subtitle}
             </p>
@@ -273,6 +292,8 @@ export default function HomeHero({
             href={data.ctaUrl}
             target={ctaLinkTarget.target}
             rel={ctaLinkTarget.rel}
+            data-cms-field="hero.ctaLabel"
+            data-cms-href="hero.ctaUrl"
             className="inline-block font-semibold px-6 py-3 sm:px-8 sm:py-3.5 rounded-xl text-sm transition-all hover:opacity-90"
             style={{
               background: t.ctaBg,
@@ -285,6 +306,8 @@ export default function HomeHero({
 
         {/* Right — Phone (RESPONSIVE: scales with breakpoint) */}
         <div
+          data-cms-field="hero.heroImage"
+          data-cms-type="image"
           className={`relative shrink-0 ${
             bp === "mobile"
               ? "w-[270px] h-[450px] mx-auto -mt-20"

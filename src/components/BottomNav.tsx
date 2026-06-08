@@ -3,33 +3,17 @@ import Link from "next/link";
 
 import * as React from "react";
 import { linkTarget } from "@/lib/linkTarget";
+import { usePreviewSlice } from "@/hooks/usePreview";
+import { HOME_CONTENT_DEFAULTS, type HomeContent } from "@/lib/homeContent";
 
-type BottomNavItem = { label: string; icon: string; href: string };
-type BottomNavData = {
-  logoSrc: string;
-  logoAlt: string;
-  ctaLabel: string;
-  ctaMobileLabel: string;
-  ctaUrl: string;
-  items: BottomNavItem[];
-};
-
-const BOTTOM_NAV_DATA: BottomNavData = {
-  logoSrc: "/Spay.png",
-  logoAlt: "SPay",
-  ctaLabel: "GET SPAY APP",
-  ctaMobileLabel: "GET THE APP",
-  ctaUrl: "https://apps.apple.com/app/sicash",
-  items: [
-    { label: "How to pay", icon: "card", href: "#payment" },
-    { label: "Send", icon: "arrow-right", href: "#transfer" },
-    { label: "Crypto", icon: "branch", href: "#crypto" },
-  ],
-};
-
-export default function BottomNav() {
+export default function BottomNav({
+  content,
+}: {
+  content?: HomeContent["bottomNav"];
+}) {
   const [activeSection, setActiveSection] = React.useState<string>("");
-  const data = BOTTOM_NAV_DATA;
+  // Live in preview; server-resolved value (or defaults) everywhere else.
+  const data = usePreviewSlice("bottomNav", content ?? HOME_CONTENT_DEFAULTS.bottomNav);
   const t = {
     tileLabel: "#d4d4d8",
     tileIcon: "#04babf",
@@ -67,6 +51,9 @@ export default function BottomNav() {
       href={data.ctaUrl}
       target={ctaLinkTarget.target}
       rel={ctaLinkTarget.rel}
+      data-cms-field={mobile ? "bottomNav.ctaMobileLabel" : "bottomNav.ctaLabel"}
+      data-cms-href="bottomNav.ctaUrl"
+      data-cms-href-below
       className={
         mobile
           ? "font-semibold px-5 py-2.5 rounded-lg text-xs transition-all hover:opacity-90"
@@ -101,8 +88,10 @@ export default function BottomNav() {
         }}
       >
         <div className="flex items-center justify-between px-5 py-3 w-full">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={data.logoSrc} alt={data.logoAlt} style={{ height: "3rem", width: "auto" }} />
+          <span data-cms-field="bottomNav.logoSrc" data-cms-type="image" style={{ display: "inline-block" }}>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={data.logoSrc} alt={data.logoAlt} style={{ height: "3rem", width: "auto" }} />
+          </span>
           {renderCta(data.ctaMobileLabel || data.ctaLabel, true)}
         </div>
       </nav>
@@ -112,13 +101,15 @@ export default function BottomNav() {
         <nav className="w-full max-w-[900px] lg:max-w-[1100px] xl:max-w-[1300px] bg-transparent backdrop-blur-md rounded-2xl px-4 py-3.5 lg:px-8 lg:py-5 xl:px-10 xl:py-6 flex items-center justify-between gap-3 lg:gap-4">
           <div className="shrink-0 ml-3 lg:ml-6 xl:ml-9">
             <Link href="/">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={data.logoSrc}
-                alt={data.logoAlt}
-                className="h-8 lg:h-9 xl:h-11 w-auto"
-                style={{ transform: "scale(1.0)", transformOrigin: "left center" }}
-              />
+              <span data-cms-field="bottomNav.logoSrc" data-cms-type="image" style={{ display: "inline-block" }}>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={data.logoSrc}
+                  alt={data.logoAlt}
+                  className="h-8 lg:h-9 xl:h-11 w-auto"
+                  style={{ transform: "scale(1.0)", transformOrigin: "left center" }}
+                />
+              </span>
             </Link>
           </div>
 
@@ -134,6 +125,8 @@ export default function BottomNav() {
                   isActive={!!sectionId && activeSection === sectionId}
                   iconColor={t.tileIcon}
                   labelColor={t.tileLabel}
+                  fieldPath={`bottomNav.items.${i}.label`}
+                  hrefPath={`bottomNav.items.${i}.href`}
                 />
               );
             })}
@@ -170,6 +163,8 @@ function NavItem({
   isActive,
   iconColor,
   labelColor,
+  fieldPath,
+  hrefPath,
 }: {
   iconName: string;
   label: string;
@@ -177,6 +172,8 @@ function NavItem({
   isActive: boolean;
   iconColor?: string;
   labelColor?: string;
+  fieldPath?: string;
+  hrefPath?: string;
 }) {
   const Icon = NAV_ICONS[iconName] ?? NAV_ICONS.card;
   const tg = linkTarget(href);
@@ -205,6 +202,8 @@ function NavItem({
       target={tg.target}
       rel={tg.rel}
       onClick={handleClick}
+      data-cms-href={hrefPath}
+      data-cms-href-below
       className="flex flex-col items-center gap-1.5 lg:gap-2 transition-colors cursor-pointer hover:opacity-90"
       style={{ color: labelColor }}
     >
@@ -212,6 +211,7 @@ function NavItem({
         <Icon />
       </span>
       <span
+        data-cms-field={fieldPath}
         className={`text-sm lg:text-sm xl:text-base whitespace-nowrap ${isActive ? "font-bold" : "font-medium"}`}
       >
         {label}

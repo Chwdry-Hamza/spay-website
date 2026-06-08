@@ -18,7 +18,7 @@ export async function getFooterExtras(): Promise<{
   // two sequential round-trips to every page render.
   const [cmsPages, postsResult] = await Promise.all([
     getPages(),
-    getPosts({ limit: 5 }).catch(() => null),
+    getPosts({ limit: 2 }).catch(() => null),
   ]);
 
   const dynamicLinks: FooterLink[] = cmsPages

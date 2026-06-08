@@ -8,6 +8,10 @@ type FlipCardProps = {
   frontAlt?: string;
   backAlt?: string;
   className?: string;
+  /** Inline-edit mode: show both faces side-by-side so each is editable. */
+  editMode?: boolean;
+  frontFieldPath?: string;
+  backFieldPath?: string;
 };
 
 export default function FlipCard({
@@ -16,11 +20,29 @@ export default function FlipCard({
   frontAlt = "Card front",
   backAlt = "Card back",
   className = "",
+  editMode = false,
+  frontFieldPath,
+  backFieldPath,
 }: FlipCardProps) {
   const [flipped, setFlipped] = useState(false);
   const [hovered, setHovered] = useState(false);
 
   const showBack = flipped !== hovered;
+
+  // In edit mode the hover/click flip would hide whichever face you reach for,
+  // so lay both faces out flat — each is an editable image slot.
+  if (editMode) {
+    return (
+      <div className={`grid grid-cols-2 gap-4 w-full max-w-2xl md:max-w-3xl ${className}`}>
+        <div data-cms-field={frontFieldPath} data-cms-type="image" className="relative aspect-[1.6/1]">
+          <img src={frontSrc} alt={frontAlt} className="w-full h-full object-cover drop-shadow-2xl" />
+        </div>
+        <div data-cms-field={backFieldPath} data-cms-type="image" className="relative aspect-[1.6/1]">
+          <img src={backSrc} alt={backAlt} className="w-full h-full object-cover drop-shadow-2xl" />
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div

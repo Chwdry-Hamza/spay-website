@@ -55,6 +55,7 @@ export default function TransferSection({
         <p
           className="text-[10px] sm:text-xs md:text-sm uppercase mb-4 sm:mb-5 md:mb-6 text-center"
           style={{ fontFamily: 'var(--font-inter)', fontWeight: 400, color: t.eyebrow, letterSpacing: '6px' }}
+          data-cms-field="transfer.eyebrow"
         >
           {data.eyebrow}
         </p>
@@ -65,7 +66,12 @@ export default function TransferSection({
           style={{ fontFamily }}
         >
           {data.titleParts.map((p, i) => (
-            <span key={i} style={{ color: p.color }}>{p.text}</span>
+            <span
+              key={i}
+              style={{ color: p.color }}
+              data-cms-field={`transfer.titleParts.${i}.text`}
+              data-cms-multiline
+            >{p.text}</span>
           ))}
         </h2>
 
@@ -81,12 +87,17 @@ export default function TransferSection({
         <p
           className="text-[11px] sm:text-xs md:text-base mb-6 sm:mb-8 md:mb-10 pb-2 leading-relaxed text-center max-w-xl md:max-w-2xl mx-auto"
           style={{ fontFamily: 'var(--font-inter)', fontWeight: 400, color: t.subtitle }}
+          data-cms-field="transfer.subtitle"
         >
           {data.subtitle}
         </p>
 
         {/* Phone Mockup */}
-        <div className="relative w-full flex justify-center">
+        <div
+          className="relative w-full flex justify-center"
+          data-cms-field="transfer.mockupImage"
+          data-cms-type="image"
+        >
           <img
             src={data.mockupImage}
             alt="SPay transfer mockup"
@@ -104,6 +115,7 @@ export default function TransferSection({
             <p
               className="text-[11px] lg:text-xs xl:text-sm uppercase mb-10 lg:mb-12 xl:mb-14"
               style={{ fontFamily: 'var(--font-inter)', fontWeight: 400, color: t.eyebrow, letterSpacing: '6px' }}
+              data-cms-field="transfer.eyebrow"
             >
               {data.eyebrow}
             </p>
@@ -112,7 +124,12 @@ export default function TransferSection({
               style={{ fontFamily }}
             >
               {data.titleParts.map((p, i) => (
-                <span key={i} style={{ color: p.color }}>{p.text}</span>
+                <span
+                  key={i}
+                  style={{ color: p.color }}
+                  data-cms-field={`transfer.titleParts.${i}.text`}
+                  data-cms-multiline
+                >{p.text}</span>
               ))}
             </h2>
             {/*
@@ -127,13 +144,18 @@ export default function TransferSection({
             <p
               className="text-xs lg:text-sm leading-relaxed pb-2"
               style={{ fontFamily: 'var(--font-inter)', fontWeight: 400, color: t.subtitle }}
+              data-cms-field="transfer.subtitle"
             >
               {data.subtitle}
             </p>
           </div>
 
           {/* Right Content - Phone Mockup */}
-          <div className="relative shrink-0 w-[320px] lg:w-[420px] xl:w-[500px] h-[420px] lg:h-[520px] xl:h-[580px] flex items-start justify-end ml-auto pl-2 lg:pl-4 xl:pl-6 translate-x-10 lg:translate-x-16 xl:translate-x-20">
+          <div
+            className="relative shrink-0 w-[320px] lg:w-[420px] xl:w-[500px] h-[420px] lg:h-[520px] xl:h-[580px] flex items-start justify-end ml-auto pl-2 lg:pl-4 xl:pl-6 translate-x-10 lg:translate-x-16 xl:translate-x-20"
+            data-cms-field="transfer.mockupImage"
+            data-cms-type="image"
+          >
             <img
               src={data.mockupImage}
               alt="SPay transfer mockup"

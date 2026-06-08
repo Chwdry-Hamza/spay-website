@@ -230,6 +230,7 @@ export default function FeaturesSection({
         <p
           className="font-inter font-normal not-italic tracking-[6px] text-xs md:text-sm uppercase mb-5"
           style={{ color: t.eyebrow }}
+          data-cms-field="features.eyebrow"
         >
           {data.eyebrow}
         </p>
@@ -238,7 +239,12 @@ export default function FeaturesSection({
           style={{ fontFamily: 'var(--font-space-grotesk)' }}
         >
           {data.titleParts.map((p, i) => (
-            <span key={i} style={{ color: p.color }}>{p.text}</span>
+            <span
+              key={i}
+              style={{ color: p.color }}
+              data-cms-field={`features.titleParts.${i}.text`}
+              data-cms-multiline
+            >{p.text}</span>
           ))}
         </h2>
       </div>
@@ -270,6 +276,8 @@ export default function FeaturesSection({
               >
                 <div className="absolute inset-0 flex flex-col p-[7%]">
                   <div
+                    data-cms-field={`features.cards.${i}.image`}
+                    data-cms-type="image"
                     className={`w-full ${
                       isCenter
                         ? "basis-[60%] sm:basis-[58%] lg:basis-[70%]"
@@ -294,6 +302,7 @@ export default function FeaturesSection({
                         color: t.cardTitle,
                         lineHeight: 1.1,
                       }}
+                      data-cms-field={`features.cards.${i}.title`}
                     >
                       {c.title}
                     </h3>
@@ -304,6 +313,7 @@ export default function FeaturesSection({
                         fontWeight: 300,
                         color: t.cardDesc,
                       }}
+                      data-cms-field={`features.cards.${i}.desc`}
                     >
                       {c.desc}
                     </p>

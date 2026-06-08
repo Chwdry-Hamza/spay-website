@@ -26,42 +26,42 @@ export default function JoinUsSection({
         style={{ backgroundColor: "#090e1c" }}
       >
         {/* Row 1 */}
-        <div className="h-64 rounded-lg overflow-hidden relative">
+        <div className="h-64 rounded-lg overflow-hidden relative" data-cms-field="joinUs.photoGrid.0" data-cms-type="image">
           <Image src={data.photoGrid[0]} alt="" fill className="object-cover grayscale opacity-40" />
         </div>
-        <div className="h-64 rounded-lg overflow-hidden relative">
+        <div className="h-64 rounded-lg overflow-hidden relative" data-cms-field="joinUs.photoGrid.1" data-cms-type="image">
           <Image src={data.photoGrid[1]} alt="" fill className="object-cover grayscale opacity-40" />
         </div>
-        <div className="h-64 rounded-lg overflow-hidden relative">
+        <div className="h-64 rounded-lg overflow-hidden relative" data-cms-field="joinUs.photoGrid.2" data-cms-type="image">
           <Image src={data.photoGrid[2]} alt="" fill className="object-cover grayscale opacity-40" />
         </div>
-        <div className="h-64 rounded-lg overflow-hidden relative">
+        <div className="h-64 rounded-lg overflow-hidden relative" data-cms-field="joinUs.photoGrid.3" data-cms-type="image">
           <Image src={data.photoGrid[3]} alt="" fill className="object-cover grayscale opacity-40" />
         </div>
         {/* Row 2 */}
-        <div className="h-64 rounded-lg overflow-hidden relative">
+        <div className="h-64 rounded-lg overflow-hidden relative" data-cms-field="joinUs.photoGrid.4" data-cms-type="image">
           <Image src={data.photoGrid[4]} alt="" fill className="object-cover grayscale opacity-40" />
         </div>
-        <div className="h-64 rounded-lg overflow-hidden relative">
+        <div className="h-64 rounded-lg overflow-hidden relative" data-cms-field="joinUs.photoGrid.5" data-cms-type="image">
           <Image src={data.photoGrid[5]} alt="" fill className="object-cover grayscale opacity-40" />
         </div>
-        <div className="h-64 rounded-lg overflow-hidden relative">
+        <div className="h-64 rounded-lg overflow-hidden relative" data-cms-field="joinUs.photoGrid.6" data-cms-type="image">
           <Image src={data.photoGrid[6]} alt="" fill className="object-cover grayscale opacity-40" />
         </div>
-        <div className="h-64 rounded-lg overflow-hidden relative">
+        <div className="h-64 rounded-lg overflow-hidden relative" data-cms-field="joinUs.photoGrid.7" data-cms-type="image">
           <Image src={data.photoGrid[7]} alt="" fill className="object-cover grayscale opacity-40" />
         </div>
         {/* Row 3 */}
-        <div className="h-64 rounded-lg overflow-hidden relative">
+        <div className="h-64 rounded-lg overflow-hidden relative" data-cms-field="joinUs.photoGrid.8" data-cms-type="image">
           <Image src={data.photoGrid[8]} alt="" fill className="object-cover grayscale opacity-40" />
         </div>
-        <div className="h-64 rounded-lg overflow-hidden relative">
+        <div className="h-64 rounded-lg overflow-hidden relative" data-cms-field="joinUs.photoGrid.9" data-cms-type="image">
           <Image src={data.photoGrid[9]} alt="" fill className="object-cover grayscale opacity-40" />
         </div>
-        <div className="h-64 rounded-lg overflow-hidden relative">
+        <div className="h-64 rounded-lg overflow-hidden relative" data-cms-field="joinUs.photoGrid.10" data-cms-type="image">
           <Image src={data.photoGrid[10]} alt="" fill className="object-cover grayscale opacity-40" />
         </div>
-        <div className="h-64 rounded-lg overflow-hidden relative">
+        <div className="h-64 rounded-lg overflow-hidden relative" data-cms-field="joinUs.photoGrid.11" data-cms-type="image">
           <Image src={data.photoGrid[11]} alt="" fill className="object-cover grayscale opacity-40" />
         </div>
       </div>
@@ -77,6 +77,7 @@ export default function JoinUsSection({
             color: t.eyebrow,
             letterSpacing: "6px",
           }}
+          data-cms-field="joinUs.eyebrow"
         >
           {data.eyebrow}
         </p>
@@ -85,7 +86,12 @@ export default function JoinUsSection({
           style={{ fontFamily: "var(--font-space-grotesk)" }}
         >
           {data.titleParts.map((p, i) => (
-            <span key={i} style={{ color: p.color }}>{p.text}</span>
+            <span
+              key={i}
+              style={{ color: p.color }}
+              data-cms-field={`joinUs.titleParts.${i}.text`}
+              data-cms-multiline
+            >{p.text}</span>
           ))}
         </h2>
         <p
@@ -95,6 +101,7 @@ export default function JoinUsSection({
             fontWeight: 400,
             color: t.subtitle,
           }}
+          data-cms-field="joinUs.subtitle"
         >
           {data.subtitle}
         </p>
@@ -102,6 +109,8 @@ export default function JoinUsSection({
           href={data.ctaUrl}
           target={ctaLinkTarget.target}
           rel={ctaLinkTarget.rel}
+          data-cms-field="joinUs.ctaLabel"
+          data-cms-href="joinUs.ctaUrl"
           className="inline-block font-semibold px-6 py-2.5 rounded-xl text-sm transition-all hover:opacity-90"
           style={{
             background: t.ctaBg,

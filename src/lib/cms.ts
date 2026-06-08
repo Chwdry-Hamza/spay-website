@@ -53,8 +53,6 @@ export type CmsStructuredData = {
 export type CmsPerformance = {
   skipAnalytics?: boolean;
   skipCustomScripts?: boolean;
-  disableCache?: boolean;
-  lazyLoadImages?: boolean;
 };
 
 /** A Tiptap ProseMirror document node (loosely typed — see TiptapRenderer). */
@@ -221,6 +219,13 @@ async function cmsFetch<T>(path: string, opts: FetchOpts = {}): Promise<T> {
   const init: RequestInit & { next?: { revalidate: number } } = {};
   if (opts.cache) {
     init.cache = opts.cache;
+  } else if (process.env.NODE_ENV !== 'production') {
+    // Dev: never serve stale CMS content. Every render fetches fresh so edits
+    // made in the CMS appear on the very next reload — no ISR window, no
+    // dependency on the revalidate webhook. Production keeps ISR caching below
+    // (fast pages) and relies on the backend's on-demand /api/revalidate calls
+    // to purge instantly on save.
+    init.cache = 'no-store';
   } else {
     init.next = { revalidate: opts.revalidate ?? 60 };
   }

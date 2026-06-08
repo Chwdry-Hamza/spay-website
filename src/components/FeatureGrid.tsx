@@ -44,7 +44,7 @@ const Avatar: React.FC<AvatarProps> = ({ initial, bg, size = 44 }) => (
   </div>
 );
 
-const Pill: React.FC<{ children: React.ReactNode }> = ({ children }) => (
+const Pill: React.FC<{ children: React.ReactNode; fieldPath?: string }> = ({ children, fieldPath }) => (
   <span
     className="inline-flex items-center px-3 py-1.5 rounded-full text-[11px] tracking-wide whitespace-nowrap"
     style={{
@@ -53,6 +53,7 @@ const Pill: React.FC<{ children: React.ReactNode }> = ({ children }) => (
       fontFamily: "var(--font-geist-mono)",
       color: "rgba(234, 244, 255, 0.85)",
     }}
+    data-cms-field={fieldPath}
   >
     {children}
   </span>
@@ -155,6 +156,7 @@ const FeaturesGrid = ({
               letterSpacing: "0.28em",
               color: t.eyebrow,
             }}
+            data-cms-field="featureGrid.eyebrow"
           >
             {data.eyebrow}
           </p>
@@ -166,7 +168,12 @@ const FeaturesGrid = ({
             }}
           >
             {data.titleParts.map((p, i) => (
-              <span key={i} style={{ color: p.color }}>
+              <span
+                key={i}
+                style={{ color: p.color }}
+                data-cms-field={`featureGrid.titleParts.${i}.text`}
+                data-cms-multiline
+              >
                 {p.text}
               </span>
             ))}
@@ -176,12 +183,12 @@ const FeaturesGrid = ({
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-5">
           {/* HERO TILE — SEND (span 2 on desktop) */}
           <article className={`${tileBase} lg:col-span-2 flex flex-col`} style={tileStyle}>
-            <p className={eyebrowClass} style={{ ...eyebrowStyle, color: t.tileLabel }}>
+            <p className={eyebrowClass} style={{ ...eyebrowStyle, color: t.tileLabel }} data-cms-field="featureGrid.send.label">
               {data.send.label}</p>
-            <h3 className={headingClass} style={{ ...headingStyle, color: t.tileTitle }}>
+            <h3 className={headingClass} style={{ ...headingStyle, color: t.tileTitle }} data-cms-field="featureGrid.send.title">
               {data.send.title}
             </h3>
-            <p className={`${bodyClass} max-w-[380px]`} style={{ ...bodyStyle, color: t.body }}>
+            <p className={`${bodyClass} max-w-[380px]`} style={{ ...bodyStyle, color: t.body }} data-cms-field="featureGrid.send.body">
               {data.send.body}</p>
 
             <div className="mt-auto pt-6 flex items-center gap-4">
@@ -216,6 +223,7 @@ const FeaturesGrid = ({
                     fontFamily: "var(--font-geist-mono)",
                     boxShadow: "0 8px 20px rgba(0,0,0,0.45)",
                   }}
+                  data-cms-field="featureGrid.send.badgeText"
                 >
                   {data.send.badgeText}
                 </div>
@@ -226,7 +234,7 @@ const FeaturesGrid = ({
 
           {/* STAT TILE — GROW */}
           <article className={`${tileBase} flex flex-col`} style={tileStyle}>
-            <p className={eyebrowClass} style={{ ...eyebrowStyle, color: t.tileLabel }}>
+            <p className={eyebrowClass} style={{ ...eyebrowStyle, color: t.tileLabel }} data-cms-field="featureGrid.grow.label">
               {data.grow.label}</p>
             <div className="flex items-baseline gap-1.5 mb-3">
               <span
@@ -236,6 +244,7 @@ const FeaturesGrid = ({
                   fontSize: 76,
                   color: t.tileTitle,
                 }}
+                data-cms-field="featureGrid.grow.statValue"
               >
                 {data.grow.statValue}
               </span>
@@ -245,23 +254,24 @@ const FeaturesGrid = ({
                   fontFamily: "var(--font-space-grotesk)",
                   color: "rgba(234,244,255,0.85)",
                 }}
+                data-cms-field="featureGrid.grow.statUnit"
               >
                 {data.grow.statUnit}
               </span>
             </div>
-            <p className={bodyClass} style={{ ...bodyStyle, color: t.body }}>
+            <p className={bodyClass} style={{ ...bodyStyle, color: t.body }} data-cms-field="featureGrid.grow.body">
               {data.grow.body}</p>
           </article>
 
           {/* CARD TILE — SPEND */}
           <article className={`${tileBase} flex flex-col`} style={tileStyle}>
-            <p className={eyebrowClass} style={{ ...eyebrowStyle, color: t.tileLabel }}>
+            <p className={eyebrowClass} style={{ ...eyebrowStyle, color: t.tileLabel }} data-cms-field="featureGrid.spend.label">
               {data.spend.label}</p>
-            <h3 className={headingClass} style={{ ...headingStyle, color: t.tileTitle }}>
+            <h3 className={headingClass} style={{ ...headingStyle, color: t.tileTitle }} data-cms-field="featureGrid.spend.title">
               {data.spend.title}
             </h3>
 
-            <div className="pt-4 flex justify-center">
+            <div className="pt-4 flex justify-center" data-cms-field="featureGrid.spend.cardImage" data-cms-type="image">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={data.spend.cardImage}
@@ -271,6 +281,10 @@ const FeaturesGrid = ({
                 style={{
                   transform: "rotate(-6deg) scale(4.3)",
                   transformOrigin: "center",
+                  // The 4.3× scale makes the image's hit-area cover the title
+                  // above it; ignore pointer events so the title stays clickable
+                  // (the "Change image" button lives on the wrapper, not the img).
+                  pointerEvents: "none",
                   filter:
                     "drop-shadow(0 20px 40px rgba(0,0,0,0.55)) drop-shadow(0 0 22px rgba(70,241,197,0.18))",
                 }}
@@ -283,10 +297,10 @@ const FeaturesGrid = ({
             <div className={iconBadgeClass} style={iconBadgeStyle}>
               <SplitIcon color={t.tileIcon} />
             </div>
-            <h3 className={headingClass} style={{ ...headingStyle, color: t.tileTitle }}>
+            <h3 className={headingClass} style={{ ...headingStyle, color: t.tileTitle }} data-cms-field="featureGrid.split.title">
               {data.split.title}
             </h3>
-            <p className={`${bodyClass} mb-5`} style={{ ...bodyStyle, color: t.body }}>
+            <p className={`${bodyClass} mb-5`} style={{ ...bodyStyle, color: t.body }} data-cms-field="featureGrid.split.body">
               {data.split.body}</p>
             <div className="mt-auto flex items-center">
               <div className="flex">
@@ -304,6 +318,7 @@ const FeaturesGrid = ({
                   fontFamily: "var(--font-geist-mono)",
                   color: t.accent,
                 }}
+                data-cms-field="featureGrid.split.amountText"
               >
                 {data.split.amountText}
               </span>
@@ -315,14 +330,14 @@ const FeaturesGrid = ({
             <div className={iconBadgeClass} style={iconBadgeStyle}>
               <BusinessIcon color={t.tileIcon} />
             </div>
-            <h3 className={headingClass} style={{ ...headingStyle, color: t.tileTitle }}>
+            <h3 className={headingClass} style={{ ...headingStyle, color: t.tileTitle }} data-cms-field="featureGrid.business.title">
               {data.business.title}
             </h3>
-            <p className={`${bodyClass} mb-5`} style={{ ...bodyStyle, color: t.body }}>
+            <p className={`${bodyClass} mb-5`} style={{ ...bodyStyle, color: t.body }} data-cms-field="featureGrid.business.body">
               {data.business.body}</p>
             <div className="mt-auto flex flex-wrap gap-2">
               {data.business.pills.map((p, i) => (
-                <Pill key={i}>{p}</Pill>
+                <Pill key={i} fieldPath={`featureGrid.business.pills.${i}`}>{p}</Pill>
               ))}
             </div>
           </article>
@@ -331,18 +346,19 @@ const FeaturesGrid = ({
           <article className={`${tileBase} lg:col-span-2`} style={tileStyle}>
             <div className="flex flex-col lg:flex-row gap-6 lg:gap-8 h-full">
               <div className="flex-1 flex flex-col">
-                <p className={eyebrowClass} style={{ ...eyebrowStyle, color: t.tileLabel }}>
+                <p className={eyebrowClass} style={{ ...eyebrowStyle, color: t.tileLabel }} data-cms-field="featureGrid.protect.label">
                   {data.protect.label}</p>
-                <h3 className={headingClass} style={{ ...headingStyle, color: t.tileTitle }}>
+                <h3 className={headingClass} style={{ ...headingStyle, color: t.tileTitle }} data-cms-field="featureGrid.protect.title">
                   {data.protect.title}
                 </h3>
                 <p className={`${bodyClass} mb-5 max-w-[460px]`}
                   style={{ ...bodyStyle, color: t.body }}
+                  data-cms-field="featureGrid.protect.body"
                 >
                   {data.protect.body}</p>
                 <div className="mt-auto flex flex-wrap gap-2">
                   {data.protect.pills.map((p, i) => (
-                    <Pill key={i}>{p}</Pill>
+                    <Pill key={i} fieldPath={`featureGrid.protect.pills.${i}`}>{p}</Pill>
                   ))}
                 </div>
               </div>

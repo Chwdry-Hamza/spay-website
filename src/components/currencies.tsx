@@ -32,25 +32,34 @@ export default function Currencies({
         }}
       >
         {/* Render twice for a seamless infinite loop */}
-        {[...content.tickers, ...content.tickers].map((c, i) => (
+        {[...content.tickers, ...content.tickers].map((c, i) => {
+          const idx = i % content.tickers.length;
+          return (
           <div key={i} className="flex items-center gap-3 px-8">
             <span
               className="font-semibold text-sm md:text-base tracking-wide"
               style={{ color: t.pair }}
+              data-cms-field={`currencies.tickers.${idx}.pair`}
             >
               {c.pair}
             </span>
-            <span className="text-sm md:text-base" style={{ color: t.price }}>
+            <span
+              className="text-sm md:text-base"
+              style={{ color: t.price }}
+              data-cms-field={`currencies.tickers.${idx}.price`}
+            >
               {c.price}
             </span>
             <span
               className="text-xs md:text-sm font-medium"
               style={{ color: c.change.startsWith("-") ? t.down : t.up }}
+              data-cms-field={`currencies.tickers.${idx}.change`}
             >
               {c.change}
             </span>
           </div>
-        ))}
+          );
+        })}
       </div>
     </section>
   );

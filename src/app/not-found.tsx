@@ -10,6 +10,30 @@ export const metadata = {
   robots: { index: false, follow: true },
 };
 
+/**
+ * Routes that ALWAYS resolve to a real page, so they can never be a genuine
+ * 404. Next renders this not-found boundary as a fallback even on successful
+ * pages (it uses the dynamic `headers()` API), which would otherwise record
+ * valid routes — most notably the homepage "/" — as a miss on every visit.
+ * We skip logging for these so the 404 log only contains real dead URLs.
+ */
+const ALWAYS_VALID = new Set([
+  '/',
+  '/about',
+  '/blog',
+  '/card-terms',
+  '/e-sign-consent',
+  '/privacy-policy',
+  '/prohibited-activities',
+  '/search',
+  '/support',
+]);
+
+function isAlwaysValid(path: string): boolean {
+  const p = (path.split('?')[0] || '').replace(/\/+$/, '') || '/';
+  return ALWAYS_VALID.has(p);
+}
+
 export default async function NotFound() {
   // Middleware forwards the originally-requested path here so we can log the
   // real dead URL (the not-found component otherwise only sees its own route).
@@ -17,8 +41,9 @@ export default async function NotFound() {
   const originalPath = h.get('x-spay-original-path') || '';
 
   // Fire-and-forget: record the miss AFTER the response is flushed so logging
-  // never delays the 404 render.
-  if (originalPath) {
+  // never delays the 404 render. Skip always-valid routes so successful pages
+  // (e.g. the homepage) aren't logged as 404s on every render.
+  if (originalPath && !isAlwaysValid(originalPath)) {
     after(() => logMissingUrl(originalPath));
   }
 

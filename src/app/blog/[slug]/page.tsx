@@ -78,14 +78,6 @@ export default async function BlogPostPage({
   });
   const { nodes: schemaNodes, customRaw } = buildFromSchemaField(post.schema);
 
-  const date = post.publishedAt
-    ? new Date(post.publishedAt).toLocaleDateString('en-US', {
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric',
-      })
-    : '';
-
   return (
     <main style={{ background: '#090e1c', minHeight: '100vh' }}>
       <AppHeader />
@@ -120,13 +112,7 @@ export default async function BlogPostPage({
           {post.title}
         </h1>
 
-        <div className="mb-8 flex items-center gap-2 text-sm" style={{ color: '#7A8194' }}>
-          {post.authorName && <span>{post.authorName}</span>}
-          {post.authorName && date ? <span aria-hidden>·</span> : null}
-          {date && <time dateTime={post.publishedAt ?? undefined}>{date}</time>}
-          {post.readTime ? <span aria-hidden>·</span> : null}
-          {post.readTime ? <span>{post.readTime} min read</span> : null}
-        </div>
+        <div className="mb-8" />
 
         <TiptapRenderer content={post.content} className="text-base md:text-lg" />
 

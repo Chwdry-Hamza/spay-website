@@ -91,8 +91,10 @@ import { HOME_CONTENT_DEFAULTS, type HomeContent } from "@/lib/homeContent";
 
 export default function PaymentSection({
   content = HOME_CONTENT_DEFAULTS.payment,
+  editMode = false,
 }: {
   content?: HomeContent["payment"];
+  editMode?: boolean;
 }) {
   const PAYMENT_DATA = content;
   const data = PAYMENT_DATA;
@@ -127,7 +129,11 @@ export default function PaymentSection({
 
       <div className="relative z-10 w-full max-w-3xl mx-auto px-6 flex flex-col items-center">
 
-        <p className="text-xs md:text-sm tracking-[0.25em] uppercase mb-5" style={{ color: t.eyebrow }}>
+        <p
+          className="text-xs md:text-sm tracking-[0.25em] uppercase mb-5"
+          style={{ color: t.eyebrow }}
+          data-cms-field="payment.eyebrow"
+        >
           {data.eyebrow}
         </p>
         <h2
@@ -135,10 +141,19 @@ export default function PaymentSection({
           style={{ fontFamily: 'var(--font-space-grotesk)' }}
         >
           {data.titleParts.map((p, i) => (
-            <span key={i} style={{ color: p.color }}>{p.text}</span>
+            <span
+              key={i}
+              style={{ color: p.color }}
+              data-cms-field={`payment.titleParts.${i}.text`}
+              data-cms-multiline
+            >{p.text}</span>
           ))}
         </h2>
-        <p className="text-sm md:text-base text-center mb-12 md:mb-16 max-w-md" style={{ color: t.subtitle }}>
+        <p
+          className="text-sm md:text-base text-center mb-12 md:mb-16 max-w-md"
+          style={{ color: t.subtitle }}
+          data-cms-field="payment.subtitle"
+        >
           {data.subtitle}
         </p>
 
@@ -147,6 +162,9 @@ export default function PaymentSection({
           backSrc={data.cardBack}
           frontAlt={data.cardFrontAlt}
           backAlt={data.cardBackAlt}
+          editMode={editMode}
+          frontFieldPath="payment.cardFront"
+          backFieldPath="payment.cardBack"
         />
 
         

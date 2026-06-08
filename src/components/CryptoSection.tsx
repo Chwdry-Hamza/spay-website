@@ -16,6 +16,7 @@ export default function CryptoSection({
         <p
           className="text-[10px] sm:text-xs md:text-sm uppercase mb-3 sm:mb-4"
           style={{ fontFamily: 'var(--font-inter)', fontWeight: 400, color: t.eyebrow, letterSpacing: '6px' }}
+          data-cms-field="crypto.eyebrow"
         >
           {data.eyebrow}
         </p>
@@ -26,7 +27,12 @@ export default function CryptoSection({
           style={{ fontFamily: 'var(--font-space-grotesk)' }}
         >
           {data.titleParts.map((p, i) => (
-            <span key={i} style={{ color: p.color }}>{p.text}</span>
+            <span
+              key={i}
+              style={{ color: p.color }}
+              data-cms-field={`crypto.titleParts.${i}.text`}
+              data-cms-multiline
+            >{p.text}</span>
           ))}
         </h2>
 
@@ -34,12 +40,17 @@ export default function CryptoSection({
         <p
           className="text-sm sm:text-base md:text-lg mb-8 sm:mb-10 leading-relaxed max-w-xl md:max-w-2xl mx-auto"
           style={{ fontFamily: 'var(--font-inter)', fontWeight: 400, color: t.subtitle }}
+          data-cms-field="crypto.subtitle"
         >
           {data.subtitle}
         </p>
 
         {/* Phone Mockup - Mobile/Tablet with glow */}
-        <div className="relative w-full flex justify-center items-center">
+        <div
+          className="relative w-full flex justify-center items-center"
+          data-cms-field="crypto.mockupImage"
+          data-cms-type="image"
+        >
           <div
             className="absolute pointer-events-none"
             style={{
@@ -71,6 +82,7 @@ export default function CryptoSection({
               <p
                 className="text-[11px] lg:text-xs xl:text-sm uppercase mb-10 lg:mb-14 xl:mb-16"
                 style={{ fontFamily: 'var(--font-inter)', fontWeight: 400, color: t.eyebrow, letterSpacing: '6px' }}
+                data-cms-field="crypto.eyebrow"
               >
                 {data.eyebrow}
               </p>
@@ -79,19 +91,29 @@ export default function CryptoSection({
                 style={{ fontFamily: 'var(--font-space-grotesk)' }}
               >
                 {data.titleParts.map((p, i) => (
-                  <span key={i} style={{ color: p.color }}>{p.text}</span>
+                  <span
+                    key={i}
+                    style={{ color: p.color }}
+                    data-cms-field={`crypto.titleParts.${i}.text`}
+                    data-cms-multiline
+                  >{p.text}</span>
                 ))}
               </h2>
               <p
                 className="text-xs lg:text-sm leading-relaxed"
                 style={{ fontFamily: 'var(--font-inter)', fontWeight: 400, color: t.subtitle }}
+                data-cms-field="crypto.subtitle"
               >
                 {data.subtitle}
               </p>
             </div>
 
             {/* Right - Phone */}
-            <div className="relative shrink-0 flex items-center justify-end ml-auto pl-8 lg:pl-16 xl:pl-24">
+            <div
+              className="relative shrink-0 flex items-center justify-end ml-auto pl-8 lg:pl-16 xl:pl-24"
+              data-cms-field="crypto.mockupImage"
+              data-cms-type="image"
+            >
               <div
                 className="absolute pointer-events-none top-1/2 -translate-y-1/2"
                 style={{

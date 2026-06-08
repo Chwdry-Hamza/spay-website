@@ -8,7 +8,7 @@ import PerformanceScripts from '@/components/cms/PerformanceScripts';
 import { getPosts, getSeoSetting } from '@/lib/cms';
 import { buildListingMetadata } from '@/lib/cms-meta';
 
-const PAGE_SIZE = 12;
+const PAGE_SIZE = 6;
 
 function parsePage(v: string | string[] | undefined): number {
   const n = Number(Array.isArray(v) ? v[0] : v);

@@ -44,6 +44,7 @@ function PostCard({ post }: { post: CmsPost }) {
             src={post.cover}
             alt={post.title}
             className="aspect-[16/9] w-full object-cover"
+            style={{ background: '#0a2a23' }}
             loading="lazy"
           />
         ) : (
