@@ -5,7 +5,7 @@ import { resolveHomeContent, type HomeContent } from "@/lib/homeContent";
 import { useInlineEditRuntime } from "@/components/InlineEditRuntime";
 
 /**
- * Shared hooks for components that live OUTSIDE the homepage tree (the global
+ * Shared hooks  for components that live OUTSIDE the homepage tree (the global
  * bottom nav + cookie banner in the root layout) but still need to be editable
  * in the CMS live preview. HomeSections already does this inline for the page
  * body; these give the same behaviour to the global chrome.
