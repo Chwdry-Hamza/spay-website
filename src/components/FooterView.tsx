@@ -2,8 +2,9 @@
 
 import Link from "next/link";
 import { linkTarget } from "@/lib/linkTarget";
-import type { HomeContent } from "@/lib/homeContent";
+import { HOME_CONTENT_DEFAULTS, type HomeContent } from "@/lib/homeContent";
 import FooterBlogsDropdown, { type FooterBlogLink } from "./FooterBlogsDropdown";
+import FallbackImg from "./FallbackImg";
 
 export type FooterLink = { label: string; href: string };
 
@@ -37,7 +38,7 @@ export default function FooterView({
         {/* Logo */}
         <div className="flex justify-center mb-2">
           <span data-cms-field="footer.logo" data-cms-type="image" style={{ display: "inline-block" }}>
-            <img src={data.logo} alt="SPAY" style={{ height: "2.5rem", width: "auto" }} />
+            <FallbackImg src={data.logo} fallbackSrc={HOME_CONTENT_DEFAULTS.footer.logo} alt="SPAY" style={{ height: "2.5rem", width: "auto" }} />
           </span>
         </div>
 
@@ -103,7 +104,7 @@ export default function FooterView({
         {/* Top Section - Logo */}
         <div className="flex flex-col items-start mb-12">
           <span data-cms-field="footer.logo" data-cms-type="image" style={{ display: "inline-block" }}>
-            <img src={data.logo} alt="SPAY" style={{ height: "2.2rem", width: "auto" }} />
+            <FallbackImg src={data.logo} fallbackSrc={HOME_CONTENT_DEFAULTS.footer.logo} alt="SPAY" style={{ height: "2.2rem", width: "auto" }} />
           </span>
           <p className="text-sm tracking-widest mt-1" style={{ color: t.tagline }} data-cms-field="footer.tagline">{data.tagline}</p>
         </div>

@@ -49,12 +49,8 @@ export default async function SearchPage({
     <main style={{ background: '#090e1c', minHeight: '100vh' }}>
       <AppHeader />
       <section className="mx-auto w-full max-w-7xl px-4 pt-24 pb-16 sm:px-8 lg:px-16">
-        <h1
-          className="mb-6 text-3xl font-bold text-white md:text-4xl"
-          style={{ fontFamily: 'var(--font-space-grotesk)' }}
-        >
-          Search
-        </h1>
+        {/* Heading kept for screen readers but visually hidden. */}
+        <h1 className="sr-only">Search</h1>
 
         {/* GET form so the query lives in ?q= and is shareable/bookmarkable. */}
         <form action="/search" method="get" className="mb-10 flex gap-3">
@@ -75,7 +71,7 @@ export default async function SearchPage({
           <button
             type="submit"
             className="rounded-xl px-6 py-3 text-sm font-semibold transition-opacity hover:opacity-90"
-            style={{ background: '#46F1C5', color: '#0a2a23' }}
+            style={{ background: '#04babf', color: '#0a2a23' }}
           >
             Search
           </button>

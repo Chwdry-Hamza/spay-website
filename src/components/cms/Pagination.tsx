@@ -41,7 +41,7 @@ export default function Pagination({
   const base =
     'inline-flex h-10 min-w-10 items-center justify-center rounded-lg px-3 text-sm transition-colors';
   const idle = { background: '#0e2e2e', color: '#A6AABE', border: '1px solid rgba(70,241,197,0.18)' };
-  const active = { background: '#46F1C5', color: '#0a2a23', border: '1px solid #46F1C5' };
+  const active = { background: '#04babf', color: '#0a2a23', border: '1px solid #04babf' };
 
   return (
     <nav

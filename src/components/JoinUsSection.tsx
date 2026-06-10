@@ -1,4 +1,4 @@
-import Image from "next/image";
+import FallbackImg from "./FallbackImg";
 import { linkTarget } from "@/lib/linkTarget";
 import { HOME_CONTENT_DEFAULTS, type HomeContent } from "@/lib/homeContent";
 
@@ -25,45 +25,21 @@ export default function JoinUsSection({
         className="absolute inset-y-0 left-0 right-0 w-full max-w-7xl mx-auto px-4 sm:px-8 lg:px-16 grid grid-cols-4 gap-1"
         style={{ backgroundColor: "#090e1c" }}
       >
-        {/* Row 1 */}
-        <div className="h-64 rounded-lg overflow-hidden relative" data-cms-field="joinUs.photoGrid.0" data-cms-type="image">
-          <Image src={data.photoGrid[0]} alt="" fill className="object-cover grayscale opacity-40" />
-        </div>
-        <div className="h-64 rounded-lg overflow-hidden relative" data-cms-field="joinUs.photoGrid.1" data-cms-type="image">
-          <Image src={data.photoGrid[1]} alt="" fill className="object-cover grayscale opacity-40" />
-        </div>
-        <div className="h-64 rounded-lg overflow-hidden relative" data-cms-field="joinUs.photoGrid.2" data-cms-type="image">
-          <Image src={data.photoGrid[2]} alt="" fill className="object-cover grayscale opacity-40" />
-        </div>
-        <div className="h-64 rounded-lg overflow-hidden relative" data-cms-field="joinUs.photoGrid.3" data-cms-type="image">
-          <Image src={data.photoGrid[3]} alt="" fill className="object-cover grayscale opacity-40" />
-        </div>
-        {/* Row 2 */}
-        <div className="h-64 rounded-lg overflow-hidden relative" data-cms-field="joinUs.photoGrid.4" data-cms-type="image">
-          <Image src={data.photoGrid[4]} alt="" fill className="object-cover grayscale opacity-40" />
-        </div>
-        <div className="h-64 rounded-lg overflow-hidden relative" data-cms-field="joinUs.photoGrid.5" data-cms-type="image">
-          <Image src={data.photoGrid[5]} alt="" fill className="object-cover grayscale opacity-40" />
-        </div>
-        <div className="h-64 rounded-lg overflow-hidden relative" data-cms-field="joinUs.photoGrid.6" data-cms-type="image">
-          <Image src={data.photoGrid[6]} alt="" fill className="object-cover grayscale opacity-40" />
-        </div>
-        <div className="h-64 rounded-lg overflow-hidden relative" data-cms-field="joinUs.photoGrid.7" data-cms-type="image">
-          <Image src={data.photoGrid[7]} alt="" fill className="object-cover grayscale opacity-40" />
-        </div>
-        {/* Row 3 */}
-        <div className="h-64 rounded-lg overflow-hidden relative" data-cms-field="joinUs.photoGrid.8" data-cms-type="image">
-          <Image src={data.photoGrid[8]} alt="" fill className="object-cover grayscale opacity-40" />
-        </div>
-        <div className="h-64 rounded-lg overflow-hidden relative" data-cms-field="joinUs.photoGrid.9" data-cms-type="image">
-          <Image src={data.photoGrid[9]} alt="" fill className="object-cover grayscale opacity-40" />
-        </div>
-        <div className="h-64 rounded-lg overflow-hidden relative" data-cms-field="joinUs.photoGrid.10" data-cms-type="image">
-          <Image src={data.photoGrid[10]} alt="" fill className="object-cover grayscale opacity-40" />
-        </div>
-        <div className="h-64 rounded-lg overflow-hidden relative" data-cms-field="joinUs.photoGrid.11" data-cms-type="image">
-          <Image src={data.photoGrid[11]} alt="" fill className="object-cover grayscale opacity-40" />
-        </div>
+        {data.photoGrid.map((src, i) => (
+          <div
+            key={i}
+            className="h-64 rounded-lg overflow-hidden relative"
+            data-cms-field={`joinUs.photoGrid.${i}`}
+            data-cms-type="image"
+          >
+            <FallbackImg
+              src={src}
+              fallbackSrc={HOME_CONTENT_DEFAULTS.joinUs.photoGrid[i]}
+              alt=""
+              className="absolute inset-0 w-full h-full object-cover grayscale opacity-40"
+            />
+          </div>
+        ))}
       </div>
 
 

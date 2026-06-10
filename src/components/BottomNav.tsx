@@ -5,6 +5,7 @@ import * as React from "react";
 import { linkTarget } from "@/lib/linkTarget";
 import { usePreviewSlice } from "@/hooks/usePreview";
 import { HOME_CONTENT_DEFAULTS, type HomeContent } from "@/lib/homeContent";
+import FallbackImg from "./FallbackImg";
 
 export default function BottomNav({
   content,
@@ -90,7 +91,7 @@ export default function BottomNav({
         <div className="flex items-center justify-between px-5 py-3 w-full">
           <span data-cms-field="bottomNav.logoSrc" data-cms-type="image" style={{ display: "inline-block" }}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={data.logoSrc} alt={data.logoAlt} style={{ height: "3rem", width: "auto" }} />
+            <FallbackImg src={data.logoSrc} fallbackSrc={HOME_CONTENT_DEFAULTS.bottomNav.logoSrc} alt={data.logoAlt} style={{ height: "3rem", width: "auto" }} />
           </span>
           {renderCta(data.ctaMobileLabel || data.ctaLabel, true)}
         </div>
@@ -103,8 +104,9 @@ export default function BottomNav({
             <Link href="/">
               <span data-cms-field="bottomNav.logoSrc" data-cms-type="image" style={{ display: "inline-block" }}>
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
+                <FallbackImg
                   src={data.logoSrc}
+                  fallbackSrc={HOME_CONTENT_DEFAULTS.bottomNav.logoSrc}
                   alt={data.logoAlt}
                   className="h-8 lg:h-9 xl:h-11 w-auto"
                   style={{ transform: "scale(1.0)", transformOrigin: "left center" }}

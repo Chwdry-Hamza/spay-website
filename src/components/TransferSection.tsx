@@ -1,4 +1,5 @@
 import { HOME_CONTENT_DEFAULTS, type HomeContent } from "@/lib/homeContent";
+import FallbackImg from "./FallbackImg";
 
 export default function TransferSection({
   content = HOME_CONTENT_DEFAULTS.transfer,
@@ -98,8 +99,9 @@ export default function TransferSection({
           data-cms-field="transfer.mockupImage"
           data-cms-type="image"
         >
-          <img
+          <FallbackImg
             src={data.mockupImage}
+            fallbackSrc={HOME_CONTENT_DEFAULTS.transfer.mockupImage}
             alt="SPay transfer mockup"
             className="relative w-64 sm:w-72 md:w-96 h-auto object-contain"
             style={{ transform: "scaleX(1) scaleY(1.05) translateY(20px)", transformOrigin: "center" }}
@@ -156,8 +158,9 @@ export default function TransferSection({
             data-cms-field="transfer.mockupImage"
             data-cms-type="image"
           >
-            <img
+            <FallbackImg
               src={data.mockupImage}
+              fallbackSrc={HOME_CONTENT_DEFAULTS.transfer.mockupImage}
               alt="SPay transfer mockup"
               className="w-72 lg:w-88 xl:w-96 h-auto object-contain"
               style={{ transform: "scaleY(1.05)", transformOrigin: "top right" }}

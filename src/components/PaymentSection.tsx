@@ -160,6 +160,8 @@ export default function PaymentSection({
         <FlipCard
           frontSrc={data.cardFront}
           backSrc={data.cardBack}
+          frontFallback={HOME_CONTENT_DEFAULTS.payment.cardFront}
+          backFallback={HOME_CONTENT_DEFAULTS.payment.cardBack}
           frontAlt={data.cardFrontAlt}
           backAlt={data.cardBackAlt}
           editMode={editMode}

@@ -1,4 +1,5 @@
 import { HOME_CONTENT_DEFAULTS, type HomeContent } from "@/lib/homeContent";
+import FallbackImg from "./FallbackImg";
 
 export default function CryptoSection({
   content = HOME_CONTENT_DEFAULTS.crypto,
@@ -65,8 +66,9 @@ export default function CryptoSection({
                 'linear-gradient(to bottom, transparent 0%, black 18%, black 62%, transparent 82%)',
             }}
           />
-          <img
+          <FallbackImg
             src={data.mockupImage}
+            fallbackSrc={HOME_CONTENT_DEFAULTS.crypto.mockupImage}
             alt="SPay trade mockup"
             className="relative w-80 sm:w-96 md:w-[28rem] h-auto object-contain"
           />
@@ -125,8 +127,9 @@ export default function CryptoSection({
                   filter: 'blur(40px)',
                 }}
               />
-              <img
+              <FallbackImg
                 src={data.mockupImage}
+                fallbackSrc={HOME_CONTENT_DEFAULTS.crypto.mockupImage}
                 alt="SPay trade mockup"
                 className="relative w-[26rem] lg:w-[32rem] xl:w-[38rem] h-auto object-contain"
               />

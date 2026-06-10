@@ -1,5 +1,6 @@
 import React from "react";
 import { HOME_CONTENT_DEFAULTS, type HomeContent } from "@/lib/homeContent";
+import FallbackImg from "./FallbackImg";
 
 const tileBase =
   "relative rounded-[20px] p-6 md:p-7 border overflow-hidden min-h-[220px] transition-[transform,box-shadow] duration-200 ease-out hover:-translate-y-1";
@@ -273,8 +274,9 @@ const FeaturesGrid = ({
 
             <div className="pt-4 flex justify-center" data-cms-field="featureGrid.spend.cardImage" data-cms-type="image">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
+              <FallbackImg
                 src={data.spend.cardImage}
+                fallbackSrc={HOME_CONTENT_DEFAULTS.featureGrid.spend.cardImage}
                 alt="SPay card"
                 draggable={false}
                 className="w-full max-w-[180px] max-h-[110px] object-contain select-none"

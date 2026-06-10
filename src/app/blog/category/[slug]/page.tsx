@@ -5,7 +5,6 @@ import Footer from '@/components/Footer';
 import Breadcrumbs from '@/components/cms/Breadcrumbs';
 import PostGrid from '@/components/cms/PostGrid';
 import Pagination from '@/components/cms/Pagination';
-import BlogSearchBar from '@/components/cms/BlogSearchBar';
 import PerformanceScripts from '@/components/cms/PerformanceScripts';
 import { getCategoryBySlug, getSeoSetting } from '@/lib/cms';
 import { buildListingMetadata } from '@/lib/cms-meta';
@@ -82,8 +81,6 @@ export default async function CategoryLandingPage({
             {category.content || category.description}
           </p>
         )}
-
-        <BlogSearchBar />
 
         <PostGrid posts={items} />
         <Pagination basePath={basePath} page={data.page} totalPages={totalPages} />

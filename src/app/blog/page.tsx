@@ -47,12 +47,8 @@ export default async function BlogIndexPage({
       <section className="mx-auto w-full max-w-7xl px-4 pt-24 pb-16 sm:px-8 lg:px-16">
         <Breadcrumbs crumbs={[{ name: 'Home', url: '/' }, { name: 'Blog', url: '/blog' }]} />
 
-        <h1
-          className="mt-6 mb-10 text-4xl font-bold text-white md:text-5xl"
-          style={{ fontFamily: 'var(--font-space-grotesk)' }}
-        >
-          Blog
-        </h1>
+        {/* Heading kept for SEO/screen readers but visually hidden. */}
+        <h1 className="sr-only">Blog</h1>
 
         <BlogSearchBar />
 

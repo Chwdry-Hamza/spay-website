@@ -8,7 +8,7 @@
  */
 export default function BlogSearchBar({ defaultValue = '' }: { defaultValue?: string }) {
   return (
-    <form action="/search" method="get" role="search" className="mb-10 flex gap-3">
+    <form action="/search" method="get" role="search" className="mt-8 mb-10 flex gap-3">
       <input
         type="search"
         name="q"
@@ -26,7 +26,7 @@ export default function BlogSearchBar({ defaultValue = '' }: { defaultValue?: st
       <button
         type="submit"
         className="rounded-xl px-5 py-3 text-sm font-semibold transition-opacity hover:opacity-90"
-        style={{ background: '#46F1C5', color: '#0a2a23' }}
+        style={{ background: '#04babf', color: '#0a2a23' }}
       >
         Search
       </button>

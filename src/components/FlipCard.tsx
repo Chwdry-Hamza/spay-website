@@ -1,10 +1,13 @@
 "use client";
 
 import { useState } from "react";
+import FallbackImg from "./FallbackImg";
 
 type FlipCardProps = {
   frontSrc?: string;
   backSrc?: string;
+  frontFallback?: string;
+  backFallback?: string;
   frontAlt?: string;
   backAlt?: string;
   className?: string;
@@ -17,6 +20,8 @@ type FlipCardProps = {
 export default function FlipCard({
   frontSrc = "/frontCard.png",
   backSrc = "/backCard.png",
+  frontFallback = "/frontCard.png",
+  backFallback = "/backCard.png",
   frontAlt = "Card front",
   backAlt = "Card back",
   className = "",
@@ -35,10 +40,10 @@ export default function FlipCard({
     return (
       <div className={`grid grid-cols-2 gap-4 w-full max-w-2xl md:max-w-3xl ${className}`}>
         <div data-cms-field={frontFieldPath} data-cms-type="image" className="relative aspect-[1.6/1]">
-          <img src={frontSrc} alt={frontAlt} className="w-full h-full object-cover drop-shadow-2xl" />
+          <FallbackImg src={frontSrc} fallbackSrc={frontFallback} alt={frontAlt} className="w-full h-full object-cover drop-shadow-2xl" />
         </div>
         <div data-cms-field={backFieldPath} data-cms-type="image" className="relative aspect-[1.6/1]">
-          <img src={backSrc} alt={backAlt} className="w-full h-full object-cover drop-shadow-2xl" />
+          <FallbackImg src={backSrc} fallbackSrc={backFallback} alt={backAlt} className="w-full h-full object-cover drop-shadow-2xl" />
         </div>
       </div>
     );
@@ -67,8 +72,9 @@ export default function FlipCard({
           transform: showBack ? "rotateY(180deg)" : "rotateY(0deg)",
         }}
       >
-        <img
+        <FallbackImg
           src={frontSrc}
+          fallbackSrc={frontFallback}
           alt={frontAlt}
           className="absolute inset-0 w-full h-full object-cover drop-shadow-2xl"
           style={{
@@ -79,8 +85,9 @@ export default function FlipCard({
             transform: "rotateY(0deg) translateY(12px)",
           }}
         />
-        <img
+        <FallbackImg
           src={backSrc}
+          fallbackSrc={backFallback}
           alt={backAlt}
           className="absolute inset-0 w-full h-full object-cover drop-shadow-2xl"
           style={{

@@ -77,7 +77,7 @@ export default async function NotFound() {
           <Link
             href="/"
             className="rounded-xl px-6 py-3 text-sm font-semibold transition-opacity hover:opacity-90"
-            style={{ background: '#46F1C5', color: '#0a2a23' }}
+            style={{ background: '#04babf', color: '#0a2a23' }}
           >
             Back to home
           </Link>
@@ -85,8 +85,8 @@ export default async function NotFound() {
             href="/blog"
             className="rounded-xl px-6 py-3 text-sm font-semibold transition-colors"
             style={{
-              border: '1px solid rgba(70,241,197,0.35)',
-              color: '#46F1C5',
+              border: '1px solid rgba(4,186,191,0.35)',
+              color: '#04babf',
             }}
           >
             Read the blog

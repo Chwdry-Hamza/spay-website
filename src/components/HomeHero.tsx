@@ -1,9 +1,9 @@
 "use client";
 import Link from "next/link";
-import Image from "next/image";
 import { useState, useEffect } from "react";
 import { linkTarget } from "@/lib/linkTarget";
 import { HOME_CONTENT_DEFAULTS, type HomeContent } from "@/lib/homeContent";
+import FallbackImg from "./FallbackImg";
 
 type Breakpoint = "mobile" | "tablet" | "desktop";
 
@@ -198,8 +198,9 @@ export default function HomeHero({
               data-cms-type="image"
               style={{ display: "inline-block" }}
             >
-              <img
+              <FallbackImg
                 src={data.logoSrc}
+                fallbackSrc={HOME_CONTENT_DEFAULTS.hero.logoSrc}
                 alt="SiCash"
                 style={{
                   height:
@@ -316,12 +317,11 @@ export default function HomeHero({
               : "w-[420px] h-[540px]"
           }`}
         >
-          <Image
+          <FallbackImg
             src={data.heroImage}
+            fallbackSrc={HOME_CONTENT_DEFAULTS.hero.heroImage}
             alt="SiCash App with Cards"
-            fill
-            className="object-contain"
-            priority
+            className="absolute inset-0 w-full h-full object-contain"
           />
         </div>
       </div>

@@ -192,6 +192,7 @@
 // }
 
 import { HOME_CONTENT_DEFAULTS, type HomeContent } from "@/lib/homeContent";
+import FallbackImg from "./FallbackImg";
 
 export default function FeaturesSection({
   content = HOME_CONTENT_DEFAULTS.features,
@@ -286,8 +287,9 @@ export default function FeaturesSection({
                         : "basis-[68%] sm:basis-[64%] lg:basis-[75%]"
                     } shrink-0 grow-0 flex items-start justify-center`}
                   >
-                    <img
+                    <FallbackImg
                       src={c.image}
+                      fallbackSrc={HOME_CONTENT_DEFAULTS.features.cards[i].image}
                       alt={c.title}
                       className="w-full h-[95%] object-cover"
                       style={{ borderRadius: "20px" }}

@@ -17,8 +17,8 @@ export default function CookieConsent({
   const data = usePreviewSlice("cookieConsent", content ?? HOME_CONTENT_DEFAULTS.cookieConsent);
   const t = {
     message: "#A6AABE",
-    ctaText: "#090e1c",
-    ctaBg: "#46F1C5",
+    ctaText: "#0a2a23",
+    ctaBg: "#04babf",
   };
 
   const [locallyDismissed, setLocallyDismissed] = React.useState(false);
