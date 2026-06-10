@@ -2,13 +2,22 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import AppHeader from '@/components/AppHeader';
 import Footer from '@/components/Footer';
-import { search, type SearchHit } from '@/lib/cms';
-import { buildNoindexMetadata } from '@/lib/cms-meta';
+import { search, getCrawlSetting, type SearchHit } from '@/lib/cms';
 
-// Search results are user-specific and noindex'd — always render fresh.
+// Search results are user-specific — always render fresh.
 export const dynamic = 'force-dynamic';
 
-export const metadata: Metadata = buildNoindexMetadata('Search');
+export async function generateMetadata(): Promise<Metadata> {
+  const crawl = await getCrawlSetting();
+  // Respect the "Noindex search pages" crawl toggle (defaults to noindex),
+  // mirroring how the tag page reads `noindexTags`. `follow` stays on so links
+  // are still crawled; the title bypasses the site template to read "Search".
+  const noindex = crawl?.noindexSearch !== false;
+  return {
+    title: { absolute: 'Search' },
+    robots: { index: !noindex, follow: true },
+  };
+}
 
 function hitHref(hit: SearchHit): string {
   // Page slugs are stored with a leading slash; post slugs are bare.

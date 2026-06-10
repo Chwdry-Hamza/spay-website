@@ -45,6 +45,7 @@ export async function generateMetadata({
     path: `/blog/${post.slug}`,
     site,
     fallbackImage: post.cover,
+    fallbackImageAlt: post.coverMedia?.alt,
   });
 }
 

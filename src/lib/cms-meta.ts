@@ -51,10 +51,12 @@ export type CmsMetaInput = {
   site?: SiteSeoSetting | null;
   /** Fallback OG/Twitter image (e.g. post cover). */
   fallbackImage?: string;
+  /** Alt text for the OG/Twitter image (e.g. the cover's CMS alt). */
+  fallbackImageAlt?: string;
 };
 
 export function buildMetadataFromCMS(input: CmsMetaInput): Metadata {
-  const { seo, title, description, path, site, fallbackImage } = input;
+  const { seo, title, description, path, site, fallbackImage, fallbackImageAlt } = input;
 
   const metaTitle = seo?.title || title;
   // An explicit per-page SEO title is rendered EXACTLY (title.absolute), so it
@@ -67,6 +69,9 @@ export function buildMetadataFromCMS(input: CmsMetaInput): Metadata {
   const ogImage =
     seo?.og?.image || fallbackImage || site?.defaultOgImage || undefined;
   const twitterImage = seo?.twitter?.image || ogImage;
+  // Alt for the social image: prefer the cover's CMS alt, else the page title
+  // (never empty, so og:image:alt is always emitted when there's an image).
+  const ogImageAlt = ogImage ? (fallbackImageAlt?.trim() || metaTitle) : undefined;
 
   // Explicit canonical wins; otherwise canonicalize the page's own path.
   const canonical = seo?.canonical
@@ -84,14 +89,14 @@ export function buildMetadataFromCMS(input: CmsMetaInput): Metadata {
       url: canonical,
       siteName: site?.siteName || 'Spay',
       type: 'website',
-      ...(ogImage ? { images: [{ url: ogImage }] } : {}),
+      ...(ogImage ? { images: [{ url: ogImage, alt: ogImageAlt }] } : {}),
     },
     twitter: {
       card: (seo?.twitter?.card as 'summary_large_image') || 'summary_large_image',
       title: seo?.twitter?.title || metaTitle,
       description: seo?.twitter?.description || metaDescription,
       ...(site?.twitterHandle ? { site: site.twitterHandle } : {}),
-      ...(twitterImage ? { images: [twitterImage] } : {}),
+      ...(twitterImage ? { images: [{ url: twitterImage, alt: ogImageAlt }] } : {}),
     },
   };
   return meta;
@@ -146,10 +151,3 @@ export function buildListingMetadata(input: ListingMetaInput): Metadata {
   };
 }
 
-/** Metadata for noindex,follow utility pages (e.g. /search). */
-export function buildNoindexMetadata(title: string): Metadata {
-  return {
-    title,
-    robots: { index: false, follow: true },
-  };
-}

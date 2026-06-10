@@ -52,7 +52,6 @@ export type CmsStructuredData = {
 
 export type CmsPerformance = {
   skipAnalytics?: boolean;
-  skipCustomScripts?: boolean;
 };
 
 /** A Tiptap ProseMirror document node (loosely typed — see TiptapRenderer). */
@@ -82,6 +81,8 @@ export type CmsPost = {
   status: 'draft' | 'published' | 'scheduled';
   content?: TiptapDoc;
   cover?: string;
+  /** Cover image's CMS alt text (populated from the linked Media). */
+  coverMedia?: { alt?: string } | null;
   readTime?: number;
   category?: CmsCategoryRef | string | null;
   categoryName?: string;
@@ -177,9 +178,6 @@ export type OrganizationSetting = {
 export type AnalyticsSetting = {
   ga4Id?: string;
   gtmId?: string;
-  headerScript?: string;
-  bodyScript?: string;
-  footerScript?: string;
 };
 
 // ─── Sitemap / search / redirect shapes ────────────────────────────

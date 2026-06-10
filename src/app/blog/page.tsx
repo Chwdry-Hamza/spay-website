@@ -4,6 +4,7 @@ import Footer from '@/components/Footer';
 import Breadcrumbs from '@/components/cms/Breadcrumbs';
 import PostGrid from '@/components/cms/PostGrid';
 import Pagination from '@/components/cms/Pagination';
+import BlogSearchBar from '@/components/cms/BlogSearchBar';
 import PerformanceScripts from '@/components/cms/PerformanceScripts';
 import { getPosts, getSeoSetting } from '@/lib/cms';
 import { buildListingMetadata } from '@/lib/cms-meta';
@@ -52,6 +53,8 @@ export default async function BlogIndexPage({
         >
           Blog
         </h1>
+
+        <BlogSearchBar />
 
         <PostGrid posts={data.items} />
         <Pagination basePath="/blog" page={data.page} totalPages={data.totalPages} />
