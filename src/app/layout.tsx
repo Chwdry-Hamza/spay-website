@@ -3,6 +3,7 @@ import { Geist, Geist_Mono, Space_Grotesk, Inter } from "next/font/google";
 import "./globals.css";
 import ConditionalBottomNav from "@/components/ConditionalBottomNav";
 import CookieConsent from "@/components/CookieConsent";
+import AutoRefresh from "@/components/AutoRefresh";
 import { getSeoSetting, getOrganizationSetting, getHomePage } from "@/lib/cms";
 import { buildOrganization } from "@/lib/structured-data";
 import { serializeJsonLd } from "@/lib/sanitize";
@@ -99,6 +100,7 @@ export default async function RootLayout({
           dangerouslySetInnerHTML={{ __html: serializeJsonLd(organizationLd) }}
         />
         {children}
+        <AutoRefresh />
         <ConditionalBottomNav content={home.bottomNav} />
         <CookieConsent content={home.cookieConsent} />
       </body>
