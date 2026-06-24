@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Footer from "@/components/Footer";
 import PerformanceScripts from "@/components/cms/PerformanceScripts";
+import CodeInjection from "@/components/cms/CodeInjection";
 import AppHeader from "@/components/AppHeader";
 import AboutSections from "@/components/AboutSections";
 import { getRouteSeoPage, getSeoSetting } from "@/lib/cms";
@@ -26,10 +27,12 @@ export default async function AboutPage() {
 
   return (
     <main style={{ background: "#090e1c" }}>
+      <CodeInjection code={page?.codeInjection} slots={["header", "body"]} />
       <AppHeader />
       <AboutSections initialContent={content} />
       <Footer />
       <PerformanceScripts perf={undefined} />
+      <CodeInjection code={page?.codeInjection} slots={["footer"]} />
     </main>
   );
 }

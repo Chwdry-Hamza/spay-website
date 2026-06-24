@@ -4,7 +4,8 @@ import "./globals.css";
 import ConditionalBottomNav from "@/components/ConditionalBottomNav";
 import CookieConsent from "@/components/CookieConsent";
 import AutoRefresh from "@/components/AutoRefresh";
-import { getSeoSetting, getOrganizationSetting, getHomePage } from "@/lib/cms";
+import CodeInjection from "@/components/cms/CodeInjection";
+import { getSeoSetting, getOrganizationSetting, getHomePage, getCodeInjectionSetting } from "@/lib/cms";
 import { buildOrganization } from "@/lib/structured-data";
 import { serializeJsonLd } from "@/lib/sanitize";
 import { resolveHomeContent } from "@/lib/homeContent";
@@ -90,11 +91,16 @@ export default async function RootLayout({
   // `sections`; resolve them here so every page reflects saved edits.
   const home = resolveHomeContent((await getHomePage())?.sections);
 
+  // Site-wide code injection (SEO settings → Code) — applied to every page,
+  // on top of any per-page snippets rendered by the page/post templates.
+  const globalCode = await getCodeInjectionSetting();
+
   return (
     <html lang="en" className="h-full w-full scroll-smooth">
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${spaceGrotesk.variable} ${inter.variable} antialiased min-h-screen w-full overflow-x-hidden`}
       >
+        <CodeInjection code={globalCode} slots={["header", "body"]} />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: serializeJsonLd(organizationLd) }}
@@ -103,6 +109,7 @@ export default async function RootLayout({
         <AutoRefresh />
         <ConditionalBottomNav content={home.bottomNav} />
         <CookieConsent content={home.cookieConsent} />
+        <CodeInjection code={globalCode} slots={["footer"]} />
       </body>
     </html>
   );

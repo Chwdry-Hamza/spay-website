@@ -5,6 +5,7 @@ import Footer from '@/components/Footer';
 import Breadcrumbs from '@/components/cms/Breadcrumbs';
 import TiptapRenderer from '@/components/cms/TiptapRenderer';
 import PerformanceScripts from '@/components/cms/PerformanceScripts';
+import CodeInjection from '@/components/cms/CodeInjection';
 import { getPageBySlug, getSeoSetting } from '@/lib/cms';
 import { buildMetadataFromCMS } from '@/lib/cms-meta';
 import { buildFromSchemaField, type Crumb } from '@/lib/structured-data';
@@ -69,6 +70,7 @@ export default async function CmsPage({
 
   return (
     <main style={{ background: '#090e1c', minHeight: '100vh' }}>
+      <CodeInjection code={page.codeInjection} slots={['header', 'body']} />
       <AppHeader />
 
       {schemaNodes.map((node, i) => (
@@ -98,6 +100,7 @@ export default async function CmsPage({
 
       <Footer />
       <PerformanceScripts perf={page.performance} />
+      <CodeInjection code={page.codeInjection} slots={['footer']} />
     </main>
   );
 }

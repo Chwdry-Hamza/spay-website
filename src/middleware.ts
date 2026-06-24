@@ -2,7 +2,7 @@
  * Edge middleware for the Spay website. Three jobs:
  *
  *  1. Redirects   — resolve CMS-managed redirects (/api/redirects/all.json)
- *                   and 308 the visitor to the target.
+ *                   and 301 (permanent) the visitor to the target.
  *  2. Noindex     — apply an `X-Robots-Tag: noindex, follow` header to search,
  *                   tag, and filtered (query-string) URLs per the `crawl`
  *                   setting, so thin/duplicate URLs stay out of the index.
@@ -21,7 +21,9 @@ const CMS_API_URL =
   'http://localhost:4000';
 
 const ORIGINAL_PATH_HEADER = 'x-spay-original-path';
-const CACHE_TTL_MS = 60_000;
+// Short server-side window so deleting/editing a redirect in the CMS takes
+// effect within a few seconds rather than up to a minute.
+const CACHE_TTL_MS = 10_000;
 
 type CrawlSetting = {
   noindexSearch?: boolean;
@@ -84,6 +86,21 @@ function normalize(path: string): string {
   return path;
 }
 
+/**
+ * Match the site's `trailingSlash: true` canonical form on a relative redirect
+ * target so the 301 lands on the final URL directly — without it the visitor
+ * gets a 301 followed by a 308 (Next adding the slash), an avoidable chain.
+ * External URLs and file-looking paths are left untouched.
+ */
+function toCanonicalTarget(target: string): string {
+  if (/^https?:\/\//i.test(target)) return target;
+  const splitAt = target.search(/[?#]/);
+  const path = splitAt === -1 ? target : target.slice(0, splitAt);
+  const suffix = splitAt === -1 ? '' : target.slice(splitAt);
+  if (path === '/' || path.endsWith('/') || /\.[a-z0-9]+$/i.test(path)) return target;
+  return `${path}/${suffix}`;
+}
+
 function isNoindexPath(
   pathname: string,
   search: string,
@@ -122,12 +139,21 @@ export async function middleware(req: NextRequest) {
   const { redirects, crawl } = await loadConfig();
 
   // 1. Redirects (match with and without trailing slash).
+  //    301 Moved Permanently — the conventional status for a content URL that
+  //    changed slug; passes link equity and is what SEO tooling expects.
   const target = redirects.get(normalize(pathname));
   if (target) {
-    const dest = /^https?:\/\//i.test(target)
-      ? target
-      : new URL(target, req.url).toString();
-    return NextResponse.redirect(dest, 308);
+    const canonical = toCanonicalTarget(target);
+    const dest = /^https?:\/\//i.test(canonical)
+      ? canonical
+      : new URL(canonical, req.url).toString();
+    const redirectRes = NextResponse.redirect(dest, 301);
+    // Keep the 301 (SEO-permanent, passes link equity) but stop browsers from
+    // caching it *forever*. Without this a browser memorises the redirect and
+    // never re-asks the server, so deleting the redirect in the CMS appears to
+    // have no effect. `no-store` forces a fresh check on every visit.
+    redirectRes.headers.set('Cache-Control', 'no-store, max-age=0');
+    return redirectRes;
   }
 
   // 3. Forward the originally-requested path for the 404 page to read/log.

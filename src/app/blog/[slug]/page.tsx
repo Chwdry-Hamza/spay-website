@@ -6,6 +6,7 @@ import Footer from '@/components/Footer';
 import Breadcrumbs from '@/components/cms/Breadcrumbs';
 import TiptapRenderer from '@/components/cms/TiptapRenderer';
 import PerformanceScripts from '@/components/cms/PerformanceScripts';
+import CodeInjection from '@/components/cms/CodeInjection';
 import {
   getPostBySlug,
   getSeoSetting,
@@ -82,6 +83,7 @@ export default async function BlogPostPage({
 
   return (
     <main style={{ background: '#090e1c', minHeight: '100vh' }}>
+      <CodeInjection code={post.codeInjection} slots={['header', 'body']} />
       <AppHeader />
 
       <JsonLd data={article} />
@@ -150,6 +152,7 @@ export default async function BlogPostPage({
 
       <Footer />
       <PerformanceScripts perf={post.performance} />
+      <CodeInjection code={post.codeInjection} slots={['footer']} />
     </main>
   );
 }

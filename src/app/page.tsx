@@ -1,6 +1,7 @@
 import HomeSections from "@/components/HomeSections";
 import { getFooterExtras } from "@/components/Footer";
 import PerformanceScripts from "@/components/cms/PerformanceScripts";
+import CodeInjection from "@/components/cms/CodeInjection";
 import type { Metadata } from "next";
 import { getRouteSeoPage, getSeoSetting, getHomePage } from "@/lib/cms";
 import { buildMetadataFromCMS } from "@/lib/cms-meta";
@@ -32,12 +33,14 @@ export default async function Home() {
 
   return (
     <>
+      <CodeInjection code={page?.codeInjection} slots={["header", "body"]} />
       <HomeSections
         initialContent={content}
         footerDynamicLinks={dynamicLinks}
         latestBlogs={latestBlogs}
       />
       <PerformanceScripts perf={undefined} />
+      <CodeInjection code={page?.codeInjection} slots={["footer"]} />
     </>
   );
 }

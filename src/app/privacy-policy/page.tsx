@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Footer from "@/components/Footer";
 import PerformanceScripts from "@/components/cms/PerformanceScripts";
+import CodeInjection from "@/components/cms/CodeInjection";
 import AppHeader from "@/components/AppHeader";
 import LegalSections from "@/components/LegalSections";
 import { getRouteSeoPage, getSeoSetting } from "@/lib/cms";
@@ -25,10 +26,12 @@ export default async function PrivacyPolicyPage() {
 
   return (
     <main style={{ background: "#090e1c" }}>
+      <CodeInjection code={page?.codeInjection} slots={["header", "body"]} />
       <AppHeader />
       <LegalSections initialContent={content} defaults={PRIVACY_DEFAULTS} />
       <Footer />
       <PerformanceScripts perf={undefined} />
+      <CodeInjection code={page?.codeInjection} slots={["footer"]} />
     </main>
   );
 }

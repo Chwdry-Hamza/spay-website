@@ -54,6 +54,13 @@ export type CmsPerformance = {
   skipAnalytics?: boolean;
 };
 
+/** Per-page/post raw HTML/JS snippets injected on the public site. */
+export type CmsCodeInjection = {
+  header?: string;
+  body?: string;
+  footer?: string;
+};
+
 /** A Tiptap ProseMirror document node (loosely typed — see TiptapRenderer). */
 export type TiptapNode = {
   type?: string;
@@ -90,6 +97,7 @@ export type CmsPost = {
   seo?: CmsSeo;
   schema?: CmsStructuredData;
   performance?: CmsPerformance;
+  codeInjection?: CmsCodeInjection;
   authorName?: string;
   publishedAt?: string | null;
   updatedAt?: string;
@@ -109,6 +117,7 @@ export type CmsPage = {
   seo?: CmsSeo;
   schema?: CmsStructuredData;
   performance?: CmsPerformance;
+  codeInjection?: CmsCodeInjection;
   featuredImage?: {
     url?: string;
     alt?: string;
@@ -333,6 +342,9 @@ export const getOrganizationSetting = () =>
   getSetting<OrganizationSetting>('organization');
 export const getAnalyticsSetting = () => getSetting<AnalyticsSetting>('analytics');
 export const getRobotsSetting = () => getSetting<string>('robots');
+/** Site-wide default header/body/footer snippets applied to every page. */
+export const getCodeInjectionSetting = () =>
+  getSetting<CmsCodeInjection>('codeInjection');
 
 // ─── Search ────────────────────────────────────────────────────────
 
