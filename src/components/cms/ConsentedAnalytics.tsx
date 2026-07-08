@@ -1,48 +1,28 @@
-'use client';
-
-import * as React from 'react';
-import Script from 'next/script';
-import { COOKIE_CONSENT_STORAGE_KEY, useCookieConsent } from '@/hooks/useCookieConsent';
+import { buildAnalyticsBootstrap } from '@/lib/analytics';
+import ConsentUpdater from './ConsentUpdater';
 
 /**
- * Google Consent Mode v2 loader for GA4 + GTM (client-side).
+ * Google Consent Mode v2 loader for GA4 + GTM — rendered ONCE from the root
+ * layout so both tags land in the <head> on every page (SEO team requirement:
+ * GA4 + GTM in <head> site-wide).
  *
- * This follows the industry-standard Consent Mode v2 pattern (Google's own
- * guidance) rather than a hard opt-in ("load nothing until Accept"):
+ *   - gtag.js library   → `<script async src>`; React 19 hoists it into <head>.
+ *   - inline bootstrap   → next/script `beforeInteractive`, which Next injects
+ *     into the initial HTML <head> and runs before hydration. It sets the
+ *     Consent Mode default (denied), upgrades returning accepted visitors,
+ *     configures GA4, and loads GTM via Google's STANDARD snippet (gtm.start
+ *     then gtm.js — required for Tag Assistant / Preview to connect).
+ *   - GTM <noscript>     → iframe fallback in the <body>.
  *
- *   1. Consent defaults to DENIED for every storage type *before* any Google
- *      tag runs (the `spay-consent-default` bootstrap below).
- *   2. GA4 + the GTM container load on every page regardless of the banner.
- *      While consent is denied, Google tags self-throttle into cookieless
- *      "ping" mode — no cookies, no identifiers — keeping us GDPR-compliant
- *      while still letting Google model conversions from non-consenting users.
- *   3. When the visitor clicks Accept we push a consent *update* to "granted"
- *      and the tags upgrade to full tracking. Decline keeps everything denied.
+ * Because this lives in the layout (which never re-renders on client-side
+ * navigation), the inline script is emitted once in the server HTML and never
+ * re-created on the client, so it does NOT trigger React 19's "script tag in a
+ * component" warning that a per-page inline script would.
  *
- * The container/measurement IDs come from the CMS `analytics` setting
- * (resolved server-side in PerformanceScripts) and are passed in as props.
- *
- * Note: only Google tags are governed here. The custom header/body/footer
- * snippets stay server-rendered in PerformanceScripts because they may be
- * functional (chat widgets, etc.), not analytics. Any *tracking* tags added
- * inside the GTM dashboard must themselves respect consent (Consent Mode-aware
- * tags or a consent trigger) — the container load alone sets no cookies.
+ * Consent flow: default DENIED before any tag fires; GA4 + GTM load on every
+ * page in cookieless "ping" mode; ConsentUpdater upgrades to granted when the
+ * visitor accepts the cookie banner.
  */
-
-const CONSENT_GRANTED = {
-  ad_storage: 'granted',
-  ad_user_data: 'granted',
-  ad_personalization: 'granted',
-  analytics_storage: 'granted',
-} as const;
-
-const CONSENT_DENIED = {
-  ad_storage: 'denied',
-  ad_user_data: 'denied',
-  ad_personalization: 'denied',
-  analytics_storage: 'denied',
-} as const;
-
 export default function ConsentedAnalytics({
   ga4Id,
   gtmId,
@@ -50,70 +30,52 @@ export default function ConsentedAnalytics({
   ga4Id?: string;
   gtmId?: string;
 }) {
-  const consent = useCookieConsent();
+  const ga4 = (ga4Id ?? '').trim();
+  const gtm = (gtmId ?? '').trim();
+  if (!ga4 && !gtm) return null;
 
-  // Push a consent *update* whenever the visitor makes (or changes) a choice
-  // during the session. 'ssr'/'pending' leave the denied default in place.
-  // (Returning visitors who already accepted are handled inline in the
-  // bootstrap script so their tags fire on first paint, before hydration.)
-  React.useEffect(() => {
-    if (consent !== 'accepted' && consent !== 'declined') return;
-    const w = window as unknown as { gtag?: (...args: unknown[]) => void };
-    if (typeof w.gtag !== 'function') return;
-    w.gtag('consent', 'update', consent === 'accepted' ? CONSENT_GRANTED : CONSENT_DENIED);
-  }, [consent]);
-
-  if (!ga4Id && !gtmId) return null;
-
-  // Single self-contained bootstrap so nothing depends on cross-<Script>
-  // execution order: define dataLayer + gtag, set the denied consent default,
-  // upgrade returning accepted visitors, then configure GA4. The async
-  // gtag.js/gtm.js libraries drain this same dataLayer queue once they load,
-  // so the consent default is always registered before any tag fires.
-  const bootstrap = [
-    `window.dataLayer = window.dataLayer || [];`,
-    `function gtag(){dataLayer.push(arguments);}`,
-    `window.gtag = gtag;`,
-    `gtag('consent','default',{ad_storage:'denied',ad_user_data:'denied',ad_personalization:'denied',analytics_storage:'denied',wait_for_update:500});`,
-    `try{if(localStorage.getItem('${COOKIE_CONSENT_STORAGE_KEY}')==='accepted'){gtag('consent','update',{ad_storage:'granted',ad_user_data:'granted',ad_personalization:'granted',analytics_storage:'granted'});}}catch(e){}`,
-    ga4Id ? `gtag('js',new Date());gtag('config','${ga4Id}');` : ``,
-  ]
-    .filter(Boolean)
-    .join('\n');
+  const init = buildAnalyticsBootstrap(ga4, gtm);
 
   return (
     <>
-      {/* ── Consent Mode v2 bootstrap + GA4 config (one script, no ordering deps) ── */}
-      <Script id="spay-analytics-bootstrap" strategy="afterInteractive">
-        {bootstrap}
-      </Script>
-
-      {/* ── GA4 (gtag.js) library — drains the dataLayer queue above ── */}
-      {ga4Id && (
-        <Script
-          id="spay-ga4-src"
-          src={`https://www.googletagmanager.com/gtag/js?id=${ga4Id}`}
-          strategy="afterInteractive"
+      {/* GA4 gtag.js + GTM gtm.js LIBRARIES — async src tags. React 19 hoists
+          both into <head> on every page (SEO team requires GA4 + GTM in
+          <head>). */}
+      {ga4 && (
+        <script
+          async
+          src={`https://www.googletagmanager.com/gtag/js?id=${ga4}`}
+        />
+      )}
+      {gtm && (
+        <script
+          async
+          src={`https://www.googletagmanager.com/gtm.js?id=${gtm}`}
         />
       )}
 
-      {/* ── Google Tag Manager ── */}
-      {gtmId && (
-        <>
-          <Script id="spay-gtm-init" strategy="afterInteractive">
-            {`(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','${gtmId}');`}
-          </Script>
-          <noscript>
-            <iframe
-              src={`https://www.googletagmanager.com/ns.html?id=${gtmId}`}
-              height="0"
-              width="0"
-              style={{ display: 'none', visibility: 'hidden' }}
-              title="gtm"
-            />
-          </noscript>
-        </>
+      {/* Consent + dataLayer seed + gtm.start + GA4 config. Rendered from the
+          layout, which never re-renders on client navigation, so this inline
+          script is emitted once in the server HTML and never re-created on the
+          client — no React 19 "script tag in a component" warning. It runs
+          during HTML parse, before the async libraries execute, so the consent
+          default and gtm.start are queued first. */}
+      <script dangerouslySetInnerHTML={{ __html: init }} />
+
+      {/* GTM <noscript> fallback. */}
+      {gtm && (
+        <noscript>
+          <iframe
+            src={`https://www.googletagmanager.com/ns.html?id=${gtm}`}
+            height="0"
+            width="0"
+            style={{ display: 'none', visibility: 'hidden' }}
+            title="gtm"
+          />
+        </noscript>
       )}
+
+      <ConsentUpdater />
     </>
   );
 }

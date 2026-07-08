@@ -13,13 +13,26 @@ export async function generateMetadata(): Promise<Metadata> {
   const meta = buildMetadataFromCMS({
     seo: page?.seo,
     title: page?.title || "SPay - Your financial companion",
-    description: page?.excerpt,
+    // No excerpt fallback here: the homepage is edited via HomeContentEditor,
+    // which has no excerpt field, so the seeded stub excerpt would invisibly
+    // shadow the site-wide "Default meta description" from SEO settings.
     path: "/",
     site,
   });
-  // Home title shouldn't be wrapped by the layout's "%s · SPay" template.
+  // Home title is emitted absolute (never wrapped by the layout's "%s · SPay"
+  // template). Precedence: the homepage's own SEO title (page editor) wins;
+  // otherwise the site-wide "Default title template" from SEO settings is
+  // applied to the page title ({title} placeholder, or used verbatim when the
+  // template is a literal); otherwise the page title / built-in default.
+  const fallbackTitle = page?.title || "SPay - Your financial companion";
+  const rawTemplate = site?.titleTemplate?.trim();
+  const templatedTitle = rawTemplate
+    ? rawTemplate.includes("{title}")
+      ? rawTemplate.replace("{title}", fallbackTitle)
+      : rawTemplate
+    : fallbackTitle;
   meta.title = {
-    absolute: page?.seo?.title || page?.title || "SPay - Your financial companion",
+    absolute: page?.seo?.title || templatedTitle,
   };
   return meta;
 }

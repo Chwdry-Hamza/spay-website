@@ -1,34 +1,16 @@
 /**
- * Renders the CMS-managed analytics (GA4 + GTM) for a page.
+ * Deprecated shim. GA4 + GTM are now rendered SITE-WIDE from the root layout
+ * (see ConsentedAnalytics in app/layout.tsx) so both tags land in <head> on
+ * every page. This component is kept as a no-op so the existing per-page mounts
+ * (`<PerformanceScripts perf={...} />`) keep compiling without edits.
  *
- *   - GA4 (gtag.js)            from the `analytics.ga4Id` setting
- *   - Google Tag Manager       from the `analytics.gtmId` setting
- *
- * Per-page override via the page/post `performance` field:
- *   - perf.skipAnalytics      → skip GA4 + GTM
- *
- * Pass `perf={undefined}` on static pages (no per-page overrides). This is an
- * async server component that reads the `analytics` setting once per render
- * (cached). It is the SINGLE source of GA4/GTM on the site — the old
- * env-driven GoogleAnalytics component was removed so GA4 is managed entirely
- * from the CMS Analytics settings.
+ * Note: the previous per-page `performance.skipAnalytics` override no longer
+ * applies — analytics is intentionally global now, per the requirement that
+ * GA4/GTM load in <head> on every page.
  */
-import { getAnalyticsSetting, type CmsPerformance } from '@/lib/cms';
-import ConsentedAnalytics from './ConsentedAnalytics';
+import type { CmsPerformance } from '@/lib/cms';
 
-export default async function PerformanceScripts({
-  perf,
-}: {
-  perf?: CmsPerformance;
-}) {
-  const analytics = await getAnalyticsSetting();
-  if (!analytics) return null;
-
-  const skipAnalytics = perf?.skipAnalytics === true;
-
-  const ga4Id = !skipAnalytics ? (analytics.ga4Id ?? '').trim() : '';
-  const gtmId = !skipAnalytics ? (analytics.gtmId ?? '').trim() : '';
-
-  // GA4 + GTM — loaded client-side only after cookie consent.
-  return <ConsentedAnalytics ga4Id={ga4Id} gtmId={gtmId} />;
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export default function PerformanceScripts(props: { perf?: CmsPerformance }) {
+  return null;
 }

@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import AppHeader from '@/components/AppHeader';
 import Footer from '@/components/Footer';
+import PerformanceScripts from '@/components/cms/PerformanceScripts';
 import { search, getCrawlSetting, type SearchHit } from '@/lib/cms';
 
 // Search results are user-specific — always render fresh.
@@ -114,6 +115,7 @@ export default async function SearchPage({
           ))}
         </ul>
       </section>
+      <PerformanceScripts perf={undefined} />
       <Footer />
     </main>
   );

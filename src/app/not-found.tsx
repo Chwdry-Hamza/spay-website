@@ -3,6 +3,7 @@ import { after } from 'next/server';
 import Link from 'next/link';
 import AppHeader from '@/components/AppHeader';
 import Footer from '@/components/Footer';
+import PerformanceScripts from '@/components/cms/PerformanceScripts';
 import { logMissingUrl } from '@/lib/log-404';
 
 export const metadata = {
@@ -93,6 +94,7 @@ export default async function NotFound() {
           </Link>
         </div>
       </section>
+      <PerformanceScripts perf={undefined} />
       <Footer />
     </main>
   );

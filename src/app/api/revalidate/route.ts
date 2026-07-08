@@ -31,6 +31,17 @@ export async function POST(req: Request) {
 
   const revalidated: string[] = [];
   for (const path of paths as string[]) {
+    // "layout:<path>" revalidates the layout scope — every route under that
+    // path. The backend sends "layout:/" for site-wide settings (SEO defaults,
+    // analytics, code injection), which render on every page via the root
+    // layout, so a plain page-level purge of '/' would leave the rest of the
+    // site stale until its ISR window expires.
+    if (path.startsWith('layout:')) {
+      const layoutPath = path.slice('layout:'.length) || '/';
+      revalidatePath(layoutPath, 'layout');
+      revalidated.push(path);
+      continue;
+    }
     // `trailingSlash: true` in next.config means the canonical cache key carries
     // a trailing slash — revalidate both spellings so the match never misses.
     const noSlash = path.replace(/\/+$/, '') || '/';
