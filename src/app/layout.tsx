@@ -58,7 +58,10 @@ export async function generateMetadata(): Promise<Metadata> {
 
   const metadata: Metadata = {
     title: {
-      default: "SPay - Your financial companion",
+      // Site-wide default title: the CMS "Site name" is the fallback shown when a
+      // document has no title of its own (e.g. the homepage without its own SEO
+      // title), so the SEO Settings value actually takes effect on the front end.
+      default: seo?.siteName?.trim() || "SPay - Your financial companion",
       template: titleTemplate,
     },
     // Site-wide default description from SEO settings; documents with their
