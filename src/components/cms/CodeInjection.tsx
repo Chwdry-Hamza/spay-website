@@ -48,6 +48,39 @@ const headerParseOptions: HTMLReactParserOptions = {
   },
 };
 
+/**
+ * Split a Header-slot HTML string into its INLINE scripts (no `src`) and the
+ * remaining markup. React 19 only keeps an inline <script> inside <head> when
+ * it is rendered as a DIRECT JSX child of a real <head> element — inline
+ * scripts produced by html-react-parser (or wrapped in a fragment) are dropped
+ * from <head>. So the layout renders these inline-script bodies itself, as
+ * direct <head> children, and passes `rest` (meta / link / external scripts)
+ * through the parser (React hoists <meta>/<link>).
+ */
+export function splitHeaderInjection(html: string): {
+  inlineScripts: string[];
+  rest: string;
+} {
+  const inlineScripts: string[] = [];
+  const rest = (html ?? '').replace(
+    /<script(?![^>]*\bsrc=)[^>]*>([\s\S]*?)<\/script>/gi,
+    (_full, body: string) => {
+      if (body.trim()) inlineScripts.push(body);
+      return '';
+    },
+  );
+  return { inlineScripts, rest };
+}
+
+/**
+ * Header-slot markup MINUS inline scripts (meta / link / external scripts).
+ * Rendered inside the root layout's real <head>; React hoists <meta>/<link>.
+ */
+export function HeaderInjectionNodes({ html }: { html: string }) {
+  if (!html?.trim()) return null;
+  return <>{parse(html, headerParseOptions) as React.ReactNode}</>;
+}
+
 /** header: real elements; React 19 hoists metadata into <head>. */
 function HeadHtml({ html }: { html: string }) {
   if (!html?.trim()) return null;

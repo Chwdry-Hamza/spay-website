@@ -4,7 +4,7 @@ import "./globals.css";
 import ConditionalBottomNav from "@/components/ConditionalBottomNav";
 import CookieConsent from "@/components/CookieConsent";
 import AutoRefresh from "@/components/AutoRefresh";
-import CodeInjection from "@/components/cms/CodeInjection";
+import CodeInjection, { HeaderInjectionNodes, splitHeaderInjection } from "@/components/cms/CodeInjection";
 import ConsentedAnalytics from "@/components/cms/ConsentedAnalytics";
 import { getSeoSetting, getOrganizationSetting, getHomePage, getCodeInjectionSetting, getAnalyticsSetting } from "@/lib/cms";
 import { buildOrganization } from "@/lib/structured-data";
@@ -123,8 +123,21 @@ export default async function RootLayout({
   // emits analytics.
   const analytics = await getAnalyticsSetting();
 
+  // Site-wide header code injection (SEO Settings → Code → Header). Inline
+  // scripts are rendered as direct <head> children (so they land literally in
+  // <head> and run synchronously); meta/link/external scripts go through the
+  // parser (React hoists <meta>/<link>).
+  const { inlineScripts: headerInlineScripts, rest: headerRest } =
+    splitHeaderInjection(globalCode?.header ?? "");
+
   return (
     <html lang="en" className="h-full w-full scroll-smooth">
+      <head>
+        {headerInlineScripts.length > 0 && (
+          <script dangerouslySetInnerHTML={{ __html: headerInlineScripts.join("\n") }} />
+        )}
+        <HeaderInjectionNodes html={headerRest} />
+      </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${spaceGrotesk.variable} ${inter.variable} antialiased min-h-screen w-full overflow-x-hidden`}
       >
@@ -132,7 +145,7 @@ export default async function RootLayout({
           <meta name="google-site-verification" content={gscToken} />
         )}
         <ConsentedAnalytics ga4Id={analytics?.ga4Id} gtmId={analytics?.gtmId} />
-        <CodeInjection code={globalCode} slots={["header", "body"]} />
+        <CodeInjection code={globalCode} slots={["body"]} />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: serializeJsonLd(organizationLd) }}
