@@ -62,23 +62,42 @@ export function splitHeaderInjection(html: string): {
   rest: string;
 } {
   const inlineScripts: string[] = [];
-  const rest = (html ?? '').replace(
-    /<script(?![^>]*\bsrc=)[^>]*>([\s\S]*?)<\/script>/gi,
-    (_full, body: string) => {
-      if (body.trim()) inlineScripts.push(body);
-      return '';
-    },
-  );
+  const rest = (html ?? '')
+    .replace(
+      /<script(?![^>]*\bsrc=)[^>]*>([\s\S]*?)<\/script>/gi,
+      (_full, body: string) => {
+        if (body.trim()) inlineScripts.push(body);
+        return '';
+      },
+    )
+    // Collapse the whitespace that surrounded the removed scripts. A stray
+    // whitespace text node is INVALID as a direct child of <head> and triggers
+    // a React hydration error, so `rest` must contain only element tags.
+    .replace(/>\s+</g, '><')
+    .trim();
   return { inlineScripts, rest };
 }
 
 /**
  * Header-slot markup MINUS inline scripts (meta / link / external scripts).
  * Rendered inside the root layout's real <head>; React hoists <meta>/<link>.
+ * Whitespace-only text nodes are dropped — they are invalid children of <head>.
  */
 export function HeaderInjectionNodes({ html }: { html: string }) {
   if (!html?.trim()) return null;
-  return <>{parse(html, headerParseOptions) as React.ReactNode}</>;
+  const parsed = parse(html, headerParseOptions);
+  const nodes = (Array.isArray(parsed) ? parsed : [parsed]) as React.ReactNode[];
+  return (
+    <>
+      {nodes
+        .filter((n) => typeof n !== 'string' || n.trim() !== '')
+        .map((n, i) =>
+          React.isValidElement(n)
+            ? React.cloneElement(n, { key: n.key ?? `hdr-node-${i}` })
+            : n,
+        )}
+    </>
+  );
 }
 
 /** header: real elements; React 19 hoists metadata into <head>. */
