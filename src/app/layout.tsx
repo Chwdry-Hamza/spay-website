@@ -6,7 +6,8 @@ import CookieConsent from "@/components/CookieConsent";
 import AutoRefresh from "@/components/AutoRefresh";
 import CodeInjection, { HeaderInjectionNodes, splitHeaderInjection } from "@/components/cms/CodeInjection";
 import ConsentedAnalytics from "@/components/cms/ConsentedAnalytics";
-import { getSeoSetting, getOrganizationSetting, getHomePage, getCodeInjectionSetting, getAnalyticsSetting } from "@/lib/cms";
+import { headers } from "next/headers";
+import { getSeoSetting, getOrganizationSetting, getHomePage, getCodeInjectionSetting, getAnalyticsSetting, getPathHeaderInjection } from "@/lib/cms";
 import { buildOrganization } from "@/lib/structured-data";
 import { serializeJsonLd } from "@/lib/sanitize";
 import { resolveHomeContent } from "@/lib/homeContent";
@@ -123,12 +124,21 @@ export default async function RootLayout({
   // emits analytics.
   const analytics = await getAnalyticsSetting();
 
-  // Site-wide header code injection (SEO Settings → Code → Header). Inline
-  // scripts are rendered as direct <head> children (so they land literally in
-  // <head> and run synchronously); meta/link/external scripts go through the
-  // parser (React hoists <meta>/<link>).
+  // Header code injection rendered inside <head>: the site-wide snippet (SEO
+  // Settings → Code → Header) plus the CURRENT page's per-page header snippet.
+  // Both go here because a page component (mounted in <body>) cannot inject a
+  // <script> into <head>. The pathname comes from the middleware-set header.
+  // Inline scripts are merged into one <script> rendered as a direct <head>
+  // child (so they land literally in <head> and run synchronously); the rest
+  // (meta / link / external scripts) goes through the parser.
+  const pathname =
+    (await headers()).get("x-spay-original-path")?.split("?")[0] ?? "/";
+  const perPageHeader = await getPathHeaderInjection(pathname);
+  const combinedHeader = [globalCode?.header ?? "", perPageHeader]
+    .filter((s) => s.trim())
+    .join("\n");
   const { inlineScripts: headerInlineScripts, rest: headerRest } =
-    splitHeaderInjection(globalCode?.header ?? "");
+    splitHeaderInjection(combinedHeader);
 
   return (
     <html lang="en" className="h-full w-full scroll-smooth">

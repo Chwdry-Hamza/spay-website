@@ -346,6 +346,26 @@ export const getRobotsSetting = () => getSetting<string>('robots');
 export const getCodeInjectionSetting = () =>
   getSetting<CmsCodeInjection>('codeInjection');
 
+/**
+ * Resolve the PER-PAGE header code injection for a given URL pathname, so the
+ * root layout can render it inside <head> (a page component, mounted in <body>,
+ * cannot inject a <script> into <head>). Fetches are deduplicated by Next with
+ * the page's own fetch, so this adds no extra round-trip. Returns '' for routes
+ * with no per-page document (blog index, category/tag listings, search).
+ */
+export async function getPathHeaderInjection(pathname: string): Promise<string> {
+  const p = (pathname.split('?')[0] || '/').replace(/\/+$/, '') || '/';
+  if (p === '/') return (await getHomePage())?.codeInjection?.header ?? '';
+  if (p === '/blog' || p === '/search') return '';
+  if (p.startsWith('/blog/')) {
+    const rest = p.slice('/blog/'.length);
+    if (!rest || rest.startsWith('category/') || rest.startsWith('tag/')) return '';
+    return (await getPostBySlug(rest))?.codeInjection?.header ?? '';
+  }
+  // Any other top-level path is a CMS Page whose slug carries a leading slash.
+  return (await getPageBySlug(p))?.codeInjection?.header ?? '';
+}
+
 // ─── Search ────────────────────────────────────────────────────────
 
 export function search(q: string, limit = 20) {

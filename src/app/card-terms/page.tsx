@@ -26,7 +26,7 @@ export default async function CardTermsPage() {
 
   return (
     <main style={{ background: "#090e1c" }}>
-      <CodeInjection code={page?.codeInjection} slots={["header", "body"]} />
+      <CodeInjection code={page?.codeInjection} slots={["body"]} />
       <AppHeader />
       <LegalSections initialContent={content} defaults={CARD_TERMS_DEFAULTS} />
       <Footer />

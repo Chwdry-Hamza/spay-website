@@ -27,7 +27,7 @@ export default async function AboutPage() {
 
   return (
     <main style={{ background: "#090e1c" }}>
-      <CodeInjection code={page?.codeInjection} slots={["header", "body"]} />
+      <CodeInjection code={page?.codeInjection} slots={["body"]} />
       <AppHeader />
       <AboutSections initialContent={content} />
       <Footer />

@@ -26,7 +26,7 @@ export default async function ProhibitedActivitiesPage() {
 
   return (
     <main style={{ background: "#090e1c" }}>
-      <CodeInjection code={page?.codeInjection} slots={["header", "body"]} />
+      <CodeInjection code={page?.codeInjection} slots={["body"]} />
       <AppHeader />
       <LegalSections initialContent={content} defaults={PROHIBITED_DEFAULTS} />
       <Footer />

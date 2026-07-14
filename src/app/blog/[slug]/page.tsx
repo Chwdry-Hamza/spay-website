@@ -83,7 +83,7 @@ export default async function BlogPostPage({
 
   return (
     <main style={{ background: '#090e1c', minHeight: '100vh' }}>
-      <CodeInjection code={post.codeInjection} slots={['header', 'body']} />
+      <CodeInjection code={post.codeInjection} slots={['body']} />
       <AppHeader />
 
       <JsonLd data={article} />

@@ -46,7 +46,7 @@ export default async function Home() {
 
   return (
     <>
-      <CodeInjection code={page?.codeInjection} slots={["header", "body"]} />
+      <CodeInjection code={page?.codeInjection} slots={["body"]} />
       <HomeSections
         initialContent={content}
         footerDynamicLinks={dynamicLinks}

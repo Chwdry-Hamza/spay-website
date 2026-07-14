@@ -70,7 +70,7 @@ export default async function CmsPage({
 
   return (
     <main style={{ background: '#090e1c', minHeight: '100vh' }}>
-      <CodeInjection code={page.codeInjection} slots={['header', 'body']} />
+      <CodeInjection code={page.codeInjection} slots={['body']} />
       <AppHeader />
 
       {schemaNodes.map((node, i) => (

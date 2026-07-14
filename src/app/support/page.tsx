@@ -26,7 +26,7 @@ export default async function SupportPage() {
 
   return (
     <main style={{ background: "#090e1c" }}>
-      <CodeInjection code={page?.codeInjection} slots={["header", "body"]} />
+      <CodeInjection code={page?.codeInjection} slots={["body"]} />
       <AppHeader />
       <SupportSections initialContent={content} />
       <Footer />
