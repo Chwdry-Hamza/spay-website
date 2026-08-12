@@ -24,5 +24,4 @@ export const STATIC_ROUTES: StaticRoute[] = [
   { slug: '/card-terms', title: 'Card Terms', template: 'Legal' },
   { slug: '/e-sign-consent', title: 'E-Sign Consent', template: 'Legal' },
   { slug: '/privacy-policy', title: 'Privacy Policy', template: 'Legal' },
-  { slug: '/prohibited-activities', title: 'Prohibited Activities', template: 'Legal' },
 ];

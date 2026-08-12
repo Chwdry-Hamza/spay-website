@@ -6,7 +6,7 @@ import { useCookieConsent } from "@/hooks/useCookieConsent";
 import { usePreviewEditMode } from "@/hooks/usePreview";
 import type { HomeContent } from "@/lib/homeContent";
 
-const HIDDEN_PATHS = ["/about", "/card-terms", "/privacy-policy", "/prohibited-activities"];
+const HIDDEN_PATHS = ["/about", "/card-terms", "/privacy-policy"];
 
 export default function ConditionalBottomNav({
   content,

@@ -12,7 +12,6 @@ const STATIC_PATHS: UrlNode[] = [
   { path: '/card-terms' },
   { path: '/e-sign-consent' },
   { path: '/privacy-policy' },
-  { path: '/prohibited-activities' },
 ];
 
 export const revalidate = 600;

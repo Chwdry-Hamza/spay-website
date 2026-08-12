@@ -285,7 +285,6 @@ export const HOME_CONTENT_DEFAULTS: HomeContent = {
       { label: 'Privacy Policy', href: '/privacy-policy' },
       { label: 'Card Terms', href: '/card-terms' },
       { label: 'E-Sign Consent', href: '/e-sign-consent' },
-      { label: 'Prohibited Activities', href: '/prohibited-activities' },
     ],
     copyright: '© 2026 SPay. All rights reserved.',
     appStoreUrl: 'https://apps.apple.com/app/sicash',

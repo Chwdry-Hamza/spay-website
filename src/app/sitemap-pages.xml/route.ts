@@ -9,7 +9,6 @@ const STATIC_SLUGS = new Set([
   'card-terms',
   'e-sign-consent',
   'privacy-policy',
-  'prohibited-activities',
   'support',
   'blog',
   'search',

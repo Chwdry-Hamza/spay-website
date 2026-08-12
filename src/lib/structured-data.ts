@@ -12,10 +12,12 @@
  */
 import {
   SITE_URL,
+  type CmsFaqItem,
   type CmsPost,
   type CmsStructuredData,
   type OrganizationSetting,
 } from './cms';
+import { resolveAuthor } from './author';
 
 type Json = Record<string, unknown>;
 
@@ -72,9 +74,14 @@ export function buildArticle(
   if (post.cover) node.image = [abs(post.cover)];
   if (post.publishedAt) node.datePublished = post.publishedAt;
   if (post.updatedAt) node.dateModified = post.updatedAt;
-  if (post.authorName) {
-    node.author = { '@type': 'Person', name: post.authorName };
-  }
+  // Never emit the raw `authorName` — the CMS stores the creating admin's login
+  // email there. resolveAuthor swaps that for the editorial byline, which is the
+  // publication rather than a person, so the node type follows suit.
+  const author = resolveAuthor(post.authorName);
+  node.author = {
+    '@type': author.isPerson ? 'Person' : 'Organization',
+    name: author.name,
+  };
   if (opts.orgName) {
     node.publisher = { '@type': 'Organization', name: opts.orgName };
   }
@@ -83,8 +90,9 @@ export function buildArticle(
 
 // ─── FAQ ───────────────────────────────────────────────────────────
 
-export function buildFaq(schema: CmsStructuredData | undefined): Json | null {
-  const faq = schema?.faq?.filter((f) => f.q && f.a) ?? [];
+/** FAQPage from an explicit list — posts merge several sources, see lib/post-faq. */
+export function buildFaqFromItems(items: CmsFaqItem[]): Json | null {
+  const faq = items.filter((f) => f.q && f.a);
   if (!faq.length) return null;
   return {
     '@context': 'https://schema.org',
@@ -95,6 +103,10 @@ export function buildFaq(schema: CmsStructuredData | undefined): Json | null {
       acceptedAnswer: { '@type': 'Answer', text: f.a },
     })),
   };
+}
+
+export function buildFaq(schema: CmsStructuredData | undefined): Json | null {
+  return buildFaqFromItems(schema?.faq ?? []);
 }
 
 // ─── Service ───────────────────────────────────────────────────────

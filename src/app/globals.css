@@ -66,6 +66,430 @@ body {
   }
 }
 
+/* ==========================================================================
+   CMS article body — `.spay-post`
+   Applied by TiptapRenderer to post & page bodies. Lives here rather than in
+   the component because the list markers are ::before pseudo-elements and the
+   rules are descendant selectors over editor-authored markup, neither of which
+   expresses cleanly as utility classes.
+   ========================================================================== */
+.spay-post {
+  color: #c9d3e2;
+  font-family: var(--font-inter), system-ui, sans-serif;
+  line-height: 1.75;
+}
+
+.spay-post p {
+  margin: 0 0 1.25rem;
+}
+
+.spay-post h1,
+.spay-post h2,
+.spay-post h3,
+.spay-post h4,
+.spay-post h5,
+.spay-post h6 {
+  color: #fff;
+  font-family: var(--font-space-grotesk), system-ui, sans-serif;
+  font-weight: 700;
+  letter-spacing: -0.015em;
+  /* Clears the fixed AppHeader when a TOC link jumps to a heading. */
+  scroll-margin-top: 7rem;
+}
+
+.spay-post h1 { font-size: clamp(1.75rem, 4vw, 2.25rem); line-height: 1.15; margin: 2.5rem 0 1rem; }
+.spay-post h2 { font-size: clamp(1.5rem, 3vw, 1.9375rem); line-height: 1.22; margin: 3.25rem 0 1rem; }
+.spay-post h3 { font-size: 1.25rem; font-weight: 600; margin: 2.125rem 0 0.625rem; }
+.spay-post h4 { font-size: 1.125rem; font-weight: 600; margin: 1.75rem 0 0.5rem; }
+.spay-post h5,
+.spay-post h6 { font-size: 1rem; font-weight: 600; margin: 1.5rem 0 0.5rem; }
+
+.spay-post > :first-child { margin-top: 0; }
+
+.spay-post strong,
+.spay-post b { color: #fff; font-weight: 600; }
+
+.spay-post a {
+  color: #46f1c5;
+  text-decoration: none;
+  border-bottom: 1px solid rgba(70, 241, 197, 0.4);
+  transition: background 0.16s ease, border-color 0.16s ease;
+}
+
+.spay-post a:hover {
+  border-bottom-color: #46f1c5;
+  background: rgba(70, 241, 197, 0.08);
+}
+
+/* Lists: teal diamond bullets and 01/02 numeric badges, per the SEO template. */
+.spay-post ul,
+.spay-post ol {
+  margin: 0 0 1.375rem;
+  padding-left: 0;
+  list-style: none;
+}
+
+.spay-post li {
+  position: relative;
+  margin-bottom: 0.6875rem;
+  padding-left: 1.625rem;
+}
+
+.spay-post ul > li::before {
+  content: "";
+  position: absolute;
+  left: 0.375rem;
+  top: 0.6875rem;
+  width: 6px;
+  height: 6px;
+  border-radius: 2px;
+  background: #46f1c5;
+  rotate: 45deg;
+}
+
+.spay-post ol { counter-reset: spay-step; }
+
+.spay-post ol > li {
+  counter-increment: spay-step;
+  padding-left: 2.375rem;
+}
+
+.spay-post ol > li::before {
+  content: counter(spay-step, decimal-leading-zero);
+  position: absolute;
+  left: 0;
+  top: 0.0625rem;
+  display: grid;
+  place-items: center;
+  width: 26px;
+  height: 24px;
+  border: 1px solid rgba(70, 241, 197, 0.28);
+  border-radius: 6px;
+  background: rgba(70, 241, 197, 0.1);
+  color: #46f1c5;
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+/* Nested lists restart their own numbering and sit flush with the parent text. */
+.spay-post li > ul,
+.spay-post li > ol {
+  margin: 0.6875rem 0 0;
+}
+
+.spay-post__table-wrap {
+  margin: 1.5rem 0;
+  overflow-x: auto;
+}
+
+.spay-post table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  font-size: 0.875rem;
+  border: 1px solid rgba(70, 241, 197, 0.2);
+}
+
+.spay-post th,
+.spay-post td {
+  padding: 0.5rem 0.75rem;
+  vertical-align: top;
+  border: 1px solid rgba(70, 241, 197, 0.2);
+}
+
+.spay-post th {
+  color: #fff;
+  font-weight: 600;
+  background: rgba(70, 241, 197, 0.06);
+}
+
+/* --------------------------------------------------------------------------
+   Content blocks — inserted from the CMS editor's "Block" menu.
+   Markup lives in components/cms/PostBlocks.tsx; the editor's own approximation
+   of these is in spay-cms TiptapEditor.tsx / extensions/SpayBlock.tsx.
+   -------------------------------------------------------------------------- */
+
+/* Body image — inserted from the editor's media library */
+.spay-post .spay-figure {
+  margin: 1.75rem 0;
+}
+
+.spay-post .spay-figure img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: 14px;
+  background: #0a2a23;
+}
+
+.spay-post .spay-figure figcaption {
+  margin-top: 0.625rem;
+  text-align: center;
+  font-size: 0.8125rem;
+  line-height: 1.5;
+  color: #7a8194;
+}
+
+/* Callout — prose in a highlighted box */
+.spay-post .spay-callout {
+  display: flex;
+  gap: 0.875rem;
+  margin: 0 0 1.5rem;
+  padding: 1.125rem 1.25rem;
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-left: 3px solid #46f1c5;
+  border-radius: 0 14px 14px 0;
+  background: #0e2e2e;
+}
+
+.spay-post .spay-callout > svg {
+  flex: 0 0 20px;
+  width: 20px;
+  height: 20px;
+  margin-top: 0.2rem;
+  color: #46f1c5;
+}
+
+.spay-post .spay-callout__body > :first-child { margin-top: 0; }
+.spay-post .spay-callout__body > :last-child { margin-bottom: 0; }
+.spay-post .spay-callout p { font-size: 0.9375rem; line-height: 1.65; }
+
+/* Asset chips */
+.spay-post .spay-assets {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(10.5rem, 1fr));
+  gap: 0.75rem;
+  margin: 0 0 1.625rem;
+}
+
+.spay-post .spay-asset {
+  padding: 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: 14px;
+  background: rgba(70, 241, 197, 0.03);
+  transition: border-color 0.18s ease, transform 0.18s ease;
+}
+
+.spay-post .spay-asset:hover {
+  border-color: rgba(70, 241, 197, 0.28);
+  transform: translateY(-2px);
+}
+
+.spay-post .spay-asset__sym {
+  font-family: var(--font-space-grotesk), system-ui, sans-serif;
+  font-size: 1.1875rem;
+  font-weight: 700;
+  color: #fff;
+}
+
+.spay-post .spay-asset__net {
+  margin-top: 0.25rem;
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+  font-size: 0.6875rem;
+  letter-spacing: 0.08em;
+  color: #46f1c5;
+}
+
+.spay-post .spay-asset__note {
+  margin: 0.5rem 0 0;
+  font-size: 0.78125rem;
+  line-height: 1.45;
+  color: #7a8194;
+}
+
+/* Link showcase */
+.spay-post .spay-links {
+  margin: 2.125rem 0;
+  padding: 1.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: 18px;
+  background: linear-gradient(170deg, #0e2e2e 0%, #0b1f24 100%);
+}
+
+.spay-post .spay-links__head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.spay-post .spay-links__title {
+  margin: 0;
+  font-family: var(--font-space-grotesk), system-ui, sans-serif;
+  font-size: 1.0625rem;
+  font-weight: 600;
+  color: #fff;
+}
+
+.spay-post .spay-links__all {
+  flex-shrink: 0;
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+  font-size: 0.71875rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  border-bottom: 0;
+}
+
+.spay-post .spay-links__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
+  gap: 0.75rem;
+}
+
+.spay-post .spay-lcard {
+  display: block;
+  padding: 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.03);
+  color: #e7ecf4;
+  transition: background 0.18s ease, border-color 0.18s ease, transform 0.18s ease;
+}
+
+/* The card is the link — cancel the inline-link underline treatment. */
+.spay-post a.spay-lcard,
+.spay-post a.spay-lcard:hover { border-bottom: 0; }
+
+.spay-post a.spay-lcard:hover {
+  background: rgba(70, 241, 197, 0.08);
+  border-color: rgba(70, 241, 197, 0.28);
+  transform: translateY(-2px);
+}
+
+.spay-post .spay-lcard__tag {
+  display: block;
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+  font-size: 0.65625rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #46f1c5;
+}
+
+.spay-post .spay-lcard__name {
+  display: block;
+  margin: 0.4375rem 0 0.3125rem;
+  font-family: var(--font-space-grotesk), system-ui, sans-serif;
+  font-size: 0.96875rem;
+  font-weight: 600;
+  line-height: 1.3;
+  color: #fff;
+}
+
+.spay-post .spay-lcard__desc {
+  display: block;
+  font-size: 0.8125rem;
+  line-height: 1.5;
+  color: #a6aabe;
+}
+
+/* Steps timeline — overrides the plain ordered-list treatment above */
+.spay-post ol.spay-steps {
+  counter-reset: spay-timeline;
+  margin: 0 0 1.625rem;
+  padding: 0;
+  list-style: none;
+}
+
+.spay-post ol.spay-steps > li {
+  position: relative;
+  counter-increment: spay-timeline;
+  margin: 0 0 0;
+  margin-left: 0.8125rem;
+  padding: 0 0 1.375rem 2.875rem;
+  border-left: 1px solid rgba(255, 255, 255, 0.09);
+}
+
+.spay-post ol.spay-steps > li:last-child {
+  padding-bottom: 0;
+  border-left-color: transparent;
+}
+
+.spay-post ol.spay-steps > li::before {
+  content: counter(spay-timeline);
+  position: absolute;
+  left: -0.875rem;
+  top: -0.125rem;
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border: 1px solid rgba(70, 241, 197, 0.28);
+  border-radius: 50%;
+  background: #090e1c;
+  color: #46f1c5;
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.spay-post ol.spay-steps b {
+  display: block;
+  font-size: 0.96875rem;
+  font-weight: 600;
+  color: #fff;
+}
+
+.spay-post ol.spay-steps span {
+  display: block;
+  font-size: 0.9375rem;
+  color: #c9d3e2;
+}
+
+/* Flow rail */
+.spay-post .spay-flow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.625rem;
+  margin: 0 0 1.75rem;
+}
+
+.spay-post .spay-flow__step {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.5625rem;
+  padding: 0.5rem 0.875rem;
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: 8px;
+  background: rgba(70, 241, 197, 0.03);
+  color: #e7ecf4;
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+  font-size: 0.78125rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  transition: border-color 0.18s ease;
+}
+
+/* Stage number, derived from position — see FlowRail in PostBlocks.tsx. */
+.spay-post .spay-flow__step b {
+  color: #46f1c5;
+  font-weight: 700;
+}
+
+.spay-post a.spay-flow__step,
+.spay-post a.spay-flow__step:hover { border-bottom: 1px solid rgba(255, 255, 255, 0.09); }
+.spay-post a.spay-flow__step:hover {
+  border-color: rgba(70, 241, 197, 0.28);
+  background: rgba(70, 241, 197, 0.08);
+}
+
+.spay-post .spay-flow__arrow {
+  color: #6c7a93;
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+  font-size: 0.875rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .spay-post a,
+  .spay-post .spay-asset,
+  .spay-post .spay-lcard,
+  .spay-post .spay-flow__step { transition: none; }
+}
+
 /* Mobile Bottom Nav - Show on mobile, hide on desktop */
 .mobile-bottom-nav {
   display: flex !important;

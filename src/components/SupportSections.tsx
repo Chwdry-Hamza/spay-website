@@ -122,7 +122,7 @@ export default function SupportSections({ initialContent }: { initialContent: Su
           Looking for legal or compliance info? See our{" "}
           <Link href="/privacy-policy" className="hover:opacity-80 transition-opacity" style={{ color: accent }}>Privacy Policy</Link>,{" "}
           <Link href="/card-terms" className="hover:opacity-80 transition-opacity" style={{ color: accent }}>Card Terms</Link>, or{" "}
-          <Link href="/prohibited-activities" className="hover:opacity-80 transition-opacity" style={{ color: accent }}>Prohibited Activities</Link>.
+          <a href="https://legal.raincards.xyz/legal/prohibitions" target="_blank" rel="noopener noreferrer" className="hover:opacity-80 transition-opacity" style={{ color: accent }}>Prohibited Activities</a>.
         </p>
       </div>
     </section>

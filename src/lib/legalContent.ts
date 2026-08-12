@@ -17,79 +17,6 @@ export type LegalContent = {
 
 const DATE_LINE = 'Effective Date: May 15, 2026 · Last Updated: May 15, 2026';
 
-export const PROHIBITED_DEFAULTS: LegalContent = {
-  header: { white: 'PROHIBITED', accent: 'ACTIVITIES', effectiveDate: DATE_LINE },
-  body: {
-    sections: [
-      { heading: '', items: [], body:
-        'By using your SPay Card, you agree not to engage in any of the activities listed below. This list is incorporated by reference into the [SPay Spend Card Terms](/card-terms). Violation of this policy may result in suspension or termination of your Card privileges, and may expose you to civil or criminal liability under applicable law.' },
-      { heading: '1. Illegal and Regulated Activities', body: '', items: [
-        'Illegal drugs or controlled substances, including narcotics, synthetic drugs, and drug paraphernalia',
-        'Cannabis and marijuana-related products, including dispensaries and cultivation suppliers, regardless of local legality',
-        'Firearms, ammunition, and weapons, including gun parts, accessories, explosives, and related items',
-        'Human trafficking, forced labor, or any activity that exploits individuals',
-        'Child sexual abuse material or any content sexually exploiting minors',
-        'Counterfeit goods, including forged currency, fake identification documents, or pirated intellectual property',
-        'Stolen property or goods acquired through theft or unauthorized access',
-      ] },
-      { heading: '2. Financial Crimes and Fraud', body: '', items: [
-        'Money laundering or transactions intended to conceal proceeds of illegal activity',
-        'Terrorism financing or transactions involving sanctioned individuals or entities',
-        'Fraudulent or deceptive practices, including phishing, identity theft, and account takeover schemes',
-        'Unauthorized transactions using stolen payment credentials or accounts',
-        'Pyramid schemes, Ponzi schemes, or multi-level marketing structures where returns depend primarily on recruitment',
-        'Unregistered securities or investment contracts that have not complied with applicable securities laws',
-        'Shell company transactions structured to evade reporting requirements',
-      ] },
-      { heading: '3. Regulated Industries', body: '', items: [
-        'Gambling, including online casinos, sports betting, lottery tickets, and race track wagers',
-        'Adult entertainment, including pornography, escort services, and adult dating services',
-        'Tobacco products, including cigarettes, e-cigarettes, vaping products, and smokeless tobacco',
-        'Prescription pharmaceuticals from unlicensed or non-compliant sources',
-        'Unregistered money services, including unlicensed money transmission, remittance, or currency exchange',
-        'Timeshares and high-pressure sales schemes for vacation properties',
-      ] },
-      { heading: '4. Cryptocurrency and Digital Asset Restrictions', body: '', items: [
-        'Purchase of cryptocurrency or other digital or virtual currencies with your SPay Card',
-        'Peer-to-peer crypto exchanges or unlicensed digital asset platforms',
-        'Initial coin offerings (ICOs) or token sales not registered with applicable regulators',
-        'Transactions involving sanctioned addresses or wallets on blockchain networks',
-        'Privacy coins or mixers designed to obscure transaction origin',
-        'NFTs that infringe intellectual property or depict illegal content',
-      ] },
-      { heading: '5. Cash-Like Transactions', body: '', items: [
-        'Travelers checks, money orders, and wire transfers',
-        'Foreign currency purchases outside of ordinary travel and commerce',
-        'Person-to-person money transfers and account-funding transactions that convert card balance into cash equivalents',
-        'Third-party bill payment services not made directly with the merchant',
-        'Cash advances and balance transfers are not available under the Card Terms',
-      ] },
-      { heading: '6. Sanctions and Restricted Jurisdictions', body: '', items: [
-        'Transactions with individuals or entities identified on the U.S. Office of Foreign Assets Control (OFAC) Specially Designated Nationals list',
-        'Transactions in or benefiting comprehensively sanctioned jurisdictions, including Cuba, Iran, North Korea, Syria, and the Crimea, Donetsk, and Luhansk regions',
-        'Use of the Card by U.S. citizens or residents (this Card is intended for users outside the United States only)',
-      ] },
-      { heading: '7. Other Restricted Uses', body: '', items: [
-        "Any activity that violates applicable law in the cardholder's jurisdiction, the merchant's jurisdiction, or the Issuer's jurisdiction",
-        'Business or commercial use (this Card is for personal, family, or household use only)',
-        'Expenses not incurred by the cardholder personally',
-        'Activities that violate Card Network rules (Visa, Mastercard) or Issuer policies',
-        'High-risk merchant categories as determined by the Issuer or Card Network',
-      ] },
-      { heading: '', items: [], body:
-        'SPay, which consists of Signify Holdings, Inc. together with its majority-owned and controlled subsidiaries worldwide, including without limitation, Nimbus LLC d/b/a Third National, SPay Payments Services, Inc., and SPay Products, Inc., is committed to upholding the highest standards of compliance, safety, and integrity across our financial ecosystem. This SPay Prohibitions List outlines the categories of business activities, spending behaviors, and geographic locations that are either limited or prohibited when using SPay’s services. The SPay Prohibitions List applies to all partners, platforms, and end users (e.g., cardholders and virtual account users) who interact with SPay’s products and systems.' },
-      { heading: 'I. Cardholder Prohibitions', items: [], body:
-        '**A. SPay cards cannot be issued to cardholders residing or registered in the following countries:**\n\n1. Belarus\n2. China (Mainland)\n3. Cuba\n4. India\n5. Iran\n6. Iraq\n7. Israel\n8. Myanmar\n9. Nepal\n10. Nicaragua\n11. North Korea\n12. Russia\n13. Syria\n14. Turkey\n15. Ukraine\n16. Venezuela\n17. Vietnam\n\nSPay does not support onboarding or card use in jurisdictions that present heightened legal, regulatory, or sanctions risks. Cardholders in countries listed on international watchlists (e.g., FATF Grey List) require case-by-case review and explicit approval from SPay’s Compliance leadership.\n\n**B. SPay cards cannot be issued to entities engaged in the following types of businesses under any circumstances:**\n\n1. Businesses involved in illegal or highly regulated activities, including but not limited to:\na. Distribution of illegal substances or controlled drugs without proper licensing\nb. Human trafficking, prostitution, or escort services\nc. Sale of counterfeit or unauthorized goods\nd. Pyramid schemes, Ponzi schemes, or other deceptive practices\ne. Production or distribution of illegal digital content (e.g., child exploitation)\n2. Political campaign fundraising or donation platforms\n\n**C. SPay cards may be issued to entities with the following business models, subject to enhanced review and approval requirements such as evidence of licensing, regulatory compliance, and strong internal controls:**\n\n1. Money Service Businesses (MSBs) and remittance services\n2. Cryptocurrency platforms and exchanges\n3. Charities and non-governmental organizations (NGOs)\n4. Precious metals dealers\n5. Online content or creator platforms (e.g., subscription-based streaming or tipping)\n6. Regulated gambling or fantasy sports operations' },
-      { heading: 'II. Spending Prohibitions', items: [], body:
-        '**A. SPay cards cannot be used for spending in the following countries:**\n\n1. Cuba\n2. Iran\n3. North Korea\n4. Russia\n5. Syria\n6. Ukraine\n7. Venezuela\n\nCard usage is prohibited in each of the countries listed above, regardless of whether the cardholder is an entity or an individual.\n\n**B. SPay cards cannot be used for any of the following types of purchases:**\n\n1. Purchase or trade of digital currencies\n2. Drug-related purchases, including marijuana, cannabis, CBD, and black-market items\n3. Payments on dark web marketplaces or for hacking/cybercrime services\n4. Internet pharmacies that are unlicensed or operate outside regulated jurisdictions\n5. Firearms, ammunition, or explosives (Corporate)\n6. Hazardous materials and chemicals without proper regulatory clearance\n7. Escort services or similar platforms\n8. Unlicensed or illegal auction sites\n9. Unregulated lending or payday loan services\n10. Data brokerage services, especially involving unauthorized personal data\n11. Purchase or trade of endangered species or wildlife products' },
-      { heading: 'III. Virtual Account Prohibitions', items: [], body:
-        '**A. SPay virtual accounts cannot be opened or used by end users residing or registered in the following countries:**\n\n1. Belarus\n2. China (Mainland)\n3. Cuba\n4. India\n5. Iran\n6. Iraq\n7. Israel\n8. Myanmar\n9. Nepal\n10. Nicaragua\n11. North Korea\n12. Russia\n13. Syria\n14. Turkey\n15. Ukraine\n16. Venezuela\n17. Vietnam\n\nSPay does not support virtual account access in jurisdictions that present heightened legal, regulatory, or sanctions risks. End users in countries listed on international watchlists (e.g., FATF Grey List) require case-by-case review and explicit approval from SPay\'s Compliance leadership.\n\n**B. SPay virtual accounts cannot be opened by entities engaged in the following types of businesses under any circumstances:**\n\n1. Businesses involved in illegal or highly regulated activities, including but not limited to:\na. Illegal or controlled substance manufacturing or distribution, including drug paraphernalia, SARMs, peptides, and pseudo-pharmaceuticals\nb. Human trafficking, escort services, or mail-order bride operations\nc. Sale of counterfeit or unauthorized goods, or intellectual property infringement\nd. Pyramid schemes, Ponzi schemes, multilevel marketing (MLM), or other deceptive practices\ne. Production or distribution of illegal or protected digital content (e.g., child exploitation material)\nf. Illegal gambling or unlicensed gambling and betting operations\n2. Unlicensed money services businesses (MSBs), nested banking or nested payment processing operations\n3. Weapons, arms dealing or manufacturing, firearms, munitions, explosives, or fireworks\n4. Adult content, services, or classifieds\n5. Hate groups, or businesses promoting intolerance, violence, or hatred\n6. Trade in endangered or protected animals and wildlife\n7. Abortion-related services\n8. Direct marketing\n\n**C. SPay virtual accounts cannot be used for any of the following types of activities:**\n\n1. Unlicensed or illegal gambling and betting\n2. Drug-related transactions, including controlled substances, drug paraphernalia, SARMs, peptides, and pseudo-pharmaceuticals\n3. Transactions on dark web marketplaces or for hacking, cybercrime, or theft-related services\n4. Predatory lending, deceptive credit repair, or abusive debt-related services\n5. Unlicensed providers of licensed activities, including illegal cryptocurrency sales\n6. Weapons, firearms, munitions, explosives, or fireworks (where restricted)\n7. Poisonous or hazardous materials without proper regulatory clearance\n8. Espionage equipment and signal jammers or blockers\n9. Escort services or similar platforms\n10. Adult content, services, or classifieds\n11. Downloading, streaming, or distributing illegal or protected digital content\n12. Counterfeit goods, materials, or intellectual property infringement\n13. Trade in human remains or body parts\n14. Materials or activities promoting intolerance, violence, or hatred\n15. Purchase or trade of endangered species or wildlife products\n16. Abortion-related services\n17. Direct marketing' },
-      { heading: 'Notice', items: [], body:
-        'This list is not exhaustive. SPay and the Issuer reserve the right to deny, block, or reverse any transaction for any reason, including suspected fraud, non-compliance with applicable law, or indication of increased risk. If you have questions about a specific merchant or transaction type, please contact us at hamza@spay.finance before completing the transaction.' },
-    ],
-  },
-};
-
 export const PRIVACY_DEFAULTS: LegalContent = {
   header: { white: 'PRIVACY', accent: 'POLICY', effectiveDate: DATE_LINE },
   body: {
@@ -261,7 +188,7 @@ export const CARD_TERMS_DEFAULTS: LegalContent = {
         'making a payment using a third-party service including bill payment transactions not made directly with the merchant or their service provider.',
       ] },
       { heading: '', items: [], body:
-        'We reserve the right to deny any purchase for any reason, such as account default, suspected fraudulent or unlawful activity, internet gambling, or any indication of increased risk related to the purchase. We may terminate or suspend your use of the Card or the Account, with or without notice to you before or at the time we take such action. Cash advances and balance transfers are not available under these Card Terms.\n\nYou acknowledge and agree that you have read and understood the [Prohibited Activities](/prohibited-activities) and that you will not engage in any such activities when using the Services or the SPay Card.\n\nYou acknowledge and agree that you will not use the SPay Card (1) for any expense which is not an expense incurred by you; (2) for any purpose prohibited by these Card Terms; or (3) for, with, or for the benefit of any individual or entity who is blocked or sanctioned by the United States, including those identified by the United States Department of Treasury’s Office of Foreign Assets Control (OFAC).\n\nYou will use all reasonable means to protect your SPay Cards and log-in credentials to the SPay Account from unauthorized use. You will not allow any other person or third party to use the Services or the SPay Card on your behalf. You will immediately notify us where you know or suspect that access to your SPay Account has been compromised or your SPay Card has been lost, stolen, or compromised in any way.' },
+        'We reserve the right to deny any purchase for any reason, such as account default, suspected fraudulent or unlawful activity, internet gambling, or any indication of increased risk related to the purchase. We may terminate or suspend your use of the Card or the Account, with or without notice to you before or at the time we take such action. Cash advances and balance transfers are not available under these Card Terms.\n\nYou acknowledge and agree that you have read and understood the [Prohibited Activities](https://legal.raincards.xyz/legal/prohibitions) and that you will not engage in any such activities when using the Services or the SPay Card.\n\nYou acknowledge and agree that you will not use the SPay Card (1) for any expense which is not an expense incurred by you; (2) for any purpose prohibited by these Card Terms; or (3) for, with, or for the benefit of any individual or entity who is blocked or sanctioned by the United States, including those identified by the United States Department of Treasury’s Office of Foreign Assets Control (OFAC).\n\nYou will use all reasonable means to protect your SPay Cards and log-in credentials to the SPay Account from unauthorized use. You will not allow any other person or third party to use the Services or the SPay Card on your behalf. You will immediately notify us where you know or suspect that access to your SPay Account has been compromised or your SPay Card has been lost, stolen, or compromised in any way.' },
       { heading: '6. Payments', items: [], body: '' },
       { heading: '6.1 Promise to Pay', items: [], body:
         'While you will generally repay SPay for amounts transacted with your Card, you also promise to pay Issuer or its assignees for all amounts charged to the Account not repaid to Issuer by Partner, including all purchases, interest, and charges charged to your Account. Except as prohibited by applicable law, you are obligated to repay SPay or its assignees, for all transactions made using your Card by people you have authorized to use the Card even if their use of the Card exceeds the authorization which you gave them,' },
