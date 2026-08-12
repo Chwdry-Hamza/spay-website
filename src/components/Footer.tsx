@@ -1,6 +1,5 @@
 import { getPages, getPosts, getHomePage } from "@/lib/cms";
 import { resolveHomeContent } from "@/lib/homeContent";
-import { rewriteRetiredLegalHref } from "@/lib/retired-legal-links";
 import { STATIC_ROUTES } from "@/lib/static-routes";
 import { type FooterBlogLink } from "./FooterBlogsDropdown";
 import FooterView, { type FooterLink } from "./FooterView";
@@ -40,10 +39,7 @@ export default async function Footer() {
   const [homePage, extras] = await Promise.all([getHomePage(), getFooterExtras()]);
   const content = resolveHomeContent(homePage?.sections).footer;
   const { dynamicLinks, latestBlogs } = extras;
-  const renderedLinks: FooterLink[] = [...content.links, ...dynamicLinks].map((l) => ({
-    ...l,
-    href: rewriteRetiredLegalHref(l.href),
-  }));
+  const renderedLinks: FooterLink[] = [...content.links, ...dynamicLinks];
 
   return <FooterView content={content} renderedLinks={renderedLinks} latestBlogs={latestBlogs} />;
 }

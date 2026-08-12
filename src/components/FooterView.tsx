@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { linkTarget } from "@/lib/linkTarget";
+import { rewriteRetiredLegalHref } from "@/lib/retired-legal-links";
 import { HOME_CONTENT_DEFAULTS, type HomeContent } from "@/lib/homeContent";
 import FooterBlogsDropdown, { type FooterBlogLink } from "./FooterBlogsDropdown";
 import FallbackImg from "./FallbackImg";
@@ -23,6 +24,9 @@ export default function FooterView({
   latestBlogs: FooterBlogLink[];
 }) {
   const data = content;
+  // Applied here rather than in the callers so every footer render path — the
+  // server `Footer` and the homepage's live-preview bridge — is covered.
+  const links = renderedLinks.map((l) => ({ ...l, href: rewriteRetiredLegalHref(l.href) }));
   const appStoreLinkTarget = linkTarget(data.appStoreUrl);
   const playStoreLinkTarget = linkTarget(data.playStoreUrl);
   const t = {
@@ -52,7 +56,7 @@ export default function FooterView({
 
         {/* Navigation Links */}
         <div className="flex flex-col items-center gap-6 mb-12">
-          {renderedLinks.map((l, i) => {
+          {links.map((l, i) => {
             const tg = linkTarget(l.href);
             const editable = i < data.links.length;
             return (
@@ -114,7 +118,7 @@ export default function FooterView({
 
         {/* Navigation Links - Centered */}
         <div className="flex flex-wrap items-center justify-center gap-x-12 gap-y-3 mb-10">
-          {renderedLinks.map((l, i) => {
+          {links.map((l, i) => {
             const tg = linkTarget(l.href);
             const editable = i < data.links.length;
             return (
