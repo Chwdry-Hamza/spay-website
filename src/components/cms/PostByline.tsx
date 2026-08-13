@@ -26,13 +26,11 @@ export default function PostByline({
   publishedAt,
   readTime,
   shareUrl,
-  title,
 }: {
   authorName?: string;
   publishedAt?: string | null;
   readTime?: number;
   shareUrl: string;
-  title: string;
 }) {
   const date = formatDate(publishedAt);
   const meta = [date, readTime ? `${readTime} min read` : ''].filter(Boolean);
@@ -73,7 +71,7 @@ export default function PostByline({
       </div>
 
       <div className="ml-auto max-sm:ml-0 max-sm:w-full">
-        <ShareRow url={shareUrl} title={title} />
+        <ShareRow url={shareUrl} />
       </div>
     </div>
   );

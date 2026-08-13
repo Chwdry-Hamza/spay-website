@@ -203,7 +203,6 @@ export default async function BlogPostPage({
               publishedAt={post.publishedAt}
               readTime={readTime}
               shareUrl={abs(url)}
-              title={post.title}
             />
 
             {/* Lead image: the featured image when set, otherwise a body image

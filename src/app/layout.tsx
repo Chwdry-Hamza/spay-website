@@ -11,6 +11,8 @@ import { getSeoSetting, getOrganizationSetting, getHomePage, getCodeInjectionSet
 import { buildOrganization } from "@/lib/structured-data";
 import { serializeJsonLd } from "@/lib/sanitize";
 import { resolveHomeContent } from "@/lib/homeContent";
+import { platformForDevice } from "@/lib/appStore";
+import { StorePlatformProvider } from "@/components/StorePlatform";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -131,8 +133,14 @@ export default async function RootLayout({
   // Inline scripts are merged into one <script> rendered as a direct <head>
   // child (so they land literally in <head> and run synchronously); the rest
   // (meta / link / external scripts) goes through the parser.
+  const requestHeaders = await headers();
   const pathname =
-    (await headers()).get("x-spay-original-path")?.split("?")[0] ?? "/";
+    requestHeaders.get("x-spay-original-path")?.split("?")[0] ?? "/";
+
+  // Which app store this visitor's device should be sent to. Decided here, on
+  // the server, so every "get the app" button ships with the right URL already
+  // in the HTML — see components/StorePlatform.
+  const storePlatform = platformForDevice(requestHeaders.get("user-agent"));
   const perPageHeader = await getPathHeaderInjection(pathname);
   const combinedHeader = [globalCode?.header ?? "", perPageHeader]
     .filter((s) => s.trim())
@@ -160,10 +168,12 @@ export default async function RootLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: serializeJsonLd(organizationLd) }}
         />
-        {children}
-        <AutoRefresh />
-        <ConditionalBottomNav content={home.bottomNav} />
-        <CookieConsent content={home.cookieConsent} />
+        <StorePlatformProvider platform={storePlatform}>
+          {children}
+          <AutoRefresh />
+          <ConditionalBottomNav content={home.bottomNav} />
+          <CookieConsent content={home.cookieConsent} />
+        </StorePlatformProvider>
         <CodeInjection code={globalCode} slots={["footer"]} />
       </body>
     </html>

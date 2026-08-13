@@ -1,6 +1,6 @@
 import FallbackImg from "./FallbackImg";
-import { linkTarget } from "@/lib/linkTarget";
 import { HOME_CONTENT_DEFAULTS, type HomeContent } from "@/lib/homeContent";
+import GetAppLink from './GetAppLink';
 
 export default function JoinUsSection({
   content = HOME_CONTENT_DEFAULTS.joinUs,
@@ -14,7 +14,6 @@ export default function JoinUsSection({
     ctaText: "#0a2a23",
     ctaBg: "#04babf",
   };
-  const ctaLinkTarget = linkTarget(data.ctaUrl);
   return (
     <section
       className="relative pt-16 md:pt-32 pb-24 md:pb-48 overflow-hidden"
@@ -81,10 +80,8 @@ export default function JoinUsSection({
         >
           {data.subtitle}
         </p>
-        <a
-          href={data.ctaUrl}
-          target={ctaLinkTarget.target}
-          rel={ctaLinkTarget.rel}
+        <GetAppLink
+          appleHref={data.ctaUrl}
           data-cms-field="joinUs.ctaLabel"
           data-cms-href="joinUs.ctaUrl"
           className="inline-block font-semibold px-6 py-2.5 rounded-xl text-sm transition-all hover:opacity-90"
@@ -94,7 +91,7 @@ export default function JoinUsSection({
           }}
         >
           {data.ctaLabel}
-        </a>
+        </GetAppLink>
       </div>
     </section>
   );

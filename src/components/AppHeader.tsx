@@ -1,6 +1,7 @@
 "use client";
 import Link from "next/link";
 import { useState, useEffect } from "react";
+import GetAppLink from "./GetAppLink";
 
 type Breakpoint = "mobile" | "tablet" | "desktop";
 
@@ -51,10 +52,7 @@ export default function AppHeader() {
             }}
           />
         </Link>
-        <a
-          href="https://apps.apple.com/app/sicash"
-          target="_blank"
-          rel="noopener noreferrer"
+        <GetAppLink
           className="font-semibold px-3 py-2 sm:px-5 sm:py-2.5 lg:px-6 lg:py-2.5 rounded-lg lg:rounded-xl text-xs sm:text-sm transition-all hover:opacity-90"
           style={{
             background: "#04babf",
@@ -62,7 +60,7 @@ export default function AppHeader() {
           }}
         >
           {bp === "mobile" ? "GET APP" : "GET SPAY APP"}
-        </a>
+        </GetAppLink>
       </div>
     </nav>
   );

@@ -6,8 +6,8 @@
  * is nothing per-post to configure. Both app-store links come from the same
  * constants the rest of the site uses.
  */
-const APP_STORE_URL = 'https://apps.apple.com/app/sicash';
-const PLAY_STORE_URL = 'https://play.google.com/store/apps/details?id=com.sicash';
+import { APP_STORE_URL, PLAY_STORE_URL } from '@/lib/appStore';
+import GetAppLink from '@/components/GetAppLink';
 
 /**
  * The site's button treatment — same teal, dark ink, rounded rectangle and
@@ -81,15 +81,12 @@ export function RailCta() {
       <p className="mb-3 text-[13.5px] leading-normal text-white">
         Hold, send and spend crypto from one self-custody app.
       </p>
-      <a
-        href={APP_STORE_URL}
-        target="_blank"
-        rel="noopener noreferrer"
+      <GetAppLink
         className={`${BTN} w-full px-3.5`}
         style={{ background: BTN_BG, color: BTN_INK }}
       >
         Get the app
-      </a>
+      </GetAppLink>
     </div>
   );
 }

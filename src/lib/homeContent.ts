@@ -115,7 +115,7 @@ export const HOME_CONTENT_DEFAULTS: HomeContent = {
     mobileSubtitle: 'Secure, fast, and rewarding crypto platform.',
     ctaLabel: 'GET THE APP',
     ctaMobileLabel: 'GET APP',
-    ctaUrl: 'https://apps.apple.com/app/sicash',
+    ctaUrl: 'https://apps.apple.com/us/app/spay/id6762744741',
     heroImage: '/heroImageSpay.png',
     logoSrc: '/Spay.png',
     gradientStart: '#090e1c',
@@ -245,7 +245,7 @@ export const HOME_CONTENT_DEFAULTS: HomeContent = {
     subtitle:
       'Say goodbye to juggling multiple apps and tools for your financial transactions. SPay is your one-stop solution for all your money needs.',
     ctaLabel: 'GET SPAY APP',
-    ctaUrl: 'https://apps.apple.com/app/sicash',
+    ctaUrl: 'https://apps.apple.com/us/app/spay/id6762744741',
     photoGrid: [
       'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop&crop=face',
       'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&h=400&fit=crop&crop=face',
@@ -287,15 +287,15 @@ export const HOME_CONTENT_DEFAULTS: HomeContent = {
       { label: 'E-Sign Consent', href: '/e-sign-consent' },
     ],
     copyright: '© 2026 SPay. All rights reserved.',
-    appStoreUrl: 'https://apps.apple.com/app/sicash',
-    playStoreUrl: 'https://play.google.com/store/apps/details?id=com.sicash',
+    appStoreUrl: 'https://apps.apple.com/us/app/spay/id6762744741',
+    playStoreUrl: 'https://play.google.com/store/apps/details?id=com.spay.wallet&hl=en',
   },
   bottomNav: {
     logoSrc: '/Spay.png',
     logoAlt: 'SPay',
     ctaLabel: 'GET SPAY APP',
     ctaMobileLabel: 'GET THE APP',
-    ctaUrl: 'https://apps.apple.com/app/sicash',
+    ctaUrl: 'https://apps.apple.com/us/app/spay/id6762744741',
     items: [
       { label: 'How to pay', icon: 'card', href: '#payment' },
       { label: 'Send', icon: 'arrow-right', href: '#transfer' },

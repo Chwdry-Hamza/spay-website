@@ -1,9 +1,9 @@
 "use client";
 import Link from "next/link";
 import { useState, useEffect } from "react";
-import { linkTarget } from "@/lib/linkTarget";
 import { HOME_CONTENT_DEFAULTS, type HomeContent } from "@/lib/homeContent";
 import FallbackImg from "./FallbackImg";
+import GetAppLink from './GetAppLink';
 
 type Breakpoint = "mobile" | "tablet" | "desktop";
 
@@ -142,7 +142,6 @@ export default function HomeHero({
     ctaText: "#0a2a23",
     ctaBg: "#04babf",
   };
-  const ctaLinkTarget = linkTarget(data.ctaUrl);
 
   const a = data.gradientStart;
   const b = data.gradientEnd;
@@ -214,10 +213,8 @@ export default function HomeHero({
               />
             </span>
           </Link>
-          <a
-            href={data.ctaUrl}
-            target={ctaLinkTarget.target}
-            rel={ctaLinkTarget.rel}
+          <GetAppLink
+            appleHref={data.ctaUrl}
             data-cms-field="hero.ctaLabel"
             data-cms-href="hero.ctaUrl"
             data-cms-href-below
@@ -228,7 +225,7 @@ export default function HomeHero({
             }}
           >
             {bp === "mobile" ? data.ctaMobileLabel ?? data.ctaLabel : data.ctaLabel}
-          </a>
+          </GetAppLink>
         </div>
       </nav>
 
@@ -289,10 +286,8 @@ export default function HomeHero({
             </p>
           )}
 
-          <a
-            href={data.ctaUrl}
-            target={ctaLinkTarget.target}
-            rel={ctaLinkTarget.rel}
+          <GetAppLink
+            appleHref={data.ctaUrl}
             data-cms-field="hero.ctaLabel"
             data-cms-href="hero.ctaUrl"
             className="inline-block font-semibold px-6 py-3 sm:px-8 sm:py-3.5 rounded-xl text-sm transition-all hover:opacity-90"
@@ -302,7 +297,7 @@ export default function HomeHero({
             }}
           >
             {data.ctaLabel}
-          </a>
+          </GetAppLink>
         </div>
 
         {/* Right — Phone (RESPONSIVE: scales with breakpoint) */}

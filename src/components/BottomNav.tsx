@@ -6,6 +6,7 @@ import { linkTarget } from "@/lib/linkTarget";
 import { usePreviewSlice } from "@/hooks/usePreview";
 import { HOME_CONTENT_DEFAULTS, type HomeContent } from "@/lib/homeContent";
 import FallbackImg from "./FallbackImg";
+import GetAppLink from './GetAppLink';
 
 export default function BottomNav({
   content,
@@ -46,12 +47,9 @@ export default function BottomNav({
     return () => observer.disconnect();
   }, [data.items]);
 
-  const ctaLinkTarget = linkTarget(data.ctaUrl);
   const renderCta = (label: string, mobile = false) => (
-    <a
-      href={data.ctaUrl}
-      target={ctaLinkTarget.target}
-      rel={ctaLinkTarget.rel}
+    <GetAppLink
+      appleHref={data.ctaUrl}
       data-cms-field={mobile ? "bottomNav.ctaMobileLabel" : "bottomNav.ctaLabel"}
       data-cms-href="bottomNav.ctaUrl"
       data-cms-href-below
@@ -63,7 +61,7 @@ export default function BottomNav({
       style={{ background: t.ctaBg, color: t.ctaText }}
     >
       {label}
-    </a>
+    </GetAppLink>
   );
 
   return (
