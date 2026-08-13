@@ -6,8 +6,8 @@ import { useEditablePreview } from "@/hooks/usePreview";
 import { safeHref } from "@/lib/sanitize";
 
 /**
- * Renders a legal page (Prohibited Activities, Privacy Policy, E-Sign, Card
- * Terms) from CMS `sections` content. Design stays in code; text comes from
+ * Renders a legal page (Privacy Policy, Card Terms) from CMS `sections`
+ * content. Design stays in code; text comes from
  * `content`. In the CMS live-preview iframe (`?preview=1`) it listens for
  * postMessage updates and re-renders in real time.
  *

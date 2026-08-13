@@ -20,7 +20,6 @@ import { serializeJsonLd } from '@/lib/sanitize';
 const STATIC_SLUGS = new Set([
   'about',
   'card-terms',
-  'e-sign-consent',
   'privacy-policy',
   'support',
   'blog',

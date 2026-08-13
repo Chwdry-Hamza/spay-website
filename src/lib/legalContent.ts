@@ -1,7 +1,7 @@
 /**
  * Legal page content model — website (canonical defaults). Mirrored by the CMS
  * in spay-cms/src/lib/legalContent.ts. One generic shape drives the legal pages
- * (Prohibited Activities, Privacy Policy, E-Sign Consent, Card Terms); each
+ * (Privacy Policy, Card Terms); each
  * provides its own defaults. KEEP DEFAULTS IN SYNC with the CMS copy.
  *
  * Each section is: a heading, a paragraph (blank = none), and bullet points
@@ -92,47 +92,6 @@ export const PRIVACY_DEFAULTS: LegalContent = {
         'We may update this Privacy Policy from time to time to reflect changes in our practices or applicable law. We will post the updated policy on this page and update the "Last updated" date above. Material changes will be communicated via email or in-app notice. Your continued use of the Services after the effective date constitutes acceptance of the updated policy.' },
       { heading: '14. Contact Us', items: [], body:
         'If you have questions, concerns, or complaints about this Privacy Policy or our data practices, please contact us at:\n\n**Novara Tech LLC (SPay)**\nEmail: hamza@spay.finance\nPhone: +971 55 947 6972' },
-    ],
-  },
-};
-
-export const ESIGN_DEFAULTS: LegalContent = {
-  header: { white: 'E-SIGN & ELECTRONIC', accent: 'COMMUNICATIONS NOTICE', effectiveDate: 'LAST UPDATED: JULY 17, 2026' },
-  body: {
-    sections: [
-      { heading: 'Your Consent to Electronic Delivery', body:
-        'You are applying to access SPay Products. If you consent to this E-Sign & Electronic Communications Notice ("Notice") for SPay Products, it applies even if you do not obtain access to (or are not approved for) a SPay Product.\n\nYour affirmative consent to this Notice ("Your Consent") permits us to provide you with Communications electronically, enables you to sign and authorize Communications electronically through the use dashboards or application platform interfaces provided by SPay (the "Platform"), and allows SPay and its partners to collect such electronic signatures and authorizations. If you do not consent to electronic delivery of Communications, you will not be able to use the Platform or access SPay Products. By using the Platform, registering for a SPay account, or accessing a SPay Product, you agree that such actions constitute Your Consent to us providing notices to you, your Company Administrators, and your Company Users, including in each case those required by law, and you agree to ensure that all Company Administrators and Company Users consent to receiving user notifications electronically. You understand that Your Consent has the same legal effect as a physical signature.\n\nYou have the right to receive legal disclosures, notices, and communications (together, the "Covered Items") in paper form by mail, including, without limitation, servicing and collection Communications on your account, legal disclosures, notices and communications that SPay is required to provide in writing regarding your account. We may instead provide these Covered Items to you electronically if you: (1) give us Your Consent to do so and (2) satisfy the System Requirements (as defined below).\n\nIn this Notice:', items: [
-        '**"Communications"** means all disclosures, notices, agreements, amendments, statements, correspondence, and other information or documents that we are required or choose to provide to you in connection with any SPay Product, whether required by law or otherwise, including without limitation account opening disclosures, periodic statements, privacy notices, fee disclosures, and any other records relating to the servicing, collection, or administration of your account;',
-        '**"Company"** means the company that is applying for or using a SPay Product, and is providing you access to such SPay Product;',
-        '**"Company Administrator"** means an individual at Company with the authority to grant you access to a SPay Product;',
-        '**"Company User"** means an individual authorized to use a SPay Product on Company\'s behalf;',
-        '**"SPay"** means Novara Tech L.L.C S.O.C, doing business as SPay, and any of its current or future subsidiaries, affiliates, successors, or assigns;',
-        '**"SPay Products"** means products or services offered by us, including, without limitation, virtual accounts, credit cards, prepaid cards, or SPay Spend accounts; and',
-        '**"we," "us," and "our"** refer to SPay and our service providers.',
-      ] },
-      { heading: 'Duration of Consent', items: [], body:
-        'Your Consent will remain effective until:\n\n1. you or we have terminated your access to the SPay Products you are applying for; or\n2. you opt-out of electronic communications.\n\nIf you terminate any SPay Product, your Consent will still continue with respect to the pre-termination rights of SPay (including rights created by Your Consent to this Notice). See your applicable user agreement for information on how to terminate your SPay Product.' },
-      { heading: 'Methods of Providing Covered Items', items: [], body:
-        'In this document, "provide" means to deliver, give, make available, send, notify of, present, or similar terms. We may provide the Covered Items electronically through files, including those in PDF format, downloaded from our website. It is your responsibility to review the Covered Items promptly, so you can take appropriate action.' },
-      { heading: 'Access to Paper Copies', items: [], body:
-        'You may make copies of the Covered Items by using the "print" or "save" functionality of the application in which you are viewing the Covered Items (e.g., Web browser, Adobe® Reader® software). We retain copies of the Covered Items for the time periods required by law and will provide you with copies upon request within those time periods. We do not necessarily retain copies for longer than is required by law. Save or print copies of Covered Items to ensure you have them when needed.\n\nYou may request a paper copy at no cost of any Covered Item by emailing us at support@spay.finance.' },
-      { heading: 'Updating Your Contact Information', items: [], body:
-        'You agree to keep your electronic contact information current so that we can communicate with you electronically. If your email address or other electronic contact information changes, you must promptly update it by emailing us at support@spay.finance. If we send a Communication to the email address or other electronic contact information you have provided and it is returned as undeliverable, you may not receive future Communications until you update your contact information. We are not responsible for any Communications you fail to receive because your contact information is outdated or inaccurate.' },
-      { heading: 'Our Right to Send Paper', items: [], body:
-        'We reserve the right to provide the Covered Items in paper form at all times at our discretion even if you have given us Consent to provide it electronically. For example, but without limitation, we may do this if we have a system outage or if we suspect fraud.' },
-      { heading: 'Hardware and Software Requirements', body:
-        'To access and retain the Covered Items, you must have a computing or communications device with all of the following (the "System Requirements"):', items: [
-        'working Internet access,',
-        'a Web browser that supports 128-bit encryption (we support the latest version of Chrome®, Firefox®, Microsoft Edge®, or Safari®),',
-        '16 MB of available memory (32 MB of available memory recommended), and',
-        'a program that can view, save and print PDF files (such as Adobe® Reader® 4.0 or higher).',
-      ] },
-      { heading: '', items: [], body:
-        'You can download Adobe® Reader® by clicking here (clicking will open another browser window and take you to Adobe\'s website). By providing us your Consent, you confirm you meet the System Requirements.\n\nIf we change the hardware or software requirements needed to access or retain Covered Items in a way that creates a material risk you will be unable to access or retain subsequent electronic Communications, we will notify you of the revised requirements and your right to withdraw Your Consent at no cost. We will not send you further electronic Communications subject to the revised requirements until you have provided a new affirmative consent.' },
-      { heading: 'Withdrawing Your Consent', items: [], body:
-        'You are free to withdraw Your Consent at any time and at no charge to you. If you do withdraw Your Consent ("Your Withdrawal") before you obtain access to or are approved for a SPay Product, Your Withdrawal will prevent you from receiving any of the benefits of SPay Products. If, at any time, you wish to withdraw Your Consent, you may do so by emailing us at support@spay.finance. Your Withdrawal will be deemed to be received and effective when we receive your email stating that you wish to withdraw Your Consent. Your Withdrawal will have no effect on the validity or enforceability of any prior electronic Communications.' },
-      { heading: 'Acknowledging Your Ability to Access and Consenting to Receive Electronic Communications', items: [], body:
-        'By providing Your Consent:\n\n1. you confirm that you have read and agreed to the terms of this Notice;\n2. you confirm that you have access to hardware and software that meets the System Requirements;\n3. you agree to receive Covered Items electronically; and\n4. you confirm that you are able to access, print, or store Covered Items provided to you.' },
     ],
   },
 };

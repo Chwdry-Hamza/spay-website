@@ -23,7 +23,6 @@ const ALWAYS_VALID = new Set([
   '/about',
   '/blog',
   '/card-terms',
-  '/e-sign-consent',
   '/privacy-policy',
   '/search',
   '/support',

@@ -10,7 +10,6 @@ const STATIC_PATHS: UrlNode[] = [
   { path: '/support' },
   { path: '/blog' },
   { path: '/card-terms' },
-  { path: '/e-sign-consent' },
   { path: '/privacy-policy' },
 ];
 

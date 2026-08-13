@@ -7,7 +7,6 @@ import { buildUrlset, XML_HEADERS, type UrlNode } from '@/lib/sitemap';
 const STATIC_SLUGS = new Set([
   'about',
   'card-terms',
-  'e-sign-consent',
   'privacy-policy',
   'support',
   'blog',
