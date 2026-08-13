@@ -284,7 +284,7 @@ export const HOME_CONTENT_DEFAULTS: HomeContent = {
       { label: 'Support', href: '/support' },
       { label: 'Privacy Policy', href: '/privacy-policy' },
       { label: 'Card Terms', href: '/card-terms' },
-      { label: 'E-Sign Consent', href: '/e-sign-consent' },
+      { label: 'E-Sign Consent', href: 'https://legal.raincards.xyz/legal/electronic-communications-notice' },
     ],
     copyright: '© 2026 SPay. All rights reserved.',
     appStoreUrl: 'https://apps.apple.com/us/app/spay/id6762744741',
