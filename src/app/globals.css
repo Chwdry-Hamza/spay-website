@@ -187,7 +187,22 @@ body {
 .spay-post table {
   width: 100%;
   border-collapse: collapse;
-  text-align: left;
+  /*
+   * Equal columns, rather than the browser's default of sizing each one to its
+   * own content. Auto layout gave the column with the longest sentence roughly
+   * three times the width of its neighbours, which reads as a broken table
+   * rather than a deliberate one — and the CMS emits no widths of its own, so
+   * there is nothing here to preserve. Long text wraps; the wrapper already
+   * scrolls if a cell genuinely cannot fit.
+   */
+  table-layout: fixed;
+  /*
+   * `start`, not `left`: a table's first column is the one the reader meets
+   * first, and in Urdu or Arabic that is the right-hand one. `dir="rtl"`
+   * already reverses the column order — it was only the text inside the cells
+   * that stayed pinned left, so the headings sat away from their own column.
+   */
+  text-align: start;
   font-size: 0.875rem;
   border: 1px solid #e3e8ec;
 }
@@ -197,6 +212,13 @@ body {
   padding: 0.5rem 0.75rem;
   vertical-align: top;
   border: 1px solid #e3e8ec;
+  /*
+   * Repeated here rather than left to inherit from the table. A <th> carries a
+   * `text-align: center` of its own from the browser, and a value set directly
+   * on an element beats one inherited from its parent however specific that
+   * parent's rule is — so the table's `start` never reached it.
+   */
+  text-align: start;
 }
 
 .spay-post th {
