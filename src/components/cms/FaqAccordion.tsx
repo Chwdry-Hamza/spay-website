@@ -47,13 +47,13 @@ export default function FaqAccordion({
             style={{ borderBottom: '1px solid rgba(255,255,255,0.09)' }}
           >
             <summary
-              className="relative cursor-pointer list-none py-[19px] pr-11 text-[17.5px] font-semibold leading-snug text-[#0b1620] [&::-webkit-details-marker]:hidden"
+              className="relative cursor-pointer list-none py-[19px] pe-11 text-[17.5px] font-semibold leading-snug text-[#0b1620] [&::-webkit-details-marker]:hidden"
              
             >
               {f.q}
               <span
                 aria-hidden
-                className="absolute right-1.5 top-[26px] size-[9px] rotate-45 transition-transform group-open:-rotate-[135deg]"
+                className="absolute end-1.5 top-[26px] size-[9px] rotate-45 transition-transform group-open:-rotate-[135deg]"
                 style={{
                   borderRight: '2px solid #118EA3',
                   borderBottom: '2px solid #118EA3',

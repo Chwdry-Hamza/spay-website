@@ -85,7 +85,11 @@ export default function PostByline({
         )}
       </div>
 
-      <div className="ml-auto max-sm:ml-0 max-sm:w-full">
+      {/* `ms-auto`, not `ml-auto`: the share buttons belong at the END of the
+          byline row, and in Urdu or Arabic that is the left. A physical
+          margin-left pushes them toward the right whichever way the text runs,
+          which in RTL parked them against the author's name. */}
+      <div className="ms-auto max-sm:ms-0 max-sm:w-full">
         <ShareRow url={shareUrl} title={title} strings={strings} />
       </div>
     </div>

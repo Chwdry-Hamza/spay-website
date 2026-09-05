@@ -58,8 +58,8 @@ export default function PostToc({
         {strings.toc}
       </p>
       <ul
-        className="m-0 list-none p-0 pl-3.5"
-        style={{ borderLeft: '1px solid rgba(255,255,255,0.09)' }}
+        className="m-0 list-none p-0 ps-3.5"
+        style={{ borderInlineStart: '1px solid rgba(255,255,255,0.09)' }}
       >
         {headings.map((h) => {
           const isActive = h.id === activeId;
@@ -68,13 +68,15 @@ export default function PostToc({
               <a
                 href={`#${h.id}`}
                 aria-current={isActive ? 'true' : undefined}
-                className="-ml-[15px] block py-1.5 pl-3.5 text-[13.5px] leading-snug transition-colors hover:text-[#0b1620]"
+                className="-ms-[15px] block py-1.5 ps-3.5 text-[13.5px] leading-snug transition-colors hover:text-[#0b1620]"
                 style={{
                   color: isActive ? '#118EA3' : '#4a5560',
                   fontWeight: isActive ? 600 : 400,
-                  borderLeft: `2px solid ${isActive ? '#118EA3' : 'transparent'}`,
+                  // The active marker sits on the spine — the side the
+                  // entries start from, which is the right in an RTL article.
+                  borderInlineStart: `2px solid ${isActive ? '#118EA3' : 'transparent'}`,
                   // h3 entries indent under their parent h2.
-                  paddingLeft: h.level === 3 ? '1.75rem' : undefined,
+                  paddingInlineStart: h.level === 3 ? '1.75rem' : undefined,
                 }}
               >
                 {h.text}
