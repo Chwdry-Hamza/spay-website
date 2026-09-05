@@ -1,0 +1,272 @@
+{
+  "plugins": [
+    "react",
+    "import"
+  ],
+  "rules": {
+    "react/forbid-elements": [
+      "warn",
+      {
+        "forbid": []
+      }
+    ],
+    "no-restricted-imports": [
+      "warn",
+      {
+        "patterns": [
+          {
+            "group": [
+              "components/cards/**",
+              "components/core/**",
+              "components/forms/**",
+              "ui_kits/marketing/**"
+            ],
+            "message": "Import design-system components from 'index.js', not component internals."
+          }
+        ]
+      }
+    ],
+    "no-restricted-syntax": [
+      "warn",
+      {
+        "selector": "Literal[value=/#[0-9a-fA-F]{3,8}\\b/]",
+        "message": "Raw hex color — use a design-system color token via var()."
+      },
+      {
+        "selector": "Literal[value=/\\b\\d+px\\b/]",
+        "message": "Raw px value — use a design-system spacing token via var()."
+      },
+      {
+        "selector": "Literal[value=/font-family\\s*:\\s*(?!['\\\"]?(?:Inter))/i]",
+        "message": "Font not provided by the design system. Available: Inter."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='Badge'] > JSXAttribute > JSXIdentifier[name!=/^(?:children|tone|style|key|ref|className|style|children)$/]",
+        "message": "<Badge> doesn't accept that prop. Declared props: children, tone, style."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='Badge'] > JSXAttribute[name.name='tone'] > Literal[value!=/^(?:default|m)$/]",
+        "message": "<Badge> tone must be one of 'default' | 'm'."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='BmwMLogo'] > JSXAttribute > JSXIdentifier[name!=/^(?:size|wordmark|style|key|ref|className|style|children)$/]",
+        "message": "<BmwMLogo> doesn't accept that prop. Declared props: size, wordmark, style."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='Button'] > JSXAttribute > JSXIdentifier[name!=/^(?:children|variant|href|onClick|disabled|type|style|key|ref|className|style|children)$/]",
+        "message": "<Button> doesn't accept that prop. Declared props: children, variant, href, onClick, disabled, type, style."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='Button'] > JSXAttribute[name.name='variant'] > Literal[value!=/^(?:primary|outline|on-light)$/]",
+        "message": "<Button> variant must be one of 'primary' | 'outline' | 'on-light'."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='Button'] > JSXAttribute[name.name='type'] > Literal[value!=/^(?:button|submit|reset)$/]",
+        "message": "<Button> type must be one of 'button' | 'submit' | 'reset'."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='CategoryTabs'] > JSXAttribute > JSXIdentifier[name!=/^(?:tabs|active|onChange|style|key|ref|className|style|children)$/]",
+        "message": "<CategoryTabs> doesn't accept that prop. Declared props: tabs, active, onChange, style."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='FeaturePhotoCard'] > JSXAttribute > JSXIdentifier[name!=/^(?:category|title|description|href|linkLabel|imageSrc|ratio|style|key|ref|className|style|children)$/]",
+        "message": "<FeaturePhotoCard> doesn't accept that prop. Declared props: category, title, description, href, linkLabel, imageSrc, ratio, style."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='IconButton'] > JSXAttribute > JSXIdentifier[name!=/^(?:children|label|onClick|size|variant|style|key|ref|className|style|children)$/]",
+        "message": "<IconButton> doesn't accept that prop. Declared props: children, label, onClick, size, variant, style."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='IconButton'] > JSXAttribute[name.name='variant'] > Literal[value!=/^(?:solid|ghost)$/]",
+        "message": "<IconButton> variant must be one of 'solid' | 'ghost'."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='ModelCard'] > JSXAttribute > JSXIdentifier[name!=/^(?:name|specs|href|linkLabel|imageSrc|ratio|style|key|ref|className|style|children)$/]",
+        "message": "<ModelCard> doesn't accept that prop. Declared props: name, specs, href, linkLabel, imageSrc, ratio, style."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='MStripeDivider'] > JSXAttribute > JSXIdentifier[name!=/^(?:height|width|orientation|style|key|ref|className|style|children)$/]",
+        "message": "<MStripeDivider> doesn't accept that prop. Declared props: height, width, orientation, style."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='MStripeDivider'] > JSXAttribute[name.name='orientation'] > Literal[value!=/^(?:horizontal|vertical)$/]",
+        "message": "<MStripeDivider> orientation must be one of 'horizontal' | 'vertical'."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='PhotoSlot'] > JSXAttribute > JSXIdentifier[name!=/^(?:src|alt|ratio|label|caption|rounded|style|key|ref|className|style|children)$/]",
+        "message": "<PhotoSlot> doesn't accept that prop. Declared props: src, alt, ratio, label, caption, rounded, style."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='SpecCell'] > JSXAttribute > JSXIdentifier[name!=/^(?:value|unit|label|carbon|style|key|ref|className|style|children)$/]",
+        "message": "<SpecCell> doesn't accept that prop. Declared props: value, unit, label, carbon, style."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='TextInput'] > JSXAttribute > JSXIdentifier[name!=/^(?:value|onChange|placeholder|type|label|id|disabled|style|key|ref|className|style|children)$/]",
+        "message": "<TextInput> doesn't accept that prop. Declared props: value, onChange, placeholder, type, label, id, disabled, style."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='TextLink'] > JSXAttribute > JSXIdentifier[name!=/^(?:children|href|onClick|arrow|style|key|ref|className|style|children)$/]",
+        "message": "<TextLink> doesn't accept that prop. Declared props: children, href, onClick, arrow, style."
+      }
+    ]
+  },
+  "overrides": [
+    {
+      "files": [
+        "**/index.js"
+      ],
+      "rules": {
+        "no-restricted-imports": "off"
+      }
+    }
+  ],
+  "x-omelette": {
+    "components": {
+      "Badge": {
+        "replaces": []
+      },
+      "BmwMLogo": {
+        "replaces": []
+      },
+      "Button": {
+        "replaces": []
+      },
+      "CategoryTabs": {
+        "replaces": []
+      },
+      "FeaturePhotoCard": {
+        "replaces": []
+      },
+      "IconButton": {
+        "replaces": []
+      },
+      "ModelCard": {
+        "replaces": []
+      },
+      "MStripeDivider": {
+        "replaces": []
+      },
+      "PhotoSlot": {
+        "replaces": []
+      },
+      "SpecCell": {
+        "replaces": []
+      },
+      "TextInput": {
+        "replaces": []
+      },
+      "TextLink": {
+        "replaces": []
+      }
+    },
+    "tokens": [
+      "--color-bmw-blue",
+      "--color-body",
+      "--color-body-strong",
+      "--color-canvas",
+      "--color-carbon-gray",
+      "--color-electric-blue",
+      "--color-hairline",
+      "--color-hairline-strong",
+      "--color-m-blue-dark",
+      "--color-m-blue-light",
+      "--color-m-red",
+      "--color-muted",
+      "--color-on-dark",
+      "--color-primary",
+      "--color-success",
+      "--color-surface-card",
+      "--color-surface-elevated",
+      "--color-surface-soft",
+      "--color-warning",
+      "--container-max",
+      "--font-body",
+      "--font-display",
+      "--font-sans",
+      "--m-stripe",
+      "--radius-full",
+      "--radius-md",
+      "--radius-none",
+      "--radius-sm",
+      "--radius-xs",
+      "--space-lg",
+      "--space-md",
+      "--space-section",
+      "--space-sm",
+      "--space-xl",
+      "--space-xs",
+      "--space-xxl",
+      "--space-xxs",
+      "--tracking-caption",
+      "--tracking-display",
+      "--tracking-label",
+      "--tracking-nav",
+      "--type-body-md",
+      "--type-body-sm",
+      "--type-caption",
+      "--type-display-lg",
+      "--type-display-md",
+      "--type-display-sm",
+      "--type-display-xl",
+      "--type-title-lg",
+      "--type-title-md",
+      "--type-title-sm"
+    ],
+    "tokenKinds": {
+      "--font-sans": "font",
+      "--font-display": "font",
+      "--font-body": "font",
+      "--color-primary": "color",
+      "--color-m-blue-light": "color",
+      "--color-m-blue-dark": "color",
+      "--color-bmw-blue": "color",
+      "--color-m-red": "color",
+      "--color-electric-blue": "color",
+      "--color-canvas": "color",
+      "--color-surface-soft": "color",
+      "--color-surface-card": "color",
+      "--color-surface-elevated": "color",
+      "--color-carbon-gray": "color",
+      "--color-hairline": "color",
+      "--color-hairline-strong": "color",
+      "--color-on-dark": "color",
+      "--color-body": "color",
+      "--color-body-strong": "color",
+      "--color-muted": "color",
+      "--color-warning": "color",
+      "--color-success": "color",
+      "--m-stripe": "color",
+      "--type-display-xl": "font",
+      "--type-display-lg": "font",
+      "--type-display-md": "font",
+      "--type-display-sm": "font",
+      "--type-title-lg": "font",
+      "--type-title-md": "font",
+      "--type-title-sm": "font",
+      "--type-body-md": "font",
+      "--type-body-sm": "font",
+      "--type-caption": "font",
+      "--tracking-display": "font",
+      "--tracking-label": "font",
+      "--tracking-nav": "font",
+      "--tracking-caption": "font",
+      "--space-xxs": "spacing",
+      "--space-xs": "spacing",
+      "--space-sm": "spacing",
+      "--space-md": "spacing",
+      "--space-lg": "spacing",
+      "--space-xl": "spacing",
+      "--space-xxl": "spacing",
+      "--space-section": "spacing",
+      "--container-max": "spacing",
+      "--radius-none": "radius",
+      "--radius-xs": "radius",
+      "--radius-sm": "radius",
+      "--radius-md": "radius",
+      "--radius-full": "radius"
+    },
+    "fontFamilies": [
+      "Inter"
+    ]
+  }
+}

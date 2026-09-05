@@ -1,9 +1,12 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import AppHeader from '@/components/AppHeader';
-import Footer from '@/components/Footer';
+import SiteShell from '@/components/site/SiteShell';
+import { PageHero, PageBody } from '@/components/site/PageBands';
+import BlogSearchBar from '@/components/cms/BlogSearchBar';
 import PerformanceScripts from '@/components/cms/PerformanceScripts';
 import { search, getCrawlSetting, type SearchHit } from '@/lib/cms';
+import { getSiteChrome } from '@/lib/site/chrome';
+import { SITE } from '@/lib/site/palette';
 
 // Search results are user-specific — always render fresh.
 export const dynamic = 'force-dynamic';
@@ -22,7 +25,7 @@ export async function generateMetadata(): Promise<Metadata> {
 
 function hitHref(hit: SearchHit): string {
   // Page slugs are stored with a leading slash; post slugs are bare.
-  return hit.kind === 'post' ? `/blog/${hit.slug}` : hit.slug;
+  return hit.kind === 'post' ? `/blog/${hit.slug}/` : hit.slug;
 }
 
 export default async function SearchPage({
@@ -46,66 +49,73 @@ export default async function SearchPage({
     }
   }
 
+  const chrome = await getSiteChrome();
+
   return (
-    <main style={{ background: '#090e1c', minHeight: '100vh' }}>
-      <AppHeader />
-      <section className="mx-auto w-full max-w-7xl px-4 pt-24 pb-16 sm:px-8 lg:px-16">
-        {/* Heading kept for screen readers but visually hidden. */}
-        <h1 className="sr-only">Search</h1>
-
-        {/* GET form so the query lives in ?q= and is shareable/bookmarkable. */}
-        <form action="/search" method="get" className="mb-10 flex gap-3">
-          <input
-            type="search"
-            name="q"
-            defaultValue={q}
-            placeholder="Search posts and pages…"
-            aria-label="Search"
-            autoComplete="off"
-            className="flex-1 rounded-xl px-4 py-3 text-base text-white outline-none"
-            style={{
-              background: '#0e2e2e',
-              border: '1px solid rgba(70,241,197,0.25)',
-              fontFamily: 'var(--font-inter)',
-            }}
-          />
-          <button
-            type="submit"
-            className="rounded-xl px-6 py-3 text-sm font-semibold transition-opacity hover:opacity-90"
-            style={{ background: '#04babf', color: '#0a2a23' }}
-          >
-            Search
-          </button>
-        </form>
-
-        {q && (
-          <p className="mb-6 text-sm" style={{ color: '#7A8194', fontFamily: 'var(--font-inter)' }}>
-            {total > 0
+    <SiteShell chrome={chrome} active="/search/" footerMarginTop="0" footerWatermarkLeft="48px">
+      <PageHero
+        title="Search"
+        intro={
+          q
+            ? total > 0
               ? `${total} result${total === 1 ? '' : 's'} for “${q}”`
-              : `No results for “${q}”.`}
-          </p>
-        )}
+              : `No results for “${q}”.`
+            : undefined
+        }
+      >
+        <BlogSearchBar defaultValue={q} />
+      </PageHero>
 
-        <ul className="space-y-5">
+      <PageBody>
+        <ul style={{ listStyle: 'none', margin: 0, padding: 0 }}>
           {results.map((hit) => (
-            <li key={`${hit.kind}-${hit._id}`}>
-              <Link href={hitHref(hit)} className="group block">
+            <li
+              key={`${hit.kind}-${hit._id}`}
+              data-reveal="up"
+              style={{ borderTop: `1px solid ${SITE.line}` }}
+            >
+              <Link
+                href={hitHref(hit)}
+                style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: '8px',
+                  padding: '28px 0',
+                  color: 'inherit',
+                }}
+              >
                 <span
-                  className="mb-1 inline-block text-xs font-semibold uppercase tracking-wide"
-                  style={{ color: '#46F1C5', fontFamily: 'var(--font-geist-mono)' }}
+                  style={{
+                    fontSize: '12px',
+                    fontWeight: 700,
+                    letterSpacing: '2px',
+                    textTransform: 'uppercase',
+                    color: SITE.brandMuted,
+                  }}
                 >
                   {hit.kind === 'post' ? hit.categoryName || 'Blog' : 'Page'}
                 </span>
                 <h2
-                  className="text-lg font-bold text-white group-hover:underline"
-                  style={{ fontFamily: 'var(--font-space-grotesk)' }}
+                  style={{
+                    margin: 0,
+                    fontSize: '24px',
+                    lineHeight: 1.25,
+                    fontWeight: 700,
+                    letterSpacing: '-0.5px',
+                    color: SITE.brand,
+                  }}
                 >
                   {hit.title}
                 </h2>
                 {hit.excerpt && (
                   <p
-                    className="mt-1 text-sm leading-relaxed line-clamp-2"
-                    style={{ color: '#A6AABE', fontFamily: 'var(--font-inter)' }}
+                    style={{
+                      margin: 0,
+                      fontSize: '17px',
+                      lineHeight: 1.7,
+                      color: SITE.body,
+                      textWrap: 'pretty',
+                    }}
                   >
                     {hit.excerpt}
                   </p>
@@ -114,9 +124,9 @@ export default async function SearchPage({
             </li>
           ))}
         </ul>
-      </section>
+      </PageBody>
+
       <PerformanceScripts perf={undefined} />
-      <Footer />
-    </main>
+    </SiteShell>
   );
 }

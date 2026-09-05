@@ -1,11 +1,16 @@
-import HomeSections from "@/components/HomeSections";
-import { getFooterExtras } from "@/components/Footer";
+import type { Metadata } from "next";
 import PerformanceScripts from "@/components/cms/PerformanceScripts";
 import CodeInjection from "@/components/cms/CodeInjection";
-import type { Metadata } from "next";
-import { getRouteSeoPage, getSeoSetting, getHomePage } from "@/lib/cms";
+import SiteShell from "@/components/site/SiteShell";
+import HomePage from "@/components/site/home/HomePage";
+import { getRouteSeoPage, getSeoSetting, getHomePage, getPosts, type CmsPost } from "@/lib/cms";
 import { buildMetadataFromCMS } from "@/lib/cms-meta";
-import { resolveHomeContent } from "@/lib/homeContent";
+import { serializeJsonLd } from "@/lib/sanitize";
+import { getSiteChrome } from "@/lib/site/chrome";
+import { syncPageSource } from "@/lib/site/localePage";
+import { resolveHome } from "@/lib/site/home";
+import { buildHomeJsonLd } from "@/lib/site/homeJsonLd";
+import { localeAlternates, localeOpenGraph } from "@/lib/site/localeMeta";
 
 export async function generateMetadata(): Promise<Metadata> {
   const site = await getSeoSetting();
@@ -31,29 +36,47 @@ export async function generateMetadata(): Promise<Metadata> {
       ? rawTemplate.replace("{title}", fallbackTitle)
       : rawTemplate
     : fallbackTitle;
-  meta.title = {
-    absolute: page?.seo?.title || templatedTitle,
-  };
+  meta.title = { absolute: page?.seo?.title || templatedTitle };
+  // The homepage is the one route that exists in more than one language.
+  meta.alternates = { ...meta.alternates, languages: localeAlternates("/") };
+  // …and say, in Open Graph's own spelling, which language this page is
+  // and which others exist. See localeOpenGraph.
+  meta.openGraph = { ...meta.openGraph, ...localeOpenGraph("en", "/") };
   return meta;
 }
 
-export default async function Home() {
-  // CMS-editable text/images for the landing page. Falls back to built-in
-  // design defaults when the CMS record is empty or unreachable.
-  const page = await getHomePage();
-  const content = resolveHomeContent(page?.sections);
-  const { dynamicLinks, latestBlogs } = await getFooterExtras();
+/** The three latest posts for the Blogs band; empty if the CMS is unreachable. */
+async function latestPosts(): Promise<CmsPost[]> {
+  try {
+    return (await getPosts({ limit: 3 })).items;
+  } catch {
+    return [];
+  }
+}
+
+export default async function Page() {
+  const [page, chrome, posts] = await Promise.all([
+    getHomePage(),
+    getSiteChrome(),
+    latestPosts(),
+  ]);
+  const content = resolveHome(page?.sections);
+  // Tell the CMS what English this page renders, so it can translate it
+  // into the other eight. See syncPageSource.
+  await syncPageSource("/", "SPay - Your financial companion", "Landing", [content, chrome]);
 
   return (
-    <>
+    <SiteShell chrome={chrome} active="/">
       <CodeInjection code={page?.codeInjection} slots={["body"]} />
-      <HomeSections
-        initialContent={content}
-        footerDynamicLinks={dynamicLinks}
-        latestBlogs={latestBlogs}
+      {/* Built from `content` so the Product offers and FAQ markup can never
+          drift from the text actually rendered. */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: serializeJsonLd(buildHomeJsonLd(content, "en")) }}
       />
+      <HomePage initialContent={content} posts={posts} locale="en" />
       <PerformanceScripts perf={undefined} />
       <CodeInjection code={page?.codeInjection} slots={["footer"]} />
-    </>
+    </SiteShell>
   );
 }

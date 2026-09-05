@@ -2,11 +2,14 @@
  * Visual breadcrumb trail + BreadcrumbList JSON-LD.
  *
  * Rendered as a rounded "pill" bar: a home icon for the first crumb, chevron
- * separators, muted links that brighten on hover, and the current page in the
- * mint accent. Pass the full trail including the current page (last crumb is
- * the current page).
+ * separators, muted links that darken on hover, and the current page in the
+ * brand teal. The pill is plain white — it sits on both the mint hero band and
+ * the white one, and the tinted fill it used to carry read as a stray box.
+ * Pass the full trail including the current page (last crumb is the current
+ * page).
  */
 import Link from 'next/link';
+import { SITE } from '@/lib/site/palette';
 import { buildBreadcrumbList, type Crumb } from '@/lib/structured-data';
 import { serializeJsonLd } from '@/lib/sanitize';
 
@@ -20,7 +23,7 @@ function ChevronRight() {
       strokeLinecap="round"
       strokeLinejoin="round"
       className="size-3.5 shrink-0"
-      style={{ color: '#4E5566' }}
+      style={{ color: SITE.muted }}
       aria-hidden
     >
       <path d="m9 18 6-6-6-6" />
@@ -51,7 +54,7 @@ export default function Breadcrumbs({ crumbs }: { crumbs: Crumb[] }) {
   const jsonLd = buildBreadcrumbList(crumbs);
 
   return (
-    <nav aria-label="Breadcrumb" style={{ fontFamily: 'var(--font-inter)' }}>
+    <nav data-r="crumbs" aria-label="Breadcrumb" style={{ fontFamily: 'var(--font-inter)' }}>
       {jsonLd && (
         <script
           type="application/ld+json"
@@ -59,10 +62,10 @@ export default function Breadcrumbs({ crumbs }: { crumbs: Crumb[] }) {
         />
       )}
       <ol
-        className="inline-flex flex-wrap items-center gap-1.5 rounded-full px-3.5 py-1.5 text-sm backdrop-blur-sm"
+        className="inline-flex flex-wrap items-center gap-1.5 rounded-full px-3.5 py-1.5 text-sm"
         style={{
-          background: 'rgba(14,46,46,0.45)',
-          border: '1px solid rgba(70,241,197,0.16)',
+          background: SITE.surface,
+          border: `1px solid ${SITE.line}`,
         }}
       >
         {crumbs.map((c, i) => {
@@ -72,11 +75,9 @@ export default function Breadcrumbs({ crumbs }: { crumbs: Crumb[] }) {
               {i > 0 && <ChevronRight />}
               {isLast ? (
                 <span
-                  className="inline-flex items-center gap-1.5 rounded-full px-2 py-0.5 font-medium"
-                  style={{
-                    color: '#46F1C5',
-                    background: 'rgba(70,241,197,0.10)',
-                  }}
+                  // No fill of its own: the pill around it is already white.
+                  className="inline-flex items-center gap-1.5 font-medium"
+                  style={{ color: SITE.brand }}
                   aria-current="page"
                 >
                   {i === 0 && <HomeIcon />}
@@ -85,8 +86,8 @@ export default function Breadcrumbs({ crumbs }: { crumbs: Crumb[] }) {
               ) : (
                 <Link
                   href={c.url}
-                  className="inline-flex items-center gap-1.5 px-1 transition-colors hover:text-white"
-                  style={{ color: '#A6AABE' }}
+                  className="dc-h11 inline-flex items-center gap-1.5 px-1"
+                  style={{ color: SITE.body, transition: 'color .2s ease' }}
                 >
                   {i === 0 && <HomeIcon />}
                   {c.name}

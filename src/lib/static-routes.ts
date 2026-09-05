@@ -20,7 +20,9 @@ export type StaticRoute = {
 export const STATIC_ROUTES: StaticRoute[] = [
   { slug: '/', title: 'SPay - Your financial companion', template: 'Landing' },
   { slug: '/about', title: 'About', template: 'Content' },
-  { slug: '/support', title: 'Support', template: 'Content' },
+  { slug: '/card', title: 'Card', template: 'Content' },
+  { slug: '/how-it-works', title: 'How it works', template: 'Content' },
+  { slug: '/contact', title: 'Contact', template: 'Content' },
   { slug: '/card-terms', title: 'Card Terms', template: 'Legal' },
   { slug: '/privacy-policy', title: 'Privacy Policy', template: 'Legal' },
 ];

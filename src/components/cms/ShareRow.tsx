@@ -9,12 +9,13 @@
  * be shared and what the canonical points at.
  */
 import { useState } from 'react';
+import type { BlogStrings } from '@/i18n/blog';
 
 const BTN =
   'grid size-9 place-items-center rounded-[9px] transition-colors';
 const BTN_STYLE = {
   border: '1px solid rgba(255,255,255,0.09)',
-  background: 'rgba(70,241,197,0.04)',
+  background: '#f3fbfa',
 } as const;
 
 function CopyIcon({ done }: { done: boolean }) {
@@ -30,7 +31,16 @@ function CopyIcon({ done }: { done: boolean }) {
   );
 }
 
-export default function ShareRow({ url, title }: { url: string; title: string }) {
+export default function ShareRow({
+  url,
+  title,
+  strings,
+}: {
+  url: string;
+  title: string;
+  /** Blog furniture for the page's language. */
+  strings: BlogStrings['post'];
+}) {
   const [copied, setCopied] = useState(false);
 
   const copy = async () => {
@@ -52,10 +62,10 @@ export default function ShareRow({ url, title }: { url: string; title: string })
       <button
         type="button"
         onClick={copy}
-        className={`${BTN} cursor-pointer hover:text-[#46F1C5]`}
-        style={{ ...BTN_STYLE, color: copied ? '#46F1C5' : '#A6AABE' }}
-        aria-label={copied ? 'Link copied' : 'Copy link to this article'}
-        title={copied ? 'Copied' : 'Copy link'}
+        className={`${BTN} cursor-pointer hover:text-[#118EA3]`}
+        style={{ ...BTN_STYLE, color: copied ? '#118EA3' : '#4a5560' }}
+        aria-label={copied ? strings.copied : strings.copyLink}
+        title={copied ? strings.copied : strings.copyLink}
       >
         <CopyIcon done={copied} />
       </button>
@@ -64,9 +74,9 @@ export default function ShareRow({ url, title }: { url: string; title: string })
         href={x}
         target="_blank"
         rel="noopener noreferrer"
-        className={`${BTN} hover:text-[#46F1C5]`}
-        style={{ ...BTN_STYLE, color: '#A6AABE' }}
-        aria-label="Share on X"
+        className={`${BTN} hover:text-[#118EA3]`}
+        style={{ ...BTN_STYLE, color: '#4a5560' }}
+        aria-label={strings.shareX}
       >
         <svg viewBox="0 0 24 24" fill="currentColor" className="size-4" aria-hidden>
           <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
@@ -77,9 +87,9 @@ export default function ShareRow({ url, title }: { url: string; title: string })
         href={li}
         target="_blank"
         rel="noopener noreferrer"
-        className={`${BTN} hover:text-[#46F1C5]`}
-        style={{ ...BTN_STYLE, color: '#A6AABE' }}
-        aria-label="Share on LinkedIn"
+        className={`${BTN} hover:text-[#118EA3]`}
+        style={{ ...BTN_STYLE, color: '#4a5560' }}
+        aria-label={strings.shareLinkedIn}
       >
         <svg viewBox="0 0 24 24" fill="currentColor" className="size-4" aria-hidden>
           <path d="M20.45 20.45h-3.56v-5.57c0-1.33-.03-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.34V9h3.42v1.56h.05a3.75 3.75 0 0 1 3.37-1.85c3.6 0 4.27 2.37 4.27 5.46zM5.34 7.43a2.07 2.07 0 1 1 0-4.13 2.07 2.07 0 0 1 0 4.13M7.12 20.45H3.55V9h3.57zM22.22 0H1.77C.79 0 0 .77 0 1.72v20.56C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.72V1.72C24 .77 23.2 0 22.22 0" />

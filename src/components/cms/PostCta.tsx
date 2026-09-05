@@ -8,40 +8,40 @@
  */
 import { APP_STORE_URL, PLAY_STORE_URL } from '@/lib/appStore';
 import GetAppLink from '@/components/GetAppLink';
+import type { BlogStrings } from '@/i18n/blog';
 
 /**
- * The site's button treatment — same teal, dark ink, rounded rectangle and
+ * The site's button treatment — same teal, white ink, pill corners and
  * hover as the "GET SPAY APP" button in AppHeader, and as the buttons on
  * search, 404, pagination and the cookie banner. Keep these in step with
  * components/AppHeader.tsx if the brand button ever changes.
  */
-const BTN_BG = '#04babf';
-const BTN_INK = '#0a2a23';
+const BTN_BG = '#118EA3';
+const BTN_INK = '#ffffff';
 
+// Pill corners, matching every other button in the design — the rest of the
+// site is `border-radius: 999px`, so a rounded rectangle read as foreign here.
 const BTN =
-  'inline-flex items-center justify-center rounded-xl px-6 py-2.5 text-sm font-semibold uppercase transition-all hover:opacity-90';
+  'inline-flex items-center justify-center rounded-full px-8 py-3.5 text-sm font-bold uppercase tracking-[0.8px] transition-all hover:opacity-90';
 
-export function PostCta() {
+export function PostCta({ strings }: { strings: BlogStrings['cta'] }) {
   return (
     <section
+      data-reveal="up"
       className="mt-12 rounded-[20px] p-8 text-center"
       style={{
-        background:
-          'radial-gradient(140% 120% at 50% 0%, rgba(70,241,197,0.18), rgba(70,241,197,0.02) 62%), #0e2e2e',
-        border: '1px solid rgba(70,241,197,0.28)',
-        fontFamily: 'var(--font-inter)',
-      }}
+        background: '#f3fbfa',
+        border: '1px solid #cfeae7',
+              }}
     >
       <h2
-        className="mb-3 text-[26px] font-bold text-white"
-        style={{ fontFamily: 'var(--font-space-grotesk)' }}
+        className="mb-3 text-[26px] font-bold text-[#0b1620]"
+       
       >
-        One app, all your money
+        {strings.title}
       </h2>
-      <p className="mx-auto mb-5 max-w-[52ch] leading-relaxed" style={{ color: '#A6AABE' }}>
-        Holding, sending, and spending crypto used to mean three apps and constant
-        shuffling between them. SPay puts all three in one place, with your keys,
-        your control, and one tap at the till.
+      <p className="mx-auto mb-5 max-w-[52ch] leading-relaxed" style={{ color: '#4a5560' }}>
+        {strings.body}
       </p>
       <div className="flex flex-wrap justify-center gap-3">
         <a
@@ -51,7 +51,7 @@ export function PostCta() {
           className={BTN}
           style={{ background: BTN_BG, color: BTN_INK }}
         >
-          Download on the App Store
+          {strings.appStore}
         </a>
         <a
           href={PLAY_STORE_URL}
@@ -60,32 +60,30 @@ export function PostCta() {
           className={BTN}
           style={{ color: BTN_BG, border: `1px solid ${BTN_BG}` }}
         >
-          Get it on Google Play
+          {strings.playStore}
         </a>
       </div>
     </section>
   );
 }
 
-export function RailCta() {
+export function RailCta({ strings }: { strings: BlogStrings['cta'] }) {
   return (
     <div
       className="mt-6 rounded-[14px] p-[18px]"
       style={{
-        background:
-          'linear-gradient(160deg, rgba(70,241,197,0.14), rgba(70,241,197,0.03))',
-        border: '1px solid rgba(70,241,197,0.28)',
-        fontFamily: 'var(--font-inter)',
-      }}
+        background: '#f3fbfa',
+        border: '1px solid #cfeae7',
+              }}
     >
-      <p className="mb-3 text-[13.5px] leading-normal text-white">
-        Hold, send and spend crypto from one self-custody app.
+      <p className="mb-3 text-[13.5px] leading-normal text-[#0b1620]">
+        {strings.railBody}
       </p>
       <GetAppLink
         className={`${BTN} w-full px-3.5`}
         style={{ background: BTN_BG, color: BTN_INK }}
       >
-        Get the app
+        {strings.railButton}
       </GetAppLink>
     </div>
   );

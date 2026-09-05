@@ -4,21 +4,43 @@ import * as React from "react";
 import Link from "next/link";
 import { persistCookieConsent, useCookieConsent } from "@/hooks/useCookieConsent";
 import { usePreviewEditMode, usePreviewSlice } from "@/hooks/usePreview";
+import { SITE } from "@/lib/site/palette";
 import { HOME_CONTENT_DEFAULTS, type HomeContent } from "@/lib/homeContent";
+import type { ConsentStrings } from "@/i18n/consent";
 
 export default function CookieConsent({
   content,
+  strings,
 }: {
   content?: HomeContent["cookieConsent"];
+  /**
+   * Translated copy for this page's language.
+   *
+   * When present it wins over `content`, which is the CMS's English. The CMS
+   * fields stay wired up underneath so an editor can still reword the English
+   * banner and watch it change in the live preview — that only ever happens on
+   * an English URL, where `strings` is the English set anyway.
+   */
+  strings?: ConsentStrings;
 }) {
   const consent = useCookieConsent();
   const { isPreview, editing } = usePreviewEditMode();
   // Live in preview; server-resolved value (or defaults) everywhere else.
-  const data = usePreviewSlice("cookieConsent", content ?? HOME_CONTENT_DEFAULTS.cookieConsent);
+  const cms = usePreviewSlice("cookieConsent", content ?? HOME_CONTENT_DEFAULTS.cookieConsent);
+  // The link target always comes from the CMS: the privacy policy is
+  // English-only, so there is nothing to translate about where it points.
+  const data = strings
+    ? {
+        message: strings.message,
+        acceptLabel: strings.accept,
+        declineLabel: strings.decline,
+        learnMoreUrl: cms.learnMoreUrl,
+      }
+    : cms;
   const t = {
-    message: "#A6AABE",
-    ctaText: "#0a2a23",
-    ctaBg: "#04babf",
+    message: SITE.body,
+    ctaText: SITE.surface,
+    ctaBg: SITE.brand,
   };
 
   const [locallyDismissed, setLocallyDismissed] = React.useState(false);
@@ -41,12 +63,12 @@ export default function CookieConsent({
     <div
       role="dialog"
       aria-live="polite"
-      aria-label="Cookie consent"
+      aria-label={strings?.label ?? "Cookie consent"}
       className="fixed inset-x-0 bottom-4 md:bottom-5 lg:bottom-6 xl:bottom-8 z-[2147483647] mx-auto w-[calc(100%-32px)] max-w-[340px] md:max-w-[828px] lg:max-w-[1008px] xl:max-w-[1168px] rounded-3xl border px-6 py-6 shadow-2xl sm:px-10 sm:py-8"
       style={{
-        background: "#090e1c",
-        borderColor: "rgba(70, 241, 197, 0.3)",
-        fontFamily: "var(--font-inter)",
+        background: SITE.surface,
+        borderColor: SITE.line,
+        boxShadow: "0 22px 46px rgba(11,60,68,0.18)",
         // Lift above the bottom nav while both are force-shown for editing.
         ...(forceShow ? { bottom: "120px" } : {}),
       }}
@@ -60,7 +82,7 @@ export default function CookieConsent({
             className="underline-offset-2 hover:underline"
             style={{ color: t.ctaBg }}
           >
-            Learn more
+            {strings?.learnMore ?? "Learn more"}
           </Link>
         </p>
         <div className="flex shrink-0 gap-3">

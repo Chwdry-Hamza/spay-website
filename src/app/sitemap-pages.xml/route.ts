@@ -6,9 +6,11 @@ import { buildUrlset, XML_HEADERS, type UrlNode } from '@/lib/sitemap';
 // to keep every URL in exactly one sub-sitemap.
 const STATIC_SLUGS = new Set([
   'about',
+  'card',
+  'how-it-works',
+  'contact',
   'card-terms',
   'privacy-policy',
-  'support',
   'blog',
   'search',
 ]);

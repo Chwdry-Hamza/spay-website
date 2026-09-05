@@ -1,0 +1,43 @@
+/* BMW M Design System — Typography
+ * Heavy display (700) vs very light body (300). The weight gap is the editorial
+ * signature — never blur it (no 400 display, no 500 body).
+ * UPPERCASE is the default voice for h1/h2; body + intros stay sentence-case.
+ *
+ * Display tracking is set to -0.5px (not 0) because the substitute font Inter
+ * runs slightly wider than BMW Type Next Latin at large sizes. With real BMW
+ * Type, reset display tracking to 0.
+ */
+
+:root {
+  /* token            size / weight / line-height / letter-spacing */
+  --type-display-xl: 700 80px/1.0 var(--font-display);
+  --type-display-lg: 700 56px/1.05 var(--font-display);
+  --type-display-md: 700 40px/1.1 var(--font-display);
+  --type-display-sm: 700 32px/1.15 var(--font-display);
+  --type-title-lg:   700 24px/1.3 var(--font-display);
+  --type-title-md:   400 20px/1.4 var(--font-body);
+  --type-title-sm:   400 18px/1.4 var(--font-body);
+  --type-body-md:    300 16px/1.5 var(--font-body);
+  --type-body-sm:    300 14px/1.5 var(--font-body);
+  --type-caption:    400 12px/1.4 var(--font-body);
+
+  /* tracking values used alongside the shorthands above */
+  --tracking-display: -0.5px;  /* substitute-font correction; 0 with BMW Type */
+  --tracking-label: 1.5px;     /* uppercase category labels + buttons */
+  --tracking-nav: 0.5px;       /* nav links */
+  --tracking-caption: 0.5px;
+}
+
+/* ---- Optional utility classes (consumers may use the tokens directly) ---- */
+.m-display-xl { font: var(--type-display-xl); letter-spacing: var(--tracking-display); text-transform: uppercase; color: var(--color-on-dark); }
+.m-display-lg { font: var(--type-display-lg); letter-spacing: var(--tracking-display); text-transform: uppercase; color: var(--color-on-dark); }
+.m-display-md { font: var(--type-display-md); letter-spacing: var(--tracking-display); text-transform: uppercase; color: var(--color-on-dark); }
+.m-display-sm { font: var(--type-display-sm); letter-spacing: var(--tracking-display); text-transform: uppercase; color: var(--color-on-dark); }
+.m-title-lg   { font: var(--type-title-lg); color: var(--color-on-dark); }
+.m-title-md   { font: var(--type-title-md); color: var(--color-body-strong); }
+.m-title-sm   { font: var(--type-title-sm); color: var(--color-body-strong); }
+.m-body-md    { font: var(--type-body-md); color: var(--color-body); }
+.m-body-sm    { font: var(--type-body-sm); color: var(--color-body); }
+.m-caption    { font: var(--type-caption); letter-spacing: var(--tracking-caption); color: var(--color-muted); }
+.m-label      { font: 700 14px/1.3 var(--font-display); letter-spacing: var(--tracking-label); text-transform: uppercase; color: var(--color-on-dark); }
+.m-nav-link   { font: 400 14px/1.4 var(--font-body); letter-spacing: var(--tracking-nav); color: var(--color-on-dark); }

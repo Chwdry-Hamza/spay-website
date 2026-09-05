@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
-import Footer from "@/components/Footer";
 import PerformanceScripts from "@/components/cms/PerformanceScripts";
 import CodeInjection from "@/components/cms/CodeInjection";
-import AppHeader from "@/components/AppHeader";
 import LegalSections from "@/components/LegalSections";
+import SiteShell from "@/components/site/SiteShell";
 import { getRouteSeoPage, getSeoSetting } from "@/lib/cms";
+import { getSiteChrome } from "@/lib/site/chrome";
 import { buildMetadataFromCMS } from "@/lib/cms-meta";
 import { PRIVACY_DEFAULTS, resolveLegalContent } from "@/lib/legalContent";
 
@@ -21,17 +21,18 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function PrivacyPolicyPage() {
-  const page = await getRouteSeoPage("/privacy-policy", "Privacy Policy", "Legal");
+  const [page, chrome] = await Promise.all([
+    getRouteSeoPage("/privacy-policy", "Privacy Policy", "Legal"),
+    getSiteChrome(),
+  ]);
   const content = resolveLegalContent(PRIVACY_DEFAULTS, page?.sections);
 
   return (
-    <main style={{ background: "#090e1c" }}>
+    <SiteShell chrome={chrome} active="/privacy-policy/" footerMarginTop="0" footerWatermarkLeft="48px">
       <CodeInjection code={page?.codeInjection} slots={["body"]} />
-      <AppHeader />
       <LegalSections initialContent={content} defaults={PRIVACY_DEFAULTS} />
-      <Footer />
       <PerformanceScripts perf={undefined} />
       <CodeInjection code={page?.codeInjection} slots={["footer"]} />
-    </main>
+    </SiteShell>
   );
 }

@@ -8,6 +8,7 @@
  */
 import Link from 'next/link';
 import { getCategoryBySlug, type CmsPost } from '@/lib/cms';
+import { readTimeLabel, type BlogStrings } from '@/i18n/blog';
 
 function formatDate(iso?: string | null): string {
   if (!iso) return '';
@@ -37,19 +38,24 @@ export async function getRelatedPosts(
 export default function RelatedPosts({
   posts,
   categoryName,
+  strings,
+  prefix = '',
 }: {
   posts: CmsPost[];
   categoryName?: string;
+  strings: BlogStrings['post'];
+  /** Locale URL prefix, so a reader stays in their language. */
+  prefix?: string;
 }) {
   if (!posts.length) return null;
 
   return (
     <section className="mt-11" style={{ fontFamily: 'var(--font-inter)' }}>
       <h2
-        className="mb-4 text-xl font-bold text-white"
-        style={{ fontFamily: 'var(--font-space-grotesk)' }}
+        className="mb-4 text-xl font-bold text-[#0b1620]"
+       
       >
-        Keep reading
+        {strings.related}
       </h2>
 
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -59,34 +65,34 @@ export default function RelatedPosts({
           return (
             <Link
               key={p._id}
-              href={`/blog/${p.slug}`}
+              href={`${prefix}/blog/${p.slug}`}
               // flex column + mt-auto pins the meta line to the bottom, so cards
               // in a row stay aligned however long their titles run.
               className="flex min-h-[10.5rem] flex-col rounded-2xl p-6 transition-transform hover:-translate-y-0.5"
               style={{
-                background: '#0e2e2e',
+                background: '#f3fbfa',
                 border: '1px solid rgba(255,255,255,0.09)',
               }}
             >
               {cat && (
                 <span
                   className="block text-[11px] uppercase tracking-[0.13em]"
-                  style={{ color: '#46F1C5', fontFamily: 'var(--font-geist-mono)' }}
+                  style={{ color: '#118EA3' }}
                 >
                   {cat}
                 </span>
               )}
               <span
-                className="mb-3 mt-2.5 block text-lg font-semibold leading-snug text-white"
-                style={{ fontFamily: 'var(--font-space-grotesk)' }}
+                className="mb-3 mt-2.5 block text-lg font-semibold leading-snug text-[#0b1620]"
+               
               >
                 {p.title}
               </span>
               {(date || p.readTime) && (
-                <span className="mt-auto block text-[13px]" style={{ color: '#7A8194' }}>
+                <span className="mt-auto block text-[13px]" style={{ color: '#8a949d' }}>
                   {date}
                   {date && p.readTime ? ' · ' : ''}
-                  {p.readTime ? `${p.readTime} min read` : ''}
+                  {p.readTime ? readTimeLabel(strings, p.readTime) : ''}
                 </span>
               )}
             </Link>

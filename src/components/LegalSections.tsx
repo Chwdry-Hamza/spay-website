@@ -14,10 +14,12 @@ import { safeHref } from "@/lib/sanitize";
  * Text fields support light inline formatting so links survive CMS editing:
  *   - [label](url)            → link (relative or absolute)
  *   - bare emails / http URLs → auto-linked
- *   - **bold**                → bold white text
+ *   - **bold**                → bold, in the heading ink
  */
 
-const LINK = "#46F1C5";
+import { SITE } from "@/lib/site/palette";
+
+const LINK = SITE.brand;
 
 function pushAutoLink(parts: React.ReactNode[], text: string) {
   const re = /([\w.%+-]+@[\w.-]+\.[A-Za-z]{2,}|https?:\/\/[^\s)]+)/g;
@@ -43,7 +45,11 @@ function pushBold(parts: React.ReactNode[], text: string) {
   let m: RegExpExecArray | null;
   while ((m = re.exec(text)) !== null) {
     if (m.index > last) pushAutoLink(parts, text.slice(last, m.index));
-    parts.push(<strong key={parts.length} className="text-white">{m[1]}</strong>);
+    parts.push(
+      <strong key={parts.length} style={{ color: SITE.ink, fontWeight: 600 }}>
+        {m[1]}
+      </strong>,
+    );
     last = m.index + m[0].length;
   }
   if (last < text.length) pushAutoLink(parts, text.slice(last));
@@ -87,59 +93,111 @@ export default function LegalSections({
 
   return (
     <div ref={rootRef}>
-    <section className="relative overflow-hidden pt-16 sm:pt-20">
-      <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-8 lg:px-16 pt-8 md:pt-24 pb-16">
-        <h1 className="text-4xl md:text-6xl font-bold mb-4" style={{ fontFamily: "var(--font-space-grotesk)" }}>
-          <span className="text-white" data-cms-field="header.white">{header.white}</span>{" "}
-          <span style={{ color: LINK }} data-cms-field="header.accent">{header.accent}</span>
-        </h1>
-        {header.effectiveDate && (
-          <p className="text-sm mb-10" style={{ color: LINK }} data-cms-field="header.effectiveDate">{header.effectiveDate}</p>
-        )}
-
+      <section id="top" style={{ background: SITE.surface, overflow: "clip" }}>
         <div
-          className="space-y-4 text-sm md:text-base leading-relaxed"
-          style={{ fontFamily: "var(--font-inter)", color: "#A6AABE" }}
+          style={{
+            maxWidth: "1600px",
+            margin: "0 auto",
+            padding: "88px 72px 0",
+            display: "flex",
+            flexDirection: "column",
+            gap: "18px",
+          }}
         >
-          {body.sections.map((s, i) => (
-            <div key={i}>
-              {s.heading && (
-                <h2
-                  className="text-2xl md:text-3xl font-bold text-white mt-10 mb-4"
-                  style={{ fontFamily: "var(--font-space-grotesk)" }}
-                  data-cms-field={`body.sections.${i}.heading`}
-                >
-                  {s.heading}
-                </h2>
-              )}
-              {s.body && (
-                <p
-                  className="whitespace-pre-line"
-                  data-cms-field={`body.sections.${i}.body`}
-                  data-cms-raw={s.body}
-                  data-cms-multiline
-                >
-                  {rich(s.body)}
-                </p>
-              )}
-              {s.items && s.items.length > 0 && (
-                <ul className="list-disc pl-6 space-y-2">
-                  {s.items.map((it, j) => (
-                    <li
-                      key={j}
-                      data-cms-field={`body.sections.${i}.items.${j}`}
-                      data-cms-raw={it}
-                    >
-                      {rich(it)}
-                    </li>
-                  ))}
-                </ul>
-              )}
-            </div>
-          ))}
+          <h1
+            data-reveal="left"
+            style={{
+              margin: 0,
+              fontSize: "clamp(38px, 5vw, 72px)",
+              lineHeight: 1.0,
+              fontWeight: 600,
+              letterSpacing: "-2.4px",
+              textTransform: "uppercase",
+              color: SITE.brand,
+              textWrap: "balance",
+            }}
+          >
+            {/* Two spans purely so the CMS can edit each half in place; both
+                render in the same brand colour the heading sets. */}
+            <span data-cms-field="header.white">{header.white}</span>{" "}
+            <span data-cms-field="header.accent">{header.accent}</span>
+          </h1>
+          {header.effectiveDate && (
+            <p
+              data-reveal="left"
+              style={{
+                margin: 0,
+                fontSize: "14px",
+                fontWeight: 700,
+                letterSpacing: "1.6px",
+                textTransform: "uppercase",
+                color: SITE.brandMuted,
+              }}
+              data-cms-field="header.effectiveDate"
+            >
+              {header.effectiveDate}
+            </p>
+          )}
         </div>
-      </div>
-    </section>
+      </section>
+
+      <section style={{ background: SITE.surface }}>
+        <div
+          style={{
+            maxWidth: "1600px",
+            margin: "0 auto",
+            padding: "40px 72px 104px",
+          }}
+        >
+          <div
+            className="space-y-4"
+            style={{ fontSize: "17px", lineHeight: 1.8, color: SITE.body }}
+          >
+            {body.sections.map((s, i) => (
+              <div key={i} data-reveal="up">
+                {s.heading && (
+                  <h2
+                    style={{
+                      margin: "44px 0 16px",
+                      fontSize: "clamp(24px, 2.4vw, 34px)",
+                      lineHeight: 1.15,
+                      fontWeight: 700,
+                      letterSpacing: "-0.8px",
+                      color: SITE.brand,
+                    }}
+                    data-cms-field={`body.sections.${i}.heading`}
+                  >
+                    {s.heading}
+                  </h2>
+                )}
+                {s.body && (
+                  <p
+                    className="whitespace-pre-line"
+                    data-cms-field={`body.sections.${i}.body`}
+                    data-cms-raw={s.body}
+                    data-cms-multiline
+                  >
+                    {rich(s.body)}
+                  </p>
+                )}
+                {s.items && s.items.length > 0 && (
+                  <ul className="list-disc space-y-2" style={{ paddingLeft: "26px" }}>
+                    {s.items.map((it, j) => (
+                      <li
+                        key={j}
+                        data-cms-field={`body.sections.${i}.items.${j}`}
+                        data-cms-raw={it}
+                      >
+                        {rich(it)}
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
     </div>
   );
 }

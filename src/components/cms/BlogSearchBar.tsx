@@ -6,9 +6,17 @@
  * component — no client JS needed; the browser performs the GET navigation,
  * so the query ends up in the shareable `?q=` URL.
  */
+import { SITE } from '@/lib/site/palette';
+
 export default function BlogSearchBar({ defaultValue = '' }: { defaultValue?: string }) {
   return (
-    <form action="/search" method="get" role="search" className="mt-8 mb-10 flex gap-3">
+    <form
+      action="/search"
+      method="get"
+      role="search"
+      data-r="search-bar"
+      style={{ margin: '28px 0 40px', display: 'flex', flexWrap: 'wrap', gap: '12px' }}
+    >
       <input
         type="search"
         name="q"
@@ -16,17 +24,37 @@ export default function BlogSearchBar({ defaultValue = '' }: { defaultValue?: st
         placeholder="Search posts and pages…"
         aria-label="Search posts and pages"
         autoComplete="off"
-        className="flex-1 rounded-xl px-4 py-3 text-base text-white outline-none"
         style={{
-          background: '#0e2e2e',
-          border: '1px solid rgba(70,241,197,0.25)',
-          fontFamily: 'var(--font-inter)',
+          flex: '1 1 260px',
+          minWidth: '0',
+          borderRadius: '999px',
+          padding: '16px 24px',
+          fontSize: '16px',
+          fontFamily: 'inherit',
+          color: SITE.ink,
+          background: SITE.surface,
+          border: `1px solid ${SITE.line}`,
+          outline: 'none',
         }}
       />
       <button
+        className="dc-h3"
         type="submit"
-        className="rounded-xl px-5 py-3 text-sm font-semibold transition-opacity hover:opacity-90"
-        style={{ background: '#04babf', color: '#0a2a23' }}
+        style={{
+          flex: 'none',
+          background: SITE.brand,
+          color: SITE.surface,
+          border: '0',
+          borderRadius: '999px',
+          padding: '16px 36px',
+          fontSize: '15px',
+          fontWeight: 700,
+          letterSpacing: '0.8px',
+          textTransform: 'uppercase',
+          fontFamily: 'inherit',
+          cursor: 'pointer',
+          transition: 'background .22s ease',
+        }}
       >
         Search
       </button>

@@ -14,6 +14,7 @@
 import React from 'react';
 import { APP_STORE_URL, PLAY_STORE_URL } from '@/lib/appStore';
 import { useStorePlatform } from './StorePlatform';
+import { externalLinkProps } from '@/lib/site/externalLink';
 
 export default function GetAppLink({
   appleHref,
@@ -37,8 +38,7 @@ export default function GetAppLink({
   return (
     <a
       href={href}
-      target="_blank"
-      rel="noopener noreferrer"
+      {...externalLinkProps(href)}
       className={className}
       style={style}
       {...rest}

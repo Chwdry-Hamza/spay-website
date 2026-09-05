@@ -1,0 +1,265 @@
+/* SPay responsive layer.
+   Desktop (>1080px) is the inline-style baseline written in each page.
+   These media queries override it for tablet (<=1080px) and mobile (<=500px).
+   !important is required because the baseline lives in inline style attributes. */
+
+html, body { overflow-x: hidden; }
+img, svg, video { max-width: 100%; }
+
+/* the app-style header pills exist only on tablet/mobile */
+@media (min-width: 1081px) {
+  [data-r="hdr-app"], [data-r="hdr-contact"], [data-r="botnav"] { display: none !important; }
+}
+
+/* ===================== TABLET AND BELOW (<= 1080px) ===================== */
+@media (max-width: 1080px) {
+
+  /* page gutters */
+  [style*="max-width: 1600px"] { padding-left: 40px !important; padding-right: 40px !important; }
+
+  /* explicit two-column editorial splits collapse to one column */
+  [style*="grid-template-columns: minmax("] { grid-template-columns: minmax(0, 1fr) !important; }
+
+  /* footer link columns: 5-up -> 2-up */
+  footer > div:first-of-type {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 44px 32px !important;
+    padding-top: 64px !important;
+  }
+  footer > div:first-of-type > div:first-of-type { grid-column: 1 / -1 !important; }
+
+  /* art that bleeds past the grid on desktop comes back inside it */
+  [data-r="bleed"] { width: 100% !important; max-width: 100% !important; }
+  [style*="margin-left: clamp("], [style*="margin-right: clamp("] { margin-left: 0 !important; margin-right: 0 !important; }
+  [style*="margin: -32px -72px"] { margin: 0 !important; }
+  [style*="margin-top: -64px"] { margin-top: 0 !important; }
+
+  /* mid-page section art: full width of the band, flush with its floor */
+  [data-r="section-art"] {
+    margin: 12px 0 0 !important;
+    align-self: end !important;
+    justify-content: center !important;
+    overflow: hidden !important;
+  }
+  [data-r="section-art"] > img {
+    width: 100% !important;
+    max-width: 100% !important;
+    height: auto !important;
+    min-height: 0 !important;
+    object-fit: contain !important;
+  }
+  /* stacked bands read text first, image after */
+  #features > div:first-of-type { order: 2 !important; }
+  #features > div:nth-of-type(2) { order: 1 !important; }
+  #personalise > div > div:first-of-type { order: 2 !important; }
+  #personalise > div > div:nth-of-type(2) { order: 1 !important; }
+  #borderless > div > div:first-of-type { order: 2 !important; }
+  #borderless > div > div:nth-of-type(2) { order: 1 !important; }
+  #wallet > div > div[data-r="wallet-art"] { order: 2 !important; }
+  #rewards [data-r="section-art"] { order: 2 !important; }
+
+  /* about hero art: flush on the band floor, a touch larger */
+  #top > div:has([data-r="hero-art"]) { padding-bottom: 0 !important; row-gap: 24px !important; align-items: end !important; }
+  section#top > div:has([data-r="hero-art"]):not([data-x]) { padding-bottom: 0 !important; }
+  #top > div:has([data-r="hero-art"]) > div[style*="padding-bottom"] { padding-bottom: 24px !important; }
+  section#top:has([data-r="hero-art"]) { padding-bottom: 0 !important; min-height: 0 !important; }
+  [data-r="hero-art"] { margin: 12px -32px 0 !important; align-self: end !important; overflow: hidden !important; }
+  [data-r="hero-art"] [data-r="bleed"] { width: 108% !important; max-width: 720px !important; height: auto !important; object-fit: contain !important; margin: 0 auto !important; }
+
+  /* rewards points phone: keep it modest when the band stacks */
+  #rewards [data-r="section-art"] { padding: 0 0 48px !important; }
+  #rewards [data-r="section-art"] > img { width: 100% !important; max-width: 360px !important; margin: 0 auto !important; }
+  #verification [data-r="section-art"] { padding: 0 0 48px !important; }
+  #verification [data-r="section-art"] > img { width: 100% !important; max-width: 720px !important; margin: 0 auto !important; }
+  div:has(> [data-r="section-art"]) { row-gap: 0 !important; grid-template-columns: minmax(0, 1fr) !important; }
+  div:has(> [data-r="section-art"]) > div[style*="padding-bottom"] { padding-bottom: 0 !important; }
+  #rewards, #verification { padding-bottom: 0 !important; }
+
+  /* heroes stop filling the viewport once they stack */
+  #top { min-height: 0 !important; }
+  #top > div:not([style*="padding: 0px 72px"]) { padding-top: 48px !important; padding-bottom: 48px !important; }
+
+  /* the sticky phone mock unsticks when its column stacks */
+  [style*="position: sticky"][style*="top: 150px"] { position: static !important; }
+
+  /* pricing plans: 3-up -> single column (3 narrow columns clip their text) */
+  [data-r="plans"] {
+    grid-template-columns: minmax(0, 1fr) !important;
+    justify-items: center !important;
+    gap: 52px !important;
+    margin-top: 64px !important;
+  }
+  [data-r="plans"] > div { width: 100%; max-width: 440px !important; box-sizing: border-box !important; }
+
+  /* header: desktop nav out, app-style pills + bottom nav in (same as mobile) */
+  [data-r="hdr-nav"], [data-r="hdr-cta"] { display: none !important; }
+  [data-r="hdr-toggle"], [data-r="hdr-panel"] { display: none !important; }
+  [data-r="hdr-app"], [data-r="hdr-contact"] { display: inline-flex !important; }
+  [data-r="hdr-contact"] { margin-left: auto !important; }
+  header div[style*="justify-content: space-between"] { flex-wrap: nowrap !important; gap: 10px !important; }
+  [data-r="botnav"] { display: grid !important; grid-template-columns: repeat(4, minmax(0, 1fr)) !important; left: 50% !important; right: auto !important; transform: translateX(-50%) !important; width: min(520px, calc(100% - 24px)) !important; }
+  footer { padding-bottom: 116px !important; }
+}
+
+/* ===================== MOBILE (<= 500px) ===================== */
+@media (max-width: 500px) {
+
+  [style*="max-width: 1600px"] { padding-left: 20px !important; padding-right: 20px !important; }
+
+  /* everything is one column */
+  [style*="grid-template-columns"] { grid-template-columns: minmax(0, 1fr) !important; }
+  footer > div:first-of-type {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 34px 22px !important;
+    padding-top: 52px !important;
+  }
+  footer > div:first-of-type > div:first-child { grid-column: 1 / -1 !important; }
+
+  /* tighter vertical rhythm */
+  section:not([aria-label="Get yours today"]):not([id="top"]) { padding-top: 56px !important; padding-bottom: 56px !important; }
+  section#top { padding-top: 22px !important; padding-bottom: 22px !important; }
+  #verification { padding-bottom: 0 !important; }
+  [style*="padding-bottom: 104px"] { padding-bottom: 56px !important; }
+  [aria-label="Get yours today"] { padding-top: 16px !important; padding-bottom: 16px !important; }
+  #top > div:not([style*="padding: 0px 72px"]) { padding-top: 34px !important; padding-bottom: 40px !important; }
+
+  /* hero art fills the section width and sits flush on the section floor */
+  #top > div:has([data-r="hero-art"]) { padding-bottom: 0 !important; row-gap: 24px !important; }
+  [data-r="hero-art"] { margin: 0 -20px !important; align-self: end !important; }
+  [data-r="hero-art"] [data-r="bleed"] { width: 116% !important; max-width: none !important; height: auto !important; object-fit: contain !important; margin: 0 auto !important; }
+  section#top:has([data-r="hero-art"]) { padding-bottom: 0 !important; }
+  #top > div:has([data-r="hero-art"]) > div[style*="padding-bottom"] { padding-bottom: 0 !important; }
+
+
+  /* multi-currency wallet art bleeds to the screen edges */
+  [data-r="wallet-art"] { margin: 0 -20px !important; overflow: hidden !important; }
+  [data-r="wallet-art"] > img { width: 116% !important; max-width: none !important; }
+
+  /* hero CTA pair: identical size, stacked full width */
+  [data-r="hero-cta"] { flex-direction: column !important; align-items: stretch !important; gap: 12px !important; }
+  [data-r="hero-cta"] > a {
+    display: block !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+    padding: 18px 24px !important;
+    font-size: 15px !important;
+    font-weight: 700 !important;
+    text-align: center !important;
+  }
+
+  /* card page hero fan: bigger on phones */
+  [data-r="card-fan"] { margin-left: -20px !important; margin-right: -20px !important; width: calc(100% + 40px) !important; }
+  [data-r="card-fan"] > img { max-width: none !important; }
+  [data-r="card-fan"] > img:nth-child(1) { width: 50% !important; transform: translateX(-44%) rotate(-8deg) !important; }
+  [data-r="card-fan"] > img:nth-child(2) { width: 50% !important; transform: translateX(44%) rotate(8deg) !important; }
+  [data-r="card-fan"] > img:nth-child(3) { width: 52% !important; }
+
+  /* homepage hero card art */  [data-r="hero-card"] { width: 112% !important; margin-left: -6% !important; }
+
+  /* full-width art bands */  [data-r="wide-art"] { padding-left: 0 !important; padding-right: 0 !important; overflow: hidden !important; }
+  [data-r="wide-art"] > img { width: 104% !important; max-width: none !important; margin-left: -2% !important; }
+
+  /* mid-page section art: full width, flush with the section floor */
+  [data-r="section-art"] {
+    margin: 12px -20px 0 !important;
+    align-self: end !important;
+    justify-content: center !important;
+    overflow: hidden !important;
+  }
+  [data-r="section-art"] > img {
+    width: 118% !important;
+    max-width: none !important;
+    height: auto !important;
+    min-height: 0 !important;
+    object-fit: contain !important;
+  }
+  /* kill the text column's floor padding so the art can reach the bottom */
+  #rewards [data-r="section-art"] { margin: 24px 0 0 !important; padding: 0 0 40px !important; overflow: visible !important; }
+  #rewards [data-r="section-art"] > img { width: 100% !important; max-width: 280px !important; margin: 0 auto !important; }
+  #verification [data-r="section-art"] { margin: 24px -20px 0 !important; padding: 0 0 40px !important; overflow: hidden !important; }
+  #verification [data-r="section-art"] > img { width: 132% !important; max-width: none !important; margin: 0 auto !important; }
+  div:has(> [data-r="section-art"]) { row-gap: 0 !important; }
+  div:has(> [data-r="section-art"]) > div[style*="padding-bottom"] { padding-bottom: 0 !important; }
+  #rewards, #verification, section#rewards:has([data-r="section-art"]), section#verification:has([data-r="section-art"]) { padding-bottom: 0 !important; }
+
+  /* button rows wrap instead of overflowing */
+  #top [style*="display: flex"]:not([style*="column"]):not([style*="max-content"]) { flex-wrap: wrap; }
+
+  /* pricing cards keep a comfortable gutter on phones */
+  [data-r="plans"] {
+    padding-left: 24px !important;
+    padding-right: 24px !important;
+    box-sizing: border-box !important;
+    gap: 46px !important;
+  }
+  [data-r="plans"] > div { padding: 34px 26px 30px !important; box-sizing: border-box !important; }
+  [data-r="plans"] > div[style*="padding: 54px"] { padding-top: 46px !important; }
+
+  /* hamburger out, bottom nav in */
+  [data-r="hdr-toggle"] { display: none !important; }
+  [data-r="hdr-panel"] { display: none !important; }
+  [data-r="botnav"] { display: grid !important; grid-template-columns: repeat(4, minmax(0, 1fr)) !important; }
+  [data-r="hdr-app"], [data-r="hdr-contact"] { display: inline-flex !important; }
+  /* both pills stay on one row, pushed to the right */
+  header div[style*="justify-content: space-between"] { flex-wrap: nowrap !important; gap: 8px !important; }
+  [data-r="hdr-contact"] { margin-left: auto !important; }
+  [data-r="hdr-app"], [data-r="hdr-contact"] { font-size: 11px !important; letter-spacing: 0.3px !important; padding: 9px 12px !important; }
+  footer { padding-bottom: 116px !important; }
+
+  header img[alt="SPay"] { height: 42px !important; }
+  header > div[style*="max-width: 1600px"] { padding-top: 16px !important; }
+
+  /* store buttons go full width */
+  a[href*="apps.apple"]:not([data-r="hdr-app"]):not([data-r="plan-cta"]), a[href*="play.google"]:not([data-r="hdr-app"]):not([data-r="plan-cta"]) { width: 100%; box-sizing: border-box; justify-content: center; min-width: 0 !important; }
+  [data-r="hdr-app"] { width: auto !important; }
+
+  /* legal / meta rows read left-aligned rather than justified */
+  footer [style*="justify-content: space-between"] { justify-content: flex-start !important; }
+}
+
+/* ===================== HEADER: no wrap at the tablet→desktop crossover ===================== */
+@media (min-width: 1081px) and (max-width: 1400px) {
+  header div[style*="justify-content: space-between"] { flex-wrap: nowrap !important; gap: 16px !important; }
+  header img[alt="SPay"] { height: 48px !important; }
+  [data-r="hdr-nav"] { flex-wrap: nowrap !important; gap: 18px !important; }
+  [data-r="hdr-nav"] a { font-size: 14px !important; white-space: nowrap !important; }
+  header a[href="#contact"], header a[href*="apps.apple"], header a[href*="play.google"] { white-space: nowrap !important; }
+  [data-r="hdr-cta"] { flex-wrap: nowrap !important; gap: 10px !important; }
+  [data-r="hdr-cta"] a { font-size: 14px !important; padding: 13px 20px !important; white-space: nowrap !important; }
+  [data-r="hdr-nav"] a[style*="border-radius: 999px"] { padding: 9px 18px !important; }
+}
+
+/* ===================== JOURNEY CONNECTOR ===================== */
+/* desktop: 6-up — no tails past the first/last circle of a row */
+#journey > div > div > div > div:nth-child(6n+1)::after,
+#journey > div > div > div > div:nth-child(6n)::before { display: none !important; }
+
+@media (max-width: 1400px) and (min-width: 1081px) {
+  #journey > div > div > div { grid-template-columns: repeat(4, minmax(0, 1fr)) !important; }
+  #journey > div > div > div > div:nth-child(n)::before,
+  #journey > div > div > div > div:nth-child(n)::after { display: block !important; }
+  #journey > div > div > div > div:nth-child(4n+1)::after,
+  #journey > div > div > div > div:nth-child(4n)::before { display: none !important; }
+}
+
+@media (max-width: 1080px) {
+  #journey > div > div > div { grid-template-columns: repeat(3, minmax(0, 1fr)) !important; }
+  #journey > div > div > div > div:nth-child(n)::before,
+  #journey > div > div > div > div:nth-child(n)::after { display: block !important; }
+  #journey > div > div > div > div:nth-child(3n+1)::after,
+  #journey > div > div > div > div:nth-child(3n)::before { display: none !important; }
+}
+
+@media (max-width: 700px) {
+  #journey > div > div > div { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
+  #journey > div > div > div > div:nth-child(n)::before,
+  #journey > div > div > div > div:nth-child(n)::after { display: block !important; }
+  #journey > div > div > div > div:nth-child(2n+1)::after,
+  #journey > div > div > div > div:nth-child(2n)::before { display: none !important; }
+}
+
+@media (max-width: 500px) {
+  #journey > div > div > div { grid-template-columns: minmax(0, 1fr) !important; }
+  #journey > div > div > div > div::before,
+  #journey > div > div > div > div::after { display: none !important; }
+}

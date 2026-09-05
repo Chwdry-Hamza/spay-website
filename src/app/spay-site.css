@@ -1,0 +1,773 @@
+/*
+ * SPay site design layer.
+ *
+ * The pages under components/site are a direct port of the design export in
+ * spay-site/: every box carries an inline style, so this file holds only what
+ * an inline style cannot express — the document-level rules, the hover and
+ * ::before rules the export wrote as `style-hover` / `style-before` attributes,
+ * and the responsive overrides.
+ *
+ * Three things must not drift:
+ *   1. The `data-r="…"` hooks and the section ids (#top, #features, #wallet,
+ *      #rewards, #personalise, #verification, #journey, #borderless) — the
+ *      responsive layer selects on them.
+ *   2. The DOM shape: several rules are structural (`footer > div:first-of-type`,
+ *      `#features > div:first-of-type`, `#journey > div > div > div > div`), so
+ *      an extra wrapper element silently breaks the layout.
+ *   3. The `[style*="…"]` hooks match the inline style text exactly as React
+ *      renders it — no space after the colon, value spelled the way the style
+ *      object spells it. Reword a ported value and its hook must change too.
+ *
+ * Everything below is scoped to `.spay-site`, the wrapper every page renders,
+ * so these deliberately broad selectors can never reach markup outside it.
+ */
+
+/* ── base: the export's document styles ─────────────────────────────── */
+
+.spay-site  {
+  /* The export's pages set `font-family: var(--font-sans, …)` inline; the token
+     itself came from the design system's fonts.css. Here it maps onto the Inter
+     face the root layout already loads through next/font. */
+  --font-sans: var(--font-inter), "Inter", -apple-system, BlinkMacSystemFont,
+    "Segoe UI", Roboto, sans-serif;
+  background: #ffffff;
+  color: #4a5560;
+  -webkit-font-smoothing: antialiased;
+}
+
+.spay-site a  {
+  color: #118EA3;
+  text-decoration: none;
+}
+
+.spay-site a:hover  {
+  color: #0d7385;
+}
+
+@keyframes spay-marquee  {
+  from  { transform: translate3d(0, 0, 0); }
+  to  { transform: translate3d(-50%, 0, 0); }
+}
+
+/* ── hover / pseudo-element rules ported from the `style-*` attributes ─ */
+
+.dc-h1:hover  {
+  color: #118EA3 !important;
+}
+
+.dc-h2:hover  {
+  background: #0d7385 !important;
+  color: #ffffff !important;
+}
+
+.dc-h3:hover  {
+  background: #0d7385 !important;
+}
+
+.dc-h4:hover  {
+  background: #000000 !important;
+  color: #ffffff !important;
+}
+
+.dc-h5:hover  {
+  border-color: #118EA3 !important;
+}
+
+.dc-h6:hover  {
+  background: #f5fafb !important;
+}
+
+.dc-h7:hover  {
+  transform: translateY(-10px) !important;
+  box-shadow: 0 22px 46px rgba(11,60,68,0.18) !important;
+}
+
+.dc-h8:hover  {
+  transform: translateY(-8px) !important;
+  box-shadow: 0 20px 42px rgba(11,60,68,0.14) !important;
+}
+
+.dc-h9:hover  {
+  color: #0d7385 !important;
+}
+
+.dc-h10:hover  {
+  background: #118EA3 !important;
+  border-color: #118EA3 !important;
+  color: #ffffff !important;
+}
+
+.dc-h11:hover  {
+  color: #062c33 !important;
+}
+
+.dc-h12:hover  {
+  filter: brightness(.9) !important;
+}
+
+.dc-b13::before  {
+  content: '' !important;
+  position: absolute !important;
+  top: 31px !important;
+  left: calc(50% + 30px) !important;
+  right: -8px !important;
+  height: 2px !important;
+  background: #d3e7ea !important;
+  z-index: 0 !important;
+}
+
+.dc-a14::after  {
+  content: '' !important;
+  position: absolute !important;
+  top: 31px !important;
+  left: -8px !important;
+  right: calc(50% + 30px) !important;
+  height: 2px !important;
+  background: #d3e7ea !important;
+  z-index: 0 !important;
+}
+/* ── responsive layer, from spay-site/responsive.css ─────────────────── */
+/*
+ * Every `[style*="…"]` hook below is written TWICE, and both spellings are
+ * required. React renders a style object into the attribute verbatim and
+ * space-free (`max-width:1600px`), which is what the server-rendered HTML
+ * carries. But the moment React updates that element in the browser — which is
+ * exactly what a client-side navigation does — the value goes through the DOM
+ * style property and the browser re-serialises it its own way, with a space
+ * after each colon and lengths normalised (`max-width: 1600px`,
+ * `padding: 0px 72px`). Matching only one spelling meant the whole responsive
+ * layer silently switched off on any page reached by clicking a link, and came
+ * back on reload.
+ */
+
+/* Horizontal clipping lives on <html> ALONE, deliberately.
+   Putting it on <body> computes its overflow-y to `auto`, which makes <body>
+   the nearest scroll container for everything inside it — and because <body> is
+   as tall as the page, the sticky header then has no scrollport to stick to and
+   rides away with the content. On <html> the value propagates to the viewport
+   instead and the header pins the way the design export does.
+
+   `clip`, not `hidden`. `hidden` still makes a SCROLL CONTAINER: the reader
+   cannot pan it, but the browser can, and the scroll-reveal parks elements up
+   to 1448px off-axis before they animate in, so the document measured ~700px
+   wider than the window. Any browser-initiated scroll into that region — an
+   anchor jump, a focus, scroll restoration on a client-side navigation — landed
+   the viewport in empty space, which is why a page sometimes opened with all
+   its content pushed to one side and straightened out as soon as you scrolled
+   (scrolling fires the reveal, the transforms clear, the overflow goes away).
+   `clip` clips without creating a scroll container, so there is nothing to
+   scroll into. It also leaves overflow-y `visible` rather than forcing `auto`,
+   which is what keeps the sticky header working. */
+html  { overflow-x: clip; }
+
+/* …and the same clip AGAIN, on the wrapper, because the one above is not
+   enough on its own.
+
+   Clipping the viewport stops the READER panning, but the document still
+   measures wider than the window — the parked reveals are really out there —
+   and the browser will still scroll into that region by itself for an anchor
+   jump or scroll restoration. `clip` does not forbid that; it only removes the
+   scrollbar.
+
+   Which side that region falls on is the whole difference between the two
+   directions. `[data-reveal="left"]` parks at translateX(-(right + 80)), i.e.
+   left of the page's left edge. In LTR that is behind the scroll origin, where
+   nothing can reach it. In RTL the scroll origin is the RIGHT edge, so the very
+   same offset lands in genuinely scrollable territory (scrollLeft goes
+   negative) — and /ur/#wallet opened at scrollLeft -709 with every section
+   shifted 709px sideways, sorting itself out the moment a scroll fired the
+   reveals. Measured: scrollWidth 2540 against a 1788 window.
+
+   Clipping HERE removes the overflow instead of hiding it: the parked children
+   are clipped by this box, so the document is exactly as wide as the window
+   (2540 → 1788) and there is no region left to jump into, in either direction.
+   `.spay-site` is a plain wrapper, and `overflow-x: clip` with `overflow-y`
+   left `visible` creates no scroll container, so the sticky header still pins
+   to the viewport. */
+.spay-site  { overflow-x: clip; }
+.spay-site img, .spay-site svg, .spay-site video  { max-width: 100%; }
+
+/* the app-style header pills exist only on tablet/mobile */
+@media (min-width: 1081px)   {
+  .spay-site [data-r="hdr-app"], .spay-site [data-r="hdr-contact"], .spay-site [data-r="botnav"]  { display: none !important; }
+}
+
+/* ===================== TABLET AND BELOW (<= 1080px) ===================== */
+@media (max-width: 1080px)   {
+
+  /* page gutters */
+  .spay-site [style*="max-width:1600px"],
+.spay-site [style*="max-width: 1600px"] { padding-left: 40px !important; padding-right: 40px !important; }
+
+  /* explicit two-column editorial splits collapse to one column */
+  .spay-site [style*="grid-template-columns:minmax("],
+.spay-site [style*="grid-template-columns: minmax("] { grid-template-columns: minmax(0, 1fr) !important; }
+
+  /* footer link columns: 5-up -> 2-up */
+  .spay-site footer > div:first-of-type  {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 44px 32px !important;
+    padding-top: 64px !important;
+  }
+  .spay-site footer > div:first-of-type > div:first-of-type  { grid-column: 1 / -1 !important; }
+
+  /* art that bleeds past the grid on desktop comes back inside it */
+  .spay-site [data-r="bleed"]  { width: 100% !important; max-width: 100% !important; }
+  .spay-site [style*="margin-left:clamp("],
+.spay-site [style*="margin-left: clamp("],
+.spay-site [style*="margin-right:clamp("],
+.spay-site [style*="margin-right: clamp("] { margin-left: 0 !important; margin-right: 0 !important; }
+  .spay-site [style*="margin:-32px -72px"],
+.spay-site [style*="margin: -32px -72px"] { margin: 0 !important; }
+  .spay-site [style*="margin-top:-64px"],
+.spay-site [style*="margin-top: -64px"] { margin-top: 0 !important; }
+
+  /* mid-page section art: full width of the band, flush with its floor */
+  .spay-site [data-r="section-art"]  {
+    margin: 12px 0 0 !important;
+    align-self: end !important;
+    justify-content: center !important;
+    overflow: hidden !important;
+  }
+  .spay-site [data-r="section-art"] > img  {
+    width: 100% !important;
+    max-width: 100% !important;
+    height: auto !important;
+    min-height: 0 !important;
+    object-fit: contain !important;
+  }
+  /* stacked bands read text first, image after */
+  .spay-site #features > div:first-of-type  { order: 2 !important; }
+  .spay-site #features > div:nth-of-type(2)  { order: 1 !important; }
+  .spay-site #personalise > div > div:first-of-type  { order: 2 !important; }
+  .spay-site #personalise > div > div:nth-of-type(2)  { order: 1 !important; }
+  .spay-site #borderless > div > div:first-of-type  { order: 2 !important; }
+  .spay-site #borderless > div > div:nth-of-type(2)  { order: 1 !important; }
+  .spay-site #wallet > div > div[data-r="wallet-art"]  { order: 2 !important; }
+  .spay-site #rewards [data-r="section-art"]  { order: 2 !important; }
+
+  /* about hero art: flush on the band floor, a touch larger */
+  .spay-site #top > div:has([data-r="hero-art"])  { padding-bottom: 0 !important; row-gap: 24px !important; align-items: end !important; }
+  .spay-site section#top > div:has([data-r="hero-art"]):not([data-x])  { padding-bottom: 0 !important; }
+  .spay-site #top > div:has([data-r="hero-art"]) > div[style*="padding-bottom"] { padding-bottom: 24px !important; }
+  .spay-site section#top:has([data-r="hero-art"])  { padding-bottom: 0 !important; min-height: 0 !important; }
+  .spay-site [data-r="hero-art"]  { margin: 12px -32px 0 !important; align-self: end !important; overflow: hidden !important; }
+  .spay-site [data-r="hero-art"] [data-r="bleed"]  { width: 108% !important; max-width: 720px !important; height: auto !important; object-fit: contain !important; margin: 0 auto !important; }
+
+  /* rewards points phone: keep it modest when the band stacks */
+  .spay-site #rewards [data-r="section-art"]  { padding: 0 0 48px !important; }
+  .spay-site #rewards [data-r="section-art"] > img  { width: 100% !important; max-width: 360px !important; margin: 0 auto !important; }
+  .spay-site #verification [data-r="section-art"]  { padding: 0 0 48px !important; }
+  .spay-site #verification [data-r="section-art"] > img  { width: 100% !important; max-width: 720px !important; margin: 0 auto !important; }
+  .spay-site div:has(> [data-r="section-art"])  { row-gap: 0 !important; grid-template-columns: minmax(0, 1fr) !important; }
+  .spay-site div:has(> [data-r="section-art"]) > div[style*="padding-bottom"] { padding-bottom: 0 !important; }
+  .spay-site #rewards, .spay-site #verification  { padding-bottom: 0 !important; }
+
+  /* heroes stop filling the viewport once they stack */
+  .spay-site #top  { min-height: 0 !important; }
+  .spay-site #top > div:not([style*="padding:0 72px"]),
+.spay-site #top > div:not([style*="padding: 0px 72px"]) { padding-top: 48px !important; padding-bottom: 48px !important; }
+
+  /* the sticky phone mock unsticks when its column stacks */
+  .spay-site [style*="position:sticky"][style*="top:150px"],
+.spay-site [style*="position: sticky"][style*="top: 150px"] { position: static !important; }
+
+  /* pricing plans: 3-up -> single column (3 narrow columns clip their text) */
+  .spay-site [data-r="plans"]  {
+    grid-template-columns: minmax(0, 1fr) !important;
+    justify-items: center !important;
+    gap: 52px !important;
+    margin-top: 64px !important;
+  }
+  .spay-site [data-r="plans"] > div  { width: 100%; max-width: 440px !important; box-sizing: border-box !important; }
+
+  /* header: desktop nav out, app-style pills + bottom nav in (same as mobile) */
+  .spay-site [data-r="hdr-nav"], .spay-site [data-r="hdr-cta"]  { display: none !important; }
+  .spay-site [data-r="hdr-toggle"], .spay-site [data-r="hdr-panel"]  { display: none !important; }
+  .spay-site [data-r="hdr-app"], .spay-site [data-r="hdr-contact"]  { display: inline-flex !important; }
+  .spay-site [data-r="hdr-contact"]  { margin-left: auto !important; }
+  .spay-site header div[style*="justify-content:space-between"],
+.spay-site header div[style*="justify-content: space-between"] { flex-wrap: nowrap !important; gap: 10px !important; }
+  .spay-site [data-r="botnav"]  { display: grid !important; grid-template-columns: repeat(4, minmax(0, 1fr)) !important; left: 50% !important; right: auto !important; transform: translateX(-50%) !important; width: min(520px, calc(100% - 24px)) !important; }
+  .spay-site footer  { padding-bottom: 116px !important; }
+}
+
+/* ===================== MOBILE (<= 500px) ===================== */
+@media (max-width: 500px)   {
+
+  .spay-site [style*="max-width:1600px"],
+.spay-site [style*="max-width: 1600px"] { padding-left: 20px !important; padding-right: 20px !important; }
+
+  /* everything is one column */
+  .spay-site [style*="grid-template-columns"] { grid-template-columns: minmax(0, 1fr) !important; }
+  .spay-site footer > div:first-of-type  {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 34px 22px !important;
+    padding-top: 52px !important;
+  }
+  .spay-site footer > div:first-of-type > div:first-child  { grid-column: 1 / -1 !important; }
+
+  /* tighter vertical rhythm */
+  .spay-site section:not([data-r="marquee"]):not([id="top"])  { padding-top: 56px !important; padding-bottom: 56px !important; }
+  .spay-site section#top  { padding-top: 22px !important; padding-bottom: 22px !important; }
+  .spay-site #verification  { padding-bottom: 0 !important; }
+  .spay-site [style*="padding-bottom:104px"],
+.spay-site [style*="padding-bottom: 104px"] { padding-bottom: 56px !important; }
+  .spay-site [data-r="marquee"]  { padding-top: 16px !important; padding-bottom: 16px !important; }
+  .spay-site #top > div:not([style*="padding:0 72px"]),
+.spay-site #top > div:not([style*="padding: 0px 72px"]) { padding-top: 34px !important; padding-bottom: 40px !important; }
+
+  /* hero art fills the section width and sits flush on the section floor */
+  .spay-site #top > div:has([data-r="hero-art"])  { padding-bottom: 0 !important; row-gap: 24px !important; }
+  .spay-site [data-r="hero-art"]  { margin: 0 -20px !important; align-self: end !important; }
+  .spay-site [data-r="hero-art"] [data-r="bleed"]  { width: 116% !important; max-width: none !important; height: auto !important; object-fit: contain !important; margin: 0 auto !important; }
+  .spay-site section#top:has([data-r="hero-art"])  { padding-bottom: 0 !important; }
+  .spay-site #top > div:has([data-r="hero-art"]) > div[style*="padding-bottom"] { padding-bottom: 0 !important; }
+
+
+  /* multi-currency wallet art bleeds to the screen edges */
+  .spay-site [data-r="wallet-art"]  { margin: 0 -20px !important; overflow: hidden !important; }
+  .spay-site [data-r="wallet-art"] > img  { width: 116% !important; max-width: none !important; }
+
+  /* hero CTA pair: identical size, stacked full width */
+  .spay-site [data-r="hero-cta"]  { flex-direction: column !important; align-items: stretch !important; gap: 12px !important; }
+  .spay-site [data-r="hero-cta"] > a  {
+    display: block !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+    padding: 18px 24px !important;
+    font-size: 15px !important;
+    font-weight: 700 !important;
+    text-align: center !important;
+  }
+
+  /* card page hero fan: bigger on phones */
+  .spay-site [data-r="card-fan"]  { margin-left: -20px !important; margin-right: -20px !important; width: calc(100% + 40px) !important; }
+  .spay-site [data-r="card-fan"] > img  { max-width: none !important; }
+  .spay-site [data-r="card-fan"] > img:nth-child(1)  { width: 50% !important; transform: translateX(-44%) rotate(-8deg) !important; }
+  .spay-site [data-r="card-fan"] > img:nth-child(2)  { width: 50% !important; transform: translateX(44%) rotate(8deg) !important; }
+  .spay-site [data-r="card-fan"] > img:nth-child(3)  { width: 52% !important; }
+
+  /* homepage hero card art */  .spay-site [data-r="hero-card"]  { width: 112% !important; margin-left: -6% !important; }
+
+  /* full-width art bands */  .spay-site [data-r="wide-art"]  { padding-left: 0 !important; padding-right: 0 !important; overflow: hidden !important; }
+  .spay-site [data-r="wide-art"] > img  { width: 104% !important; max-width: none !important; margin-left: -2% !important; }
+
+  /* mid-page section art: full width, flush with the section floor */
+  .spay-site [data-r="section-art"]  {
+    margin: 12px -20px 0 !important;
+    align-self: end !important;
+    justify-content: center !important;
+    overflow: hidden !important;
+  }
+  .spay-site [data-r="section-art"] > img  {
+    width: 118% !important;
+    max-width: none !important;
+    height: auto !important;
+    min-height: 0 !important;
+    object-fit: contain !important;
+  }
+  /* kill the text column's floor padding so the art can reach the bottom */
+  .spay-site #rewards [data-r="section-art"]  { margin: 24px 0 0 !important; padding: 0 0 40px !important; overflow: visible !important; }
+  .spay-site #rewards [data-r="section-art"] > img  { width: 100% !important; max-width: 280px !important; margin: 0 auto !important; }
+  .spay-site #verification [data-r="section-art"]  { margin: 24px -20px 0 !important; padding: 0 0 40px !important; overflow: hidden !important; }
+  .spay-site #verification [data-r="section-art"] > img  { width: 132% !important; max-width: none !important; margin: 0 auto !important; }
+  .spay-site div:has(> [data-r="section-art"])  { row-gap: 0 !important; }
+  .spay-site div:has(> [data-r="section-art"]) > div[style*="padding-bottom"] { padding-bottom: 0 !important; }
+  .spay-site #rewards, .spay-site #verification, .spay-site section#rewards:has([data-r="section-art"]), .spay-site section#verification:has([data-r="section-art"])  { padding-bottom: 0 !important; }
+
+  /* button rows wrap instead of overflowing */
+  .spay-site #top [style*="display:flex"]:not([style*="column"]):not([style*="max-content"]),
+.spay-site #top [style*="display: flex"]:not([style*="column"]):not([style*="max-content"]) { flex-wrap: wrap; }
+
+  /* pricing cards keep a comfortable gutter on phones */
+  .spay-site [data-r="plans"]  {
+    padding-left: 24px !important;
+    padding-right: 24px !important;
+    box-sizing: border-box !important;
+    gap: 46px !important;
+  }
+  .spay-site [data-r="plans"] > div  { padding: 34px 26px 30px !important; box-sizing: border-box !important; }
+  .spay-site [data-r="plans"] > div[style*="padding:54px"],
+.spay-site [data-r="plans"] > div[style*="padding: 54px"] { padding-top: 46px !important; }
+
+  /* hamburger out, bottom nav in */
+  .spay-site [data-r="hdr-toggle"]  { display: none !important; }
+  .spay-site [data-r="hdr-panel"]  { display: none !important; }
+  .spay-site [data-r="botnav"]  { display: grid !important; grid-template-columns: repeat(4, minmax(0, 1fr)) !important; }
+  .spay-site [data-r="hdr-app"], .spay-site [data-r="hdr-contact"]  { display: inline-flex !important; }
+  /* both pills stay on one row, pushed to the right */
+  .spay-site header div[style*="justify-content:space-between"],
+.spay-site header div[style*="justify-content: space-between"] { flex-wrap: nowrap !important; gap: 8px !important; }
+  .spay-site [data-r="hdr-contact"]  { margin-left: auto !important; }
+  .spay-site [data-r="hdr-app"], .spay-site [data-r="hdr-contact"]  { font-size: 11px !important; letter-spacing: 0.3px !important; padding: 9px 12px !important; }
+  .spay-site footer  { padding-bottom: 116px !important; }
+
+  .spay-site header img[alt="SPay"]  { height: 42px !important; }
+  .spay-site header > div[style*="max-width:1600px"],
+.spay-site header > div[style*="max-width: 1600px"] { padding-top: 16px !important; }
+
+  /* store buttons go full width */
+  .spay-site a[href*="apps.apple"]:not([data-r="hdr-app"]):not([data-r="plan-cta"]), .spay-site a[href*="play.google"]:not([data-r="hdr-app"]):not([data-r="plan-cta"])  { width: 100%; box-sizing: border-box; justify-content: center; min-width: 0 !important; }
+  .spay-site [data-r="hdr-app"]  { width: auto !important; }
+
+  /* legal / meta rows read left-aligned rather than justified */
+  .spay-site footer [style*="justify-content:space-between"],
+.spay-site footer [style*="justify-content: space-between"] { justify-content: flex-start !important; }
+}
+
+/* ===================== HEADER: no wrap at the tablet→desktop crossover ===================== */
+@media (min-width: 1081px) and (max-width: 1400px)   {
+  .spay-site header div[style*="justify-content:space-between"],
+.spay-site header div[style*="justify-content: space-between"] { flex-wrap: nowrap !important; gap: 16px !important; }
+  .spay-site header img[alt="SPay"]  { height: 48px !important; }
+  .spay-site [data-r="hdr-nav"]  { flex-wrap: nowrap !important; gap: 18px !important; }
+  .spay-site [data-r="hdr-nav"] a  { font-size: 14px !important; white-space: nowrap !important; }
+  .spay-site header a[href="#contact"], .spay-site header a[href*="apps.apple"], .spay-site header a[href*="play.google"]  { white-space: nowrap !important; }
+  .spay-site [data-r="hdr-cta"]  { flex-wrap: nowrap !important; gap: 10px !important; }
+  .spay-site [data-r="hdr-cta"] a  { font-size: 14px !important; padding: 13px 20px !important; white-space: nowrap !important; }
+  .spay-site [data-r="hdr-nav"] a[style*="border-radius:999px"],
+.spay-site [data-r="hdr-nav"] a[style*="border-radius: 999px"] { padding: 9px 18px !important; }
+}
+
+/* ===================== JOURNEY CONNECTOR ===================== */
+/* desktop: 6-up — no tails past the first/last circle of a row */
+.spay-site #journey > div > div > div > div:nth-child(6n+1)::after, .spay-site #journey > div > div > div > div:nth-child(6n)::before  { display: none !important; }
+
+@media (max-width: 1400px) and (min-width: 1081px)   {
+  .spay-site #journey > div > div > div  { grid-template-columns: repeat(4, minmax(0, 1fr)) !important; }
+  .spay-site #journey > div > div > div > div:nth-child(n)::before, .spay-site #journey > div > div > div > div:nth-child(n)::after  { display: block !important; }
+  .spay-site #journey > div > div > div > div:nth-child(4n+1)::after, .spay-site #journey > div > div > div > div:nth-child(4n)::before  { display: none !important; }
+}
+
+@media (max-width: 1080px)   {
+  .spay-site #journey > div > div > div  { grid-template-columns: repeat(3, minmax(0, 1fr)) !important; }
+  .spay-site #journey > div > div > div > div:nth-child(n)::before, .spay-site #journey > div > div > div > div:nth-child(n)::after  { display: block !important; }
+  .spay-site #journey > div > div > div > div:nth-child(3n+1)::after, .spay-site #journey > div > div > div > div:nth-child(3n)::before  { display: none !important; }
+}
+
+@media (max-width: 700px)   {
+  .spay-site #journey > div > div > div  { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
+  .spay-site #journey > div > div > div > div:nth-child(n)::before, .spay-site #journey > div > div > div > div:nth-child(n)::after  { display: block !important; }
+  .spay-site #journey > div > div > div > div:nth-child(2n+1)::after, .spay-site #journey > div > div > div > div:nth-child(2n)::before  { display: none !important; }
+}
+
+@media (max-width: 500px)   {
+  .spay-site #journey > div > div > div  { grid-template-columns: minmax(0, 1fr) !important; }
+  .spay-site #journey > div > div > div > div::before, .spay-site #journey > div > div > div > div::after  { display: none !important; }
+}
+
+/* ── blog templates ──────────────────────────────────────────────────
+   The blog index, the article page and the CMS-page template are not part
+   of the design export, so their responsive behaviour lives here rather
+   than in the ported layer above. Measured on a 390px phone: the
+   breadcrumb trail wrapped to three lines inside its pill, the article
+   header carried its full 72/88px desktop padding, and the contents rail
+   opened as a 492px block before the first paragraph. */
+
+@media (max-width: 1080px)  {
+  .spay-site [data-r="post-head"]  {
+    padding-top: 48px !important;
+    padding-bottom: 56px !important;
+  }
+}
+
+/* The rail is a card above the article until Tailwind's `lg` turns it into
+   the sticky sidebar at 1024px; cap it only while it is that card, so it
+   never pushes the first paragraph off the screen. */
+@media (max-width: 1023px)  {
+  .spay-site [data-r="post-rail"]  {
+    max-height: 280px;
+    overflow-y: auto;
+  }
+}
+
+@media (max-width: 700px)  {
+  /* Below 700px the last crumb — the page you are already on — is hidden, so
+     a long post title cannot wrap the trail onto three lines. It stays in the
+     BreadcrumbList JSON-LD, so search engines still see the full trail. */
+  .spay-site [data-r="crumbs"] li:last-child  {
+    display: none !important;
+  }
+
+  .spay-site [data-r="post-head"]  {
+    padding-top: 32px !important;
+    padding-bottom: 40px !important;
+  }
+  /* clamp() bottoms out at 34px here, where the design's -2px tracking and
+     1.04 line-height are far too tight for a headline that has to wrap. */
+  .spay-site [data-r="post-head"] h1  {
+    letter-spacing: -0.8px !important;
+    line-height: 1.14 !important;
+  }
+}
+
+@media (max-width: 700px)  {
+  /* clamp() bottoms out at 38px on these headings, where the design's -2.4px
+     tracking and 1.0 line-height are far too tight for a title that wraps —
+     a long category name ran into itself. */
+  .spay-site [data-r="page-head"] h1  {
+    letter-spacing: -0.8px !important;
+    line-height: 1.12 !important;
+  }
+}
+
+@media (max-width: 560px)  {
+  /* The search button is too narrow to hold a row on its own: below 560px the
+     input takes the first line and the button was left stranded beside it at
+     139px. Give it the whole second line instead. */
+  .spay-site [data-r="search-bar"] input  {
+    flex: 1 1 100% !important;
+  }
+  .spay-site [data-r="search-bar"] button  {
+    flex: 1 1 100% !important;
+  }
+}
+
+/* ── language switcher ───────────────────────────────────────────────
+   Two instances exist, mirroring how the export handles its CTAs: the full
+   one lives inside `hdr-cta` (desktop) and the compact `hdr-lang-pill` sits
+   beside the two mobile pills. Exactly one is ever visible. */
+
+@media (min-width: 1081px) {
+  .spay-site [data-r="hdr-lang-pill"] { display: none !important; }
+}
+
+@media (max-width: 1080px) {
+  /* `hdr-cta` is hidden here, taking its switcher with it. */
+  .spay-site [data-r="hdr-lang-pill"] { display: flex !important; }
+  .spay-site [data-r="hdr-lang"] button {
+    padding: 9px 12px !important;
+    font-size: 12px !important;
+    gap: 6px !important;
+  }
+}
+
+@media (max-width: 500px) {
+  /* The header row is nowrap and already full at this width, so the button
+     drops to the globe alone — the open menu still names every language. */
+  .spay-site [data-r="hdr-lang"] button {
+    padding: 9px !important;
+    gap: 0 !important;
+  }
+  .spay-site [data-r="hdr-lang-code"] { display: none !important; }
+}
+
+@media (max-width: 389px) {
+  /* Below this there is genuinely no room for logo + three pills. Contact is
+     the one that goes: it is still in the footer, while the switcher and the
+     app button have no other home in the header. */
+  .spay-site [data-r="hdr-contact"] { display: none !important; }
+}
+
+/* ══ RIGHT-TO-LEFT ═══════════════════════════════════════════════════
+   `dir="rtl"` on <html> (set from the locale registry) already mirrors
+   everything that flows: flex rows, grid columns, text alignment, list
+   markers. What it does NOT mirror is a physical offset — `margin-left`,
+   `left`, `translateX`, a corner radius — and the design export is full of
+   those, because it was drawn left-to-right.
+
+   Each rule below flips exactly one of them. They are scoped to
+   `html[dir="rtl"]` so every left-to-right language keeps the ported markup
+   byte-for-byte, and they use `!important` because the values they override
+   are inline styles.
+
+   Grouped in the order they appear on the page. */
+
+/* Arabic script: Inter has no Arabic glyphs, so put the loaded Arabic face
+   first and let Inter keep the Latin runs (SPay, Visa, USDT…). */
+html[dir="rtl"] .spay-site {
+  --font-sans: var(--font-arabic), var(--font-inter), "Noto Sans Arabic",
+    -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+/* ── chrome ─────────────────────────────────────────────────────────── */
+
+/* The mobile Contact pill is pushed to the row's end with `margin-left:auto`,
+   which pushes the wrong way once the row is reversed. */
+html[dir="rtl"] .spay-site [data-r="hdr-contact"] {
+  margin-left: 0 !important;
+  margin-right: auto !important;
+}
+
+/* The oversized "SPay" watermark hangs off the footer's start edge. */
+html[dir="rtl"] .spay-site footer [data-r="watermark"] {
+  left: auto !important;
+  right: 72px !important;
+}
+
+/* ── homepage ───────────────────────────────────────────────────────── */
+
+/* The wallet art bleeds past the grid on the side away from the copy. */
+html[dir="rtl"] .spay-site [data-r="wallet-art"],
+html[dir="rtl"] .spay-site #verification [data-r="section-art"] {
+  margin-right: 0 !important;
+  margin-left: clamp(-140px, -7vw, 0px) !important;
+}
+
+/* #rewards keeps its own gutter on the copy side and lets the art run out. */
+html[dir="rtl"] .spay-site #rewards > div:first-of-type {
+  padding: 0 72px 0 0 !important;
+}
+html[dir="rtl"] .spay-site #rewards [data-r="section-art"] {
+  padding: 0 0 96px 72px !important;
+}
+
+/* Transfer notes: the divider sits between the two, so it swaps sides. */
+html[dir="rtl"] .spay-site [data-r="send-step"] {
+  border-right: 0 !important;
+  padding: 32px 0 34px 36px !important;
+}
+html[dir="rtl"] .spay-site [data-r="send-step"]:not(:last-child) {
+  border-left: 1px solid #e3e8ec !important;
+  padding: 32px 36px 34px 0 !important;
+}
+
+/* Localisation tiles pad away from the 1px grid gap that divides them. */
+html[dir="rtl"] .spay-site [data-r="loc-tile"]:nth-child(odd) {
+  padding: 24px 0 26px 24px !important;
+}
+html[dir="rtl"] .spay-site [data-r="loc-tile"]:nth-child(even) {
+  padding: 24px 24px 26px 0 !important;
+}
+
+/* FAQ: the question is start-aligned, the answer keeps its long inner gutter
+   on the side the chevron is not. */
+html[dir="rtl"] .spay-site [data-faq-q] {
+  text-align: right !important;
+}
+html[dir="rtl"] .spay-site [data-faq-a] p {
+  padding: 0 0 28px 60px !important;
+}
+
+/* Blog card category pill. */
+html[dir="rtl"] .spay-site [data-r="card-badge"] {
+  left: auto !important;
+  right: 16px !important;
+}
+
+/* ── About ──────────────────────────────────────────────────────────── */
+
+html[dir="rtl"] .spay-site #top [data-r="hero-art"] {
+  margin: -32px 0 0 -72px !important;
+}
+html[dir="rtl"] .spay-site #borderless [data-r="bleed"] {
+  margin-left: 0 !important;
+  margin-right: clamp(-120px, -6vw, 0px) !important;
+}
+
+/* ── Card ───────────────────────────────────────────────────────────── */
+
+/* The fanned trio: the two behind cards swap sides, and so do their tilts. */
+html[dir="rtl"] .spay-site [data-r="card-fan"] > img:nth-child(1) {
+  transform: translateX(58%) rotate(8deg) !important;
+}
+html[dir="rtl"] .spay-site [data-r="card-fan"] > img:nth-child(2) {
+  transform: translateX(-58%) rotate(-8deg) !important;
+}
+
+/* ── How it works ───────────────────────────────────────────────────── */
+
+/* The stacked steps indent from the start edge and round the corner facing it. */
+html[dir="rtl"] .spay-site [data-r="hiw-step"] {
+  margin-left: 0 !important;
+}
+html[dir="rtl"] .spay-site [data-r="hiw-step"]:nth-of-type(odd) {
+  margin-right: 56px !important;
+  border-radius: 0 96px 0 0 !important;
+}
+html[dir="rtl"] .spay-site [data-r="hiw-step"]:nth-of-type(even) {
+  margin-right: 128px !important;
+  border-radius: 96px 0 0 0 !important;
+}
+
+/* ── Contact ────────────────────────────────────────────────────────── */
+
+/* Chat bubbles: the tail points at the speaker, so it moves to the far side. */
+html[dir="rtl"] .spay-site [data-r="bubble-in"] {
+  border-radius: 18px 18px 6px 18px !important;
+}
+html[dir="rtl"] .spay-site [data-r="bubble-out"] {
+  border-radius: 18px 18px 18px 6px !important;
+}
+/* ── directional arrows ─────────────────────────────────────────────── */
+
+/* "Read more", "All articles", the chat send button and the pagination
+   glyphs all point the way the text runs. `dir="rtl"` reverses the text but
+   not a drawn arrow — an arrowhead is geometry, not typography — so every one
+   of them is mirrored here rather than being flipped by hand at each call
+   site. Marked with data-r="arrow" wherever it is drawn.
+
+   `display: inline-block` is needed for the pagination glyphs: `transform`
+   does nothing to an inline box. */
+html[dir="rtl"] .spay-site [data-r="arrow"] {
+  display: inline-block;
+  transform: scaleX(-1);
+}
+
+/* The send button sits at the end of the input row. */
+html[dir="rtl"] .spay-site [data-r="chat-send"] {
+  margin-left: 0 !important;
+  margin-right: auto !important;
+}
+
+/* ── the marquee ────────────────────────────────────────────────────── */
+
+/* The duplicated track is laid out from the right, so the loop has to travel
+   the other way or it scrolls into the gap it just left. */
+@keyframes spay-marquee-rtl {
+  from { transform: translate3d(0, 0, 0); }
+  to { transform: translate3d(50%, 0, 0); }
+}
+html[dir="rtl"] .spay-site [data-r="marquee"] > div {
+  animation-name: spay-marquee-rtl !important;
+}
+
+/* ── responsive layer, mirrored ─────────────────────────────────────── */
+
+@media (max-width: 1080px) {
+  /* Both bleeds collapse back inside the grid at this width. */
+  html[dir="rtl"] .spay-site [data-r="wallet-art"],
+  html[dir="rtl"] .spay-site #verification [data-r="section-art"],
+  html[dir="rtl"] .spay-site #borderless [data-r="bleed"] {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
+  html[dir="rtl"] .spay-site #top [data-r="hero-art"] {
+    margin: 12px 0 0 -32px !important;
+  }
+  html[dir="rtl"] .spay-site #rewards > div:first-of-type,
+  html[dir="rtl"] .spay-site #rewards [data-r="section-art"] {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+  /* Stacked, the notes and tiles no longer sit either side of a divider. */
+  html[dir="rtl"] .spay-site [data-r="send-step"],
+  html[dir="rtl"] .spay-site [data-r="send-step"]:not(:last-child) {
+    border-left: 0 !important;
+    padding: 32px 0 34px !important;
+  }
+  html[dir="rtl"] .spay-site [data-r="hiw-step"]:nth-of-type(odd),
+  html[dir="rtl"] .spay-site [data-r="hiw-step"]:nth-of-type(even) {
+    margin-right: 0 !important;
+  }
+}
+
+@media (max-width: 500px) {
+  html[dir="rtl"] .spay-site footer [data-r="watermark"] {
+    right: 20px !important;
+  }
+  html[dir="rtl"] .spay-site [data-r="card-fan"] > img:nth-child(1) {
+    transform: translateX(44%) rotate(8deg) !important;
+  }
+  html[dir="rtl"] .spay-site [data-r="card-fan"] > img:nth-child(2) {
+    transform: translateX(-44%) rotate(-8deg) !important;
+  }
+  html[dir="rtl"] .spay-site [data-r="loc-tile"]:nth-child(odd),
+  html[dir="rtl"] .spay-site [data-r="loc-tile"]:nth-child(even) {
+    padding: 24px 0 26px !important;
+  }
+  html[dir="rtl"] .spay-site [data-faq-a] p {
+    padding: 0 0 28px !important;
+  }
+}

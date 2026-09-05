@@ -1,0 +1,25 @@
+/* BMW M Design System — Spacing & Radius
+ * Base unit 4px. Generous, grid-aligned. 96px between major bands.
+ */
+
+:root {
+  /* ---- Spacing scale ---- */
+  --space-xxs: 4px;
+  --space-xs: 8px;
+  --space-sm: 12px;
+  --space-md: 16px;
+  --space-lg: 24px;   /* card internal padding, 3-up grid gutters */
+  --space-xl: 40px;   /* spec-cell table padding */
+  --space-xxl: 64px;  /* hero photo-band internal padding */
+  --space-section: 96px; /* between major editorial bands */
+
+  /* ---- Container ---- */
+  --container-max: 1440px; /* wider than SaaS — gives photography room */
+
+  /* ---- Border radius ---- "almost always 0, sometimes circular" ---- */
+  --radius-none: 0px;     /* buttons, cards, photo containers, spec cells, inputs */
+  --radius-xs: 2px;       /* legal CTAs (almost never) */
+  --radius-sm: 4px;       /* small toggle pills on configurator surfaces */
+  --radius-md: 6px;       /* rare small dropdown items */
+  --radius-full: 9999px;  /* circular icon buttons, carousel arrows, chatbot launcher */
+}

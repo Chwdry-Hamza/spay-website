@@ -6,7 +6,11 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "i18n:extract": "tsx src/scripts/extract-translations.ts",
+    "i18n:selftest": "tsx src/scripts/localise-selftest.ts",
+    "i18n:kept": "tsx src/scripts/kept-strings.ts",
+    "i18n:audit": "tsx src/scripts/nonprose-audit.ts"
   },
   "dependencies": {
     "html-react-parser": "^6.1.3",
@@ -23,6 +27,7 @@
     "eslint": "^9",
     "eslint-config-next": "16.0.10",
     "tailwindcss": "^4",
+    "tsx": "^4.23.13",
     "typescript": "^5"
   }
 }

@@ -49,8 +49,8 @@ export default function ReadingProgress() {
         ref={barRef}
         className="h-full w-0"
         style={{
-          background: '#46F1C5',
-          boxShadow: '0 0 12px rgba(70,241,197,0.7)',
+          background: '#118EA3',
+          boxShadow: '0 0 12px rgba(17,142,163,0.45)',
         }}
       />
     </div>

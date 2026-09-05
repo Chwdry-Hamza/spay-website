@@ -1,24 +1,31 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import AppHeader from '@/components/AppHeader';
-import Footer from '@/components/Footer';
+import SiteShell from '@/components/site/SiteShell';
+import { PageHero, PageBody } from '@/components/site/PageBands';
 import Breadcrumbs from '@/components/cms/Breadcrumbs';
 import TiptapRenderer from '@/components/cms/TiptapRenderer';
 import PerformanceScripts from '@/components/cms/PerformanceScripts';
 import CodeInjection from '@/components/cms/CodeInjection';
-import { getPageBySlug, getSeoSetting } from '@/lib/cms';
+import { getPageBySlug, getSeoSetting, structuredDataOf } from '@/lib/cms';
+import { getSiteChrome } from '@/lib/site/chrome';
 import { buildMetadataFromCMS } from '@/lib/cms-meta';
 import { buildFromSchemaField, type Crumb } from '@/lib/structured-data';
 import { serializeJsonLd } from '@/lib/sanitize';
 
 /**
- * Slugs that already exist as hand-built static routes in this app. Next's
- * router already prefers those static segments over this dynamic one, but we
- * also notFound() here defensively so a CMS Page with a colliding slug can
- * never shadow a real static page.
+ * Slugs this dynamic route must never serve. Most are hand-built static routes
+ * — Next's router already prefers those static segments, but we notFound() here
+ * defensively so a CMS Page with a colliding slug can never shadow a real page.
+ *
+ * 'support' is the exception: that page was retired, but the CMS still holds
+ * the stub record it was auto-registered with, so without this entry the route
+ * would render an empty page instead of a clean 404.
  */
 const STATIC_SLUGS = new Set([
   'about',
+  'card',
+  'how-it-works',
+  'contact',
   'card-terms',
   'privacy-policy',
   'support',
@@ -57,19 +64,23 @@ export default async function CmsPage({
   const { slug } = await params;
   if (STATIC_SLUGS.has(slug)) notFound();
 
-  const page = await getPageBySlug(toCmsSlug(slug));
+  const [page, chrome] = await Promise.all([getPageBySlug(toCmsSlug(slug)), getSiteChrome()]);
   if (!page) notFound();
 
-  const { nodes: schemaNodes, customRaw } = buildFromSchemaField(page.schema);
+  const { nodes: schemaNodes, customRaw } = buildFromSchemaField(structuredDataOf(page));
   const crumbs: Crumb[] = [
     { name: 'Home', url: '/' },
     { name: page.title, url: toCmsSlug(slug) },
   ];
 
   return (
-    <main style={{ background: '#090e1c', minHeight: '100vh' }}>
+    <SiteShell
+      chrome={chrome}
+      active={`/${slug}/`}
+      footerMarginTop="0"
+      footerWatermarkLeft="48px"
+    >
       <CodeInjection code={page.codeInjection} slots={['body']} />
-      <AppHeader />
 
       {schemaNodes.map((node, i) => (
         <script
@@ -85,20 +96,16 @@ export default async function CmsPage({
         />
       )}
 
-      <article className="mx-auto w-full max-w-7xl px-4 pt-24 pb-16 sm:px-8 lg:px-16">
-        <Breadcrumbs crumbs={crumbs} />
-        <h1
-          className="mt-6 mb-8 text-3xl font-bold leading-tight text-white md:text-5xl"
-          style={{ fontFamily: 'var(--font-space-grotesk)' }}
-        >
-          {page.title}
-        </h1>
-        <TiptapRenderer content={page.content} className="text-base md:text-lg" />
-      </article>
+      <PageHero title={page.title} intro={page.excerpt} above={<Breadcrumbs crumbs={crumbs} />} />
 
-      <Footer />
+      <PageBody>
+        <article>
+          <TiptapRenderer content={page.content} className="text-base md:text-lg" />
+        </article>
+      </PageBody>
+
       <PerformanceScripts perf={page.performance} />
       <CodeInjection code={page.codeInjection} slots={['footer']} />
-    </main>
+    </SiteShell>
   );
 }

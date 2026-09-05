@@ -32,8 +32,8 @@ export default function FaqAccordion({
       {title && (
         <h2
           id={headingId}
-          className="mb-2 text-2xl font-bold text-white md:text-3xl"
-          style={{ fontFamily: 'var(--font-space-grotesk)', scrollMarginTop: '7rem' }}
+          className="mb-2 text-2xl font-bold text-[#0b1620] md:text-3xl"
+          style={{ scrollMarginTop: '7rem' }}
         >
           {title}
         </h2>
@@ -47,20 +47,20 @@ export default function FaqAccordion({
             style={{ borderBottom: '1px solid rgba(255,255,255,0.09)' }}
           >
             <summary
-              className="relative cursor-pointer list-none py-[19px] pr-11 text-[17.5px] font-semibold leading-snug text-white [&::-webkit-details-marker]:hidden"
-              style={{ fontFamily: 'var(--font-space-grotesk)' }}
+              className="relative cursor-pointer list-none py-[19px] pr-11 text-[17.5px] font-semibold leading-snug text-[#0b1620] [&::-webkit-details-marker]:hidden"
+             
             >
               {f.q}
               <span
                 aria-hidden
                 className="absolute right-1.5 top-[26px] size-[9px] rotate-45 transition-transform group-open:-rotate-[135deg]"
                 style={{
-                  borderRight: '2px solid #46F1C5',
-                  borderBottom: '2px solid #46F1C5',
+                  borderRight: '2px solid #118EA3',
+                  borderBottom: '2px solid #118EA3',
                 }}
               />
             </summary>
-            <p className="mb-5 text-[15.5px]" style={{ color: '#C9D3E2' }}>
+            <p className="mb-5 text-[15.5px]" style={{ color: '#4a5560' }}>
               {f.a}
             </p>
           </details>

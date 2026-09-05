@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Space_Grotesk, Inter } from "next/font/google";
+import { Geist, Geist_Mono, Space_Grotesk, Inter, Noto_Sans_Arabic } from "next/font/google";
 import "./globals.css";
-import ConditionalBottomNav from "@/components/ConditionalBottomNav";
+import "./spay-site.css";
 import CookieConsent from "@/components/CookieConsent";
 import AutoRefresh from "@/components/AutoRefresh";
 import CodeInjection, { HeaderInjectionNodes, splitHeaderInjection } from "@/components/cms/CodeInjection";
@@ -13,6 +13,8 @@ import { serializeJsonLd } from "@/lib/sanitize";
 import { resolveHomeContent } from "@/lib/homeContent";
 import { platformForDevice } from "@/lib/appStore";
 import { StorePlatformProvider } from "@/components/StorePlatform";
+import { localeDef, splitLocale } from "@/i18n/locales";
+import { consentStrings } from "@/i18n/consent";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -35,8 +37,17 @@ const inter = Inter({
   weight: ["300", "400", "500", "600", "700"],
 });
 
+// Inter has no Arabic glyphs. Without this the Arabic pages fall back to
+// whatever the operating system happens to ship, which varies wildly in weight
+// and metrics; app/spay-site.css puts this first in the stack under dir="rtl".
+const notoArabic = Noto_Sans_Arabic({
+  variable: "--font-arabic",
+  subsets: ["arabic"],
+  weight: ["300", "400", "500", "600", "700", "800"],
+});
+
 const SITE_URL =
-  process.env.NEXT_PUBLIC_SITE_URL || "https://spay.example.com";
+  process.env.NEXT_PUBLIC_SITE_URL || "https://spay.finance";
 
 // Built from the static brand defaults, then enriched with CMS site-wide SEO
 // (title template + Search Console verification) without overriding the
@@ -104,10 +115,6 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  // Site-wide Organization JSON-LD from the CMS `organization` setting.
-  const org = await getOrganizationSetting();
-  const organizationLd = buildOrganization(org);
-
   // The global bottom nav + cookie banner are CMS-editable via the homepage
   // `sections`; resolve them here so every page reflects saved edits.
   const home = resolveHomeContent((await getHomePage())?.sections);
@@ -141,6 +148,18 @@ export default async function RootLayout({
   // the server, so every "get the app" button ships with the right URL already
   // in the HTML — see components/StorePlatform.
   const storePlatform = platformForDevice(requestHeaders.get("user-agent"));
+  // Which language this URL is in, so <html lang>/<dir> are right for it. The
+  // pathname comes from the middleware header set on every request.
+  const { locale } = splitLocale(pathname);
+  const { htmlLang, dir } = localeDef(locale);
+
+  // Site-wide Organization JSON-LD from the CMS `organization` setting, in the
+  // language of this URL. It renders on every page, so leaving it English meant
+  // eight translated sites describing the company in a language their reader
+  // had just chosen not to use. Built here rather than above because it needs
+  // `locale`, which is only known once the pathname has been read.
+  const organizationLd = buildOrganization(await getOrganizationSetting(locale), htmlLang);
+
   const perPageHeader = await getPathHeaderInjection(pathname);
   const combinedHeader = [globalCode?.header ?? "", perPageHeader]
     .filter((s) => s.trim())
@@ -149,7 +168,7 @@ export default async function RootLayout({
     splitHeaderInjection(combinedHeader);
 
   return (
-    <html lang="en" className="h-full w-full scroll-smooth">
+    <html lang={htmlLang} dir={dir} className="h-full w-full scroll-smooth">
       <head>
         {headerInlineScripts.length > 0 && (
           <script dangerouslySetInnerHTML={{ __html: headerInlineScripts.join("\n") }} />
@@ -157,7 +176,7 @@ export default async function RootLayout({
         <HeaderInjectionNodes html={headerRest} />
       </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${spaceGrotesk.variable} ${inter.variable} antialiased min-h-screen w-full overflow-x-hidden`}
+        className={`${geistSans.variable} ${geistMono.variable} ${spaceGrotesk.variable} ${inter.variable} ${notoArabic.variable} antialiased min-h-screen w-full`}
       >
         {gscToken && (
           <meta name="google-site-verification" content={gscToken} />
@@ -171,8 +190,10 @@ export default async function RootLayout({
         <StorePlatformProvider platform={storePlatform}>
           {children}
           <AutoRefresh />
-          <ConditionalBottomNav content={home.bottomNav} />
-          <CookieConsent content={home.cookieConsent} />
+          {/* The site's own bottom nav is part of the design shell now
+              (components/site/SiteBottomNav), so the layout only keeps the
+              cookie banner. */}
+          <CookieConsent content={home.cookieConsent} strings={consentStrings(locale)} />
         </StorePlatformProvider>
         <CodeInjection code={globalCode} slots={["footer"]} />
       </body>

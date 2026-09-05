@@ -16,8 +16,15 @@
  */
 import { useEffect, useState } from 'react';
 import type { TocHeading } from '@/lib/toc';
+import type { BlogStrings } from '@/i18n/blog';
 
-export default function PostToc({ headings }: { headings: TocHeading[] }) {
+export default function PostToc({
+  headings,
+  strings,
+}: {
+  headings: TocHeading[];
+  strings: BlogStrings['post'];
+}) {
   const [activeId, setActiveId] = useState<string>('');
 
   useEffect(() => {
@@ -43,12 +50,12 @@ export default function PostToc({ headings }: { headings: TocHeading[] }) {
   if (!headings.length) return null;
 
   return (
-    <nav aria-label="On this page" style={{ fontFamily: 'var(--font-inter)' }}>
+    <nav aria-label={strings.toc} style={{ fontFamily: 'var(--font-inter)' }}>
       <p
         className="mb-3.5 text-[11px] font-bold uppercase tracking-[0.16em]"
-        style={{ color: '#7A8194', fontFamily: 'var(--font-geist-mono)' }}
+        style={{ color: '#8a949d' }}
       >
-        On this page
+        {strings.toc}
       </p>
       <ul
         className="m-0 list-none p-0 pl-3.5"
@@ -61,11 +68,11 @@ export default function PostToc({ headings }: { headings: TocHeading[] }) {
               <a
                 href={`#${h.id}`}
                 aria-current={isActive ? 'true' : undefined}
-                className="-ml-[15px] block py-1.5 pl-3.5 text-[13.5px] leading-snug transition-colors hover:text-white"
+                className="-ml-[15px] block py-1.5 pl-3.5 text-[13.5px] leading-snug transition-colors hover:text-[#0b1620]"
                 style={{
-                  color: isActive ? '#46F1C5' : '#A6AABE',
+                  color: isActive ? '#118EA3' : '#4a5560',
                   fontWeight: isActive ? 600 : 400,
-                  borderLeft: `2px solid ${isActive ? '#46F1C5' : 'transparent'}`,
+                  borderLeft: `2px solid ${isActive ? '#118EA3' : 'transparent'}`,
                   // h3 entries indent under their parent h2.
                   paddingLeft: h.level === 3 ? '1.75rem' : undefined,
                 }}

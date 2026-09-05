@@ -6,6 +6,9 @@
  * component.
  */
 import Link from 'next/link';
+import type { CSSProperties } from 'react';
+import { SITE } from '@/lib/site/palette';
+import { EN_BLOG, type BlogStrings } from '@/i18n/blog';
 
 function href(basePath: string, page: number): string {
   return page <= 1 ? basePath : `${basePath}?page=${page}`;
@@ -14,66 +17,96 @@ function href(basePath: string, page: number): string {
 /** Compact page window: 1 … (p-1) p (p+1) … last */
 function pageWindow(current: number, total: number): (number | '…')[] {
   const out: (number | '…')[] = [];
-  const add = (n: number) => out.push(n);
   const want = new Set<number>([1, total, current - 1, current, current + 1]);
   const sorted = [...want].filter((n) => n >= 1 && n <= total).sort((a, b) => a - b);
   let prev = 0;
   for (const n of sorted) {
     if (n - prev > 1) out.push('…');
-    add(n);
+    out.push(n);
     prev = n;
   }
   return out;
 }
 
+const CELL: CSSProperties = {
+  display: 'inline-flex',
+  height: '44px',
+  minWidth: '44px',
+  alignItems: 'center',
+  justifyContent: 'center',
+  padding: '0 16px',
+  borderRadius: '999px',
+  fontSize: '14px',
+  fontWeight: 700,
+  letterSpacing: '0.4px',
+  transition: 'all .22s ease',
+};
+
+const IDLE: CSSProperties = {
+  ...CELL,
+  background: SITE.surface,
+  color: SITE.brandDeep,
+  border: `1px solid ${SITE.line}`,
+};
+
+const ACTIVE: CSSProperties = {
+  ...CELL,
+  background: SITE.brand,
+  color: SITE.surface,
+  border: `1px solid ${SITE.brand}`,
+};
+
 export default function Pagination({
   basePath,
   page,
   totalPages,
+  strings = EN_BLOG.pagination,
 }: {
   basePath: string;
   page: number;
   totalPages: number;
+  /** Defaults to English so the English listings need no extra prop. */
+  strings?: BlogStrings['pagination'];
 }) {
   if (totalPages <= 1) return null;
-  const window = pageWindow(page, totalPages);
-
-  const base =
-    'inline-flex h-10 min-w-10 items-center justify-center rounded-lg px-3 text-sm transition-colors';
-  const idle = { background: '#0e2e2e', color: '#A6AABE', border: '1px solid rgba(70,241,197,0.18)' };
-  const active = { background: '#04babf', color: '#0a2a23', border: '1px solid #04babf' };
 
   return (
     <nav
-      aria-label="Pagination"
-      className="mt-10 flex flex-wrap items-center justify-center gap-2"
-      style={{ fontFamily: 'var(--font-inter)' }}
+      aria-label={strings.label}
+      style={{
+        marginTop: '56px',
+        display: 'flex',
+        flexWrap: 'wrap',
+        alignItems: 'center',
+        justifyContent: 'center',
+        gap: '10px',
+      }}
     >
       {page > 1 && (
-        <Link href={href(basePath, page - 1)} className={base} style={idle} rel="prev">
-          ← Prev
+        <Link className="dc-h10" href={href(basePath, page - 1)} style={IDLE} rel="prev">
+          <span data-r="arrow" aria-hidden="true">←</span> {strings.previous}
         </Link>
       )}
 
-      {window.map((n, i) =>
+      {pageWindow(page, totalPages).map((n, i) =>
         n === '…' ? (
-          <span key={`gap-${i}`} className="px-2" style={{ color: '#4E5566' }}>
+          <span key={`gap-${i}`} style={{ padding: '0 6px', color: SITE.muted }}>
             …
           </span>
         ) : n === page ? (
-          <span key={n} aria-current="page" className={base} style={active}>
+          <span key={n} aria-current="page" style={ACTIVE}>
             {n}
           </span>
         ) : (
-          <Link key={n} href={href(basePath, n)} className={base} style={idle}>
+          <Link className="dc-h10" key={n} href={href(basePath, n)} style={IDLE}>
             {n}
           </Link>
         ),
       )}
 
       {page < totalPages && (
-        <Link href={href(basePath, page + 1)} className={base} style={idle} rel="next">
-          Next →
+        <Link className="dc-h10" href={href(basePath, page + 1)} style={IDLE} rel="next">
+          {strings.next} <span data-r="arrow" aria-hidden="true">→</span>
         </Link>
       )}
     </nav>

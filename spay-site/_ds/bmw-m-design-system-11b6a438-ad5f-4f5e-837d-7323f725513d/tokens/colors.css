@@ -1,0 +1,46 @@
+/* BMW M Design System — Colors
+ * Near-pure-black canvas, white type. The M tricolor is brand-identity-only —
+ * never a CTA color, never a background fill.
+ */
+
+:root {
+  /* ---- Brand & Accent ---- */
+  --color-primary: #ffffff;        /* primary type + CTA label color */
+  --color-m-blue-light: #0066b1;   /* M tricolor stop 1 */
+  --color-m-blue-dark: #1c69d4;    /* M tricolor stop 2 (== --color-bmw-blue) */
+  --color-bmw-blue: #1c69d4;       /* BMW heritage corporate blue */
+  --color-m-red: #e22718;          /* M tricolor stop 3 — M-power red */
+  --color-electric-blue: #0653b6;  /* M xDrive electric accent — colder, digital */
+
+  /* ---- Surface ---- */
+  --color-canvas: #000000;         /* default page floor — true black */
+  --color-surface-soft: #0d0d0d;   /* spec cells, footer-adjacent strips */
+  --color-surface-card: #1a1a1a;   /* cards, secondary buttons, icon buttons */
+  --color-surface-elevated: #262626;/* nested cards inside dark bands */
+  --color-carbon-gray: #2b2b2b;    /* carbon-fiber technical-spec cells */
+
+  /* ---- Hairlines & Borders ---- */
+  --color-hairline: #3c3c3c;       /* 1px divider tone on dark */
+  --color-hairline-strong: #262626;/* == --color-surface-elevated */
+
+  /* ---- Text ---- */
+  --color-on-dark: #ffffff;        /* headlines + primary text */
+  --color-body: #bbbbbb;           /* default running text */
+  --color-body-strong: #e6e6e6;    /* emphasized / lead paragraph */
+  --color-muted: #7e7e7e;          /* footer links, breadcrumbs, captions */
+
+  /* ---- Semantic ---- */
+  --color-warning: #f4b400;        /* technical-warning callouts (rare) */
+  --color-success: #0fa336;        /* order-confirmation states (rare) */
+
+  /* ---- The M tricolor gradient, as a reusable stripe fill ---- */
+  --m-stripe: linear-gradient(
+    90deg,
+    var(--color-m-blue-light) 0%,
+    var(--color-m-blue-light) 33.33%,
+    var(--color-m-blue-dark) 33.33%,
+    var(--color-m-blue-dark) 66.66%,
+    var(--color-m-red) 66.66%,
+    var(--color-m-red) 100%
+  );
+}

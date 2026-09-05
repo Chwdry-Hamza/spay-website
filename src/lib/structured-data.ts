@@ -30,13 +30,24 @@ export function abs(pathOrUrl: string): string {
 
 // ─── Organization ──────────────────────────────────────────────────
 
-export function buildOrganization(org: OrganizationSetting | null): Json {
+/**
+ * `inLanguage` says which language the TEXT in this node is written in.
+ *
+ * Without it a crawler seeing the same Organization node on nine URLs has no
+ * way to tell that the descriptions differ on purpose. It is a BCP-47 tag —
+ * the same value as `<html lang>` — not the Open Graph underscore form.
+ */
+export function buildOrganization(
+  org: OrganizationSetting | null,
+  inLanguage?: string,
+): Json {
   const o = org ?? {};
   const node: Json = {
     '@context': 'https://schema.org',
     '@type': 'Organization',
     name: o.name || 'Spay',
     url: o.url || SITE_URL,
+    ...(inLanguage ? { inLanguage } : {}),
   };
   if (o.legalName) node.legalName = o.legalName;
   if (o.logo) node.logo = abs(o.logo);

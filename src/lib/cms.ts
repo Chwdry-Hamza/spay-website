@@ -95,9 +95,31 @@ export type CmsPost = {
   categoryName?: string;
   tags?: string[];
   seo?: CmsSeo;
+  /**
+   * JSON-LD. The CMS renamed this from `schema` — a Mongoose document already
+   * owns that property name and the collision broke saving. `schema` stays
+   * declared so a response from a backend that has not been redeployed still
+   * type-checks; read both through `structuredDataOf()`.
+   */
+  structuredData?: CmsStructuredData;
+  /** @deprecated Retired name. Read via `structuredDataOf()`. */
   schema?: CmsStructuredData;
   performance?: CmsPerformance;
   codeInjection?: CmsCodeInjection;
+
+  /**
+   * Which language this copy is actually in. The CMS falls back to English
+   * when a translation is missing or too thin to serve, so this is not always
+   * the locale that was asked for — check it before claiming a translation.
+   */
+  locale?: string;
+  /** False when `locale` is a fallback rather than a real translation. */
+  translated?: boolean;
+  /** How much of the post the translation covers, 0–1. */
+  coverage?: number;
+  /** The locales this post is genuinely published in — what hreflang needs. */
+  alternates?: string[];
+
   authorName?: string;
   publishedAt?: string | null;
   updatedAt?: string;
@@ -113,8 +135,29 @@ export type CmsPage = {
   content?: TiptapDoc;
   /** Structured section overrides for code-driven pages (e.g. the homepage). */
   sections?: Record<string, unknown> | null;
+  /**
+   * The language this response was asked for. `'en'` unless `?locale=` was sent.
+   */
+  locale?: string;
+  /** Whether `translation` actually carries anything for that language. */
+  translated?: boolean;
+  /**
+   * This page's translation for `locale`: one entry per English string, keyed
+   * by a hash of it. Applied by `localiseSections` AFTER the defaults and the
+   * CMS overrides have been merged — see the note there for why it cannot be
+   * applied in the CMS.
+   */
+  translation?: Record<string, string>;
   excerpt?: string;
   seo?: CmsSeo;
+  /**
+   * JSON-LD. The CMS renamed this from `schema` — a Mongoose document already
+   * owns that property name and the collision broke saving. `schema` stays
+   * declared so a response from a backend that has not been redeployed still
+   * type-checks; read both through `structuredDataOf()`.
+   */
+  structuredData?: CmsStructuredData;
+  /** @deprecated Retired name. Read via `structuredDataOf()`. */
   schema?: CmsStructuredData;
   performance?: CmsPerformance;
   codeInjection?: CmsCodeInjection;
@@ -196,6 +239,12 @@ export type SitemapEntry = {
   title?: string;
   updatedAt?: string;
   publishedAt?: string | null;
+  /**
+   * Non-English locales this post is genuinely published and indexable in.
+   * Each one is a separate URL in the sitemap; a locale that is really serving
+   * the English text is deliberately absent.
+   */
+  locales?: string[];
 };
 
 export type SitemapCategoryEntry = { slug: string; updatedAt?: string };
@@ -259,14 +308,26 @@ const enc = (slug: string) => encodeURIComponent(slug);
 
 // ─── Pages ─────────────────────────────────────────────────────────
 
-export function getHomePage() {
-  return cmsFetchOrNull<CmsPage | null>('/api/public/home', { revalidate: 60 });
-}
+/**
+ * `?locale=xx`, or nothing at all for English.
+ *
+ * Omitted rather than sent as `en` on purpose: the two produce different cache
+ * entries for the same bytes, and every existing caller asks for English.
+ */
+const localeQuery = (locale?: string) =>
+  locale && locale !== 'en' ? `?locale=${encodeURIComponent(locale)}` : '';
 
-export function getPageBySlug(slug: string) {
-  return cmsFetchOrNull<CmsPage>(`/api/public/pages/by-slug/${enc(slug)}`, {
+export function getHomePage(locale?: string) {
+  return cmsFetchOrNull<CmsPage | null>(`/api/public/home${localeQuery(locale)}`, {
     revalidate: 60,
   });
+}
+
+export function getPageBySlug(slug: string, locale?: string) {
+  return cmsFetchOrNull<CmsPage>(
+    `/api/public/pages/by-slug/${enc(slug)}${localeQuery(locale)}`,
+    { revalidate: 60 },
+  );
 }
 
 export async function getPages() {
@@ -283,12 +344,19 @@ export function getPosts(params: {
   limit?: number;
   category?: string;
   tag?: string;
+  /**
+   * Serve the cards in this language. The CMS falls back to English per post,
+   * so a locale with no translation yet returns a readable English list rather
+   * than an empty one.
+   */
+  locale?: string;
 } = {}) {
   const qs = new URLSearchParams();
   if (params.page) qs.set('page', String(params.page));
   if (params.limit) qs.set('limit', String(params.limit));
   if (params.category) qs.set('category', params.category);
   if (params.tag) qs.set('tag', params.tag);
+  if (params.locale) qs.set('locale', params.locale);
   const q = qs.toString();
   return cmsFetch<Paginated<CmsPost>>(
     `/api/public/posts${q ? `?${q}` : ''}`,
@@ -296,8 +364,9 @@ export function getPosts(params: {
   );
 }
 
-export function getPostBySlug(slug: string) {
-  return cmsFetchOrNull<CmsPost>(`/api/public/posts/by-slug/${enc(slug)}`, {
+export function getPostBySlug(slug: string, locale?: string) {
+  const q = locale ? `?locale=${encodeURIComponent(locale)}` : '';
+  return cmsFetchOrNull<CmsPost>(`/api/public/posts/by-slug/${enc(slug)}${q}`, {
     revalidate: 60,
   });
 }
@@ -316,11 +385,12 @@ export type CategoryWithPosts = Paginated<CmsPost> & { category: CmsCategory };
 
 export function getCategoryBySlug(
   slug: string,
-  params: { page?: number; limit?: number } = {},
+  params: { page?: number; limit?: number; locale?: string } = {},
 ) {
   const qs = new URLSearchParams();
   if (params.page) qs.set('page', String(params.page));
   if (params.limit) qs.set('limit', String(params.limit));
+  if (params.locale) qs.set('locale', params.locale);
   const q = qs.toString();
   return cmsFetchOrNull<CategoryWithPosts>(
     `/api/public/categories/by-slug/${enc(slug)}${q ? `?${q}` : ''}`,
@@ -330,16 +400,23 @@ export function getCategoryBySlug(
 
 // ─── Settings ──────────────────────────────────────────────────────
 
-export function getSetting<T>(key: string) {
-  return cmsFetchOrNull<T | null>(`/api/public/settings/${key}`, {
-    revalidate: 300,
-  });
+/**
+ * `locale` is honoured only by the settings that carry prose — `seo` and
+ * `organization`. For the rest the CMS ignores it and returns the same object,
+ * so passing it is harmless; not passing it is simply the English form.
+ */
+export function getSetting<T>(key: string, locale?: string) {
+  return cmsFetchOrNull<T | null>(
+    `/api/public/settings/${key}${localeQuery(locale)}`,
+    { revalidate: 300 },
+  );
 }
 
-export const getSeoSetting = () => getSetting<SiteSeoSetting>('seo');
+export const getSeoSetting = (locale?: string) =>
+  getSetting<SiteSeoSetting>('seo', locale);
 export const getCrawlSetting = () => getSetting<CrawlSetting>('crawl');
-export const getOrganizationSetting = () =>
-  getSetting<OrganizationSetting>('organization');
+export const getOrganizationSetting = (locale?: string) =>
+  getSetting<OrganizationSetting>('organization', locale);
 export const getAnalyticsSetting = () => getSetting<AnalyticsSetting>('analytics');
 export const getRobotsSetting = () => getSetting<string>('robots');
 /** Site-wide default header/body/footer snippets applied to every page. */
@@ -423,11 +500,32 @@ const REGISTER_SECRET = process.env.SPAY_REGISTER_SECRET || '';
  * it never overwrites SEO an editor has set. Fire-and-forget: failures (CMS
  * down, registration disabled) never block rendering.
  */
+/**
+ * Slug → the string list this process has already posted.
+ *
+ * Registration runs on every render, and the string list is a few hundred
+ * entries; posting it each time would be pure waste, since it only changes when
+ * the design's copy does. Holding the last one sent makes it one post per page
+ * per server process, and a deploy — which is the only thing that can change
+ * the defaults — starts a new process and so re-posts on its own.
+ */
+const sentStrings = new Map<string, string>();
+
 export async function ensurePageRegistered(
   slug: string,
   title: string,
   template?: string,
+  /**
+   * The page's full rendered English. The CMS translates from this: it holds
+   * only the leaves an editor overrode and cannot see the defaults in this
+   * repo, so without it a re-translation prunes every segment it cannot
+   * account for. See `translationSource` in the CMS's Page model.
+   */
+  strings?: readonly string[],
 ): Promise<void> {
+  const fingerprint = strings?.join('\u0000');
+  const changed = fingerprint !== undefined && sentStrings.get(slug) !== fingerprint;
+
   try {
     await fetch(`${CMS_API_URL}/api/public/pages/register`, {
       method: 'POST',
@@ -435,10 +533,12 @@ export async function ensurePageRegistered(
         'Content-Type': 'application/json',
         ...(REGISTER_SECRET ? { 'x-register-secret': REGISTER_SECRET } : {}),
       },
-      body: JSON.stringify({ slug, title, template }),
+      body: JSON.stringify({ slug, title, template, ...(changed ? { strings } : {}) }),
       cache: 'no-store',
       signal: AbortSignal.timeout(2500),
     });
+    // Only after it lands, so a failed post is retried on the next render.
+    if (changed) sentStrings.set(slug, fingerprint!);
   } catch {
     // Registration is best-effort — the page still renders without it.
   }
@@ -453,9 +553,11 @@ export async function getRouteSeoPage(
   slug: string,
   title: string,
   template?: string,
+  locale?: string,
+  strings?: readonly string[],
 ): Promise<CmsPage | null> {
-  await ensurePageRegistered(slug, title, template);
-  return slug === '/' ? getHomePage() : getPageBySlug(slug);
+  await ensurePageRegistered(slug, title, template, strings);
+  return slug === '/' ? getHomePage(locale) : getPageBySlug(slug, locale);
 }
 
 // ─── Helpers ───────────────────────────────────────────────────────
@@ -467,8 +569,34 @@ export function categorySlugOf(post: CmsPost): string | undefined {
   return undefined;
 }
 
+/**
+ * The category name to show on a post.
+ *
+ * Always the populated Category record, never the post's denormalised
+ * `categoryName`. The record is the single source of truth: it is current when
+ * a category is renamed, and the CMS now translates it there — once per
+ * category rather than once per post. While the copy on each post was being
+ * translated instead, the same category came back as "Crypto" in one article
+ * and "العملات المشفرة" in another.
+ *
+ * `categoryName` remains only as a fallback for a post whose category ref was
+ * not populated.
+ */
 export function categoryDisplayName(post: CmsPost): string {
   const c = post.category;
-  if (c && typeof c === 'object') return c.name;
+  if (c && typeof c === 'object' && c.name?.trim()) return c.name.trim();
   return post.categoryName ?? '';
+}
+
+/**
+ * A post's or page's JSON-LD, from whichever key the CMS sent.
+ *
+ * The field was renamed `schema` → `structuredData`; this reads the new name
+ * first and falls back to the old one, so the website and the CMS can be
+ * deployed in either order without a page silently losing its structured data.
+ */
+export function structuredDataOf(
+  doc: { structuredData?: CmsStructuredData; schema?: CmsStructuredData } | null | undefined,
+): CmsStructuredData | undefined {
+  return doc?.structuredData ?? doc?.schema;
 }

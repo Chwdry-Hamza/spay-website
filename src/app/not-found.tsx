@@ -1,10 +1,11 @@
 import { headers } from 'next/headers';
 import { after } from 'next/server';
 import Link from 'next/link';
-import AppHeader from '@/components/AppHeader';
-import Footer from '@/components/Footer';
+import SiteShell from '@/components/site/SiteShell';
 import PerformanceScripts from '@/components/cms/PerformanceScripts';
 import { logMissingUrl } from '@/lib/log-404';
+import { getSiteChrome } from '@/lib/site/chrome';
+import { SITE } from '@/lib/site/palette';
 
 export const metadata = {
   title: 'Page not found',
@@ -22,10 +23,12 @@ const ALWAYS_VALID = new Set([
   '/',
   '/about',
   '/blog',
+  '/card',
   '/card-terms',
+  '/contact',
+  '/how-it-works',
   '/privacy-policy',
   '/search',
-  '/support',
 ]);
 
 function isAlwaysValid(path: string): boolean {
@@ -46,54 +49,108 @@ export default async function NotFound() {
     after(() => logMissingUrl(originalPath));
   }
 
+  const chrome = await getSiteChrome();
+
+  const BUTTON = {
+    display: 'inline-flex',
+    alignItems: 'center',
+    borderRadius: '999px',
+    padding: '18px 38px',
+    fontSize: '15px',
+    fontWeight: 700,
+    letterSpacing: '0.8px',
+    textTransform: 'uppercase',
+    transition: 'all .22s ease',
+  } as const;
+
   return (
-    <main
-      style={{ background: '#090e1c', minHeight: '100vh' }}
-      className="flex flex-col"
-    >
-      <AppHeader />
-      <section className="mx-auto flex w-full max-w-3xl flex-1 flex-col items-center justify-center px-4 py-32 text-center">
-        <p
-          className="mb-4 text-6xl font-bold md:text-8xl"
-          style={{ color: '#46F1C5', fontFamily: 'var(--font-space-grotesk)' }}
+    <SiteShell chrome={chrome} active="" footerMarginTop="0" footerWatermarkLeft="48px">
+      <section
+        id="top"
+        style={{
+          background: SITE.band,
+          padding: '140px 0 160px',
+          display: 'flex',
+          justifyContent: 'center',
+          textAlign: 'center',
+        }}
+      >
+        <div
+          data-reveal="up"
+          style={{
+            maxWidth: '1600px',
+            padding: '0 72px',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            gap: '20px',
+          }}
         >
-          404
-        </p>
-        <h1
-          className="mb-4 text-2xl font-bold text-white md:text-3xl"
-          style={{ fontFamily: 'var(--font-space-grotesk)' }}
-        >
-          This page took a wrong turn
-        </h1>
-        <p
-          className="mb-8 max-w-md text-base"
-          style={{ color: '#A6AABE', fontFamily: 'var(--font-inter)' }}
-        >
-          The page you’re looking for doesn’t exist or may have moved. Let’s get
-          you back on track.
-        </p>
-        <div className="flex flex-wrap items-center justify-center gap-3">
-          <Link
-            href="/"
-            className="rounded-xl px-6 py-3 text-sm font-semibold transition-opacity hover:opacity-90"
-            style={{ background: '#04babf', color: '#0a2a23' }}
-          >
-            Back to home
-          </Link>
-          <Link
-            href="/blog"
-            className="rounded-xl px-6 py-3 text-sm font-semibold transition-colors"
+          <p
             style={{
-              border: '1px solid rgba(4,186,191,0.35)',
-              color: '#04babf',
+              margin: 0,
+              fontSize: 'clamp(72px, 12vw, 160px)',
+              lineHeight: 1,
+              fontWeight: 800,
+              letterSpacing: '-4px',
+              color: SITE.brand,
             }}
           >
-            Read the blog
-          </Link>
+            404
+          </p>
+          <h1
+            style={{
+              margin: 0,
+              fontSize: 'clamp(28px, 3.4vw, 48px)',
+              lineHeight: 1.05,
+              fontWeight: 600,
+              letterSpacing: '-1.4px',
+              textTransform: 'uppercase',
+              color: SITE.brandDeep,
+            }}
+          >
+            This page doesn’t exist
+          </h1>
+          <p
+            style={{
+              margin: 0,
+              maxWidth: '52ch',
+              fontSize: '19px',
+              lineHeight: 1.75,
+              color: '#12464f',
+              textWrap: 'pretty',
+            }}
+          >
+            The link may be out of date, or the page may have moved. Try the homepage, or
+            search the blog for what you were after.
+          </p>
+          <div
+            style={{
+              marginTop: '10px',
+              display: 'flex',
+              flexWrap: 'wrap',
+              justifyContent: 'center',
+              gap: '16px',
+            }}
+          >
+            <Link
+              className="dc-h3"
+              href="/"
+              style={{ ...BUTTON, background: SITE.brand, color: SITE.surface }}
+            >
+              Back to home
+            </Link>
+            <Link
+              className="dc-h4"
+              href="/blog/"
+              style={{ ...BUTTON, border: `1px solid ${SITE.brandDeep}`, color: SITE.brandDeep }}
+            >
+              Read the blog
+            </Link>
+          </div>
         </div>
       </section>
       <PerformanceScripts perf={undefined} />
-      <Footer />
-    </main>
+    </SiteShell>
   );
 }
