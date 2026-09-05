@@ -123,7 +123,7 @@ export default async function BlogPostView({
   const servedAsFallback = locale !== 'en' && post.translated === false;
   const catName = categoryDisplayName(post);
   const catSlug = categorySlugOf(post);
-  const related = await getRelatedPosts(catSlug, post.slug);
+  const related = await getRelatedPosts(catSlug, post.slug, locale);
 
   // Heading ids are computed once and handed to BOTH the TOC and the renderer
   // so every rail link resolves to a real anchor. See lib/toc.
@@ -415,7 +415,13 @@ export default async function BlogPostView({
               </div>
             )}
 
-            <RelatedPosts posts={related} categoryName={catName} strings={t.post} prefix={prefix} />
+            <RelatedPosts
+              posts={related}
+              categoryName={catName}
+              strings={t.post}
+              locale={locale}
+              prefix={prefix}
+            />
           </article>
         </div>
       </div>
