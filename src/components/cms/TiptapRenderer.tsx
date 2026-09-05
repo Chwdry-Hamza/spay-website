@@ -110,9 +110,28 @@ function renderNode(node: TiptapNode, key: React.Key, ctx: Ctx): React.ReactNode
       return <ul key={key}>{renderChildren(node.content, ctx)}</ul>;
 
     case 'orderedList': {
-      const start = Number(node.attrs?.start ?? 1);
+      const raw = Number(node.attrs?.start ?? 1);
+      const start = Number.isFinite(raw) && raw > 0 ? raw : 1;
       return (
-        <ol key={key} start={Number.isFinite(start) ? start : 1}>
+        <ol
+          key={key}
+          start={start}
+          /*
+           * The badge an item shows is drawn by CSS from a counter (see
+           * `.spay-post ol` in globals.css), and a CSS counter knows nothing
+           * about the `start` attribute — it resets to zero on every <ol>.
+           *
+           * That matters because the editor does not keep a list of four steps
+           * as one <ol>. Tiptap splits it into four, each holding a single item
+           * and carrying `start="1"`, `"2"`, `"3"`, `"4"`, so every badge on
+           * every article rendered as "01". Seeding the counter here restores
+           * the numbering the document asked for.
+           *
+           * A plain integer, not `calc(var(…))`: `counter-reset` has taken one
+           * since forever, and this is not a place to depend on a newer syntax.
+           */
+          style={{ counterReset: `spay-step ${start - 1}` }}
+        >
           {renderChildren(node.content, ctx)}
         </ol>
       );
