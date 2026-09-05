@@ -8,6 +8,7 @@
 import PostCard from '@/components/site/PostCard';
 import type { CmsPost } from '@/lib/cms';
 import type { Locale } from '@/i18n/locales';
+import { blogStrings } from '@/i18n/blog';
 import { SITE } from '@/lib/site/palette';
 
 /** Reveal direction by column, matching the homepage's Blogs band. */
@@ -45,6 +46,10 @@ export default function PostGrid({
       {posts.map((post, i) => (
         <PostCard
           locale={locale}
+          // Without this the card falls back to the hardcoded English "Read
+          // more" — the homepage band passes the CMS's translated label, so
+          // only the listings were showing it.
+          readMoreLabel={blogStrings(locale).index.readMore}
           prefix={prefix}
           key={post._id}
           post={post}

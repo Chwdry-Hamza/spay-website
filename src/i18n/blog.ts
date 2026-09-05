@@ -24,6 +24,12 @@ export type BlogStrings = {
     searchPlaceholder: string;
     searchLabel: string;
     empty: string;
+    /**
+     * The link at the foot of a card. Taken from the wording the homepage's
+     * Blogs band already uses in each language, so a reader does not meet two
+     * translations of one label on the same site.
+     */
+    readMore: string;
   };
 
   /** A single post. */
@@ -84,6 +90,7 @@ export const EN_BLOG: BlogStrings = {
     searchPlaceholder: 'Search posts and pages…',
     searchLabel: 'Search posts and pages',
     empty: 'No posts yet.',
+    readMore: 'Read more',
   },
   post: {
     readTime: '{n} min read',
@@ -124,6 +131,7 @@ const TR_BLOG: BlogStrings = {
     searchPlaceholder: 'Yazılarda ve sayfalarda ara…',
     searchLabel: 'Yazılarda ve sayfalarda ara',
     empty: 'Henüz yazı yok.',
+    readMore: 'Devamını oku',
   },
   post: {
     readTime: '{n} dk okuma',
@@ -160,6 +168,7 @@ const DE_BLOG: BlogStrings = {
     searchPlaceholder: 'Beiträge und Seiten durchsuchen…',
     searchLabel: 'Beiträge und Seiten durchsuchen',
     empty: 'Noch keine Beiträge.',
+    readMore: 'Weiterlesen',
   },
   post: {
     readTime: '{n} Min. Lesezeit',
@@ -196,6 +205,7 @@ const ES_BLOG: BlogStrings = {
     searchPlaceholder: 'Buscar en publicaciones y páginas…',
     searchLabel: 'Buscar en publicaciones y páginas',
     empty: 'Aún no hay publicaciones.',
+    readMore: 'Leer más',
   },
   post: {
     readTime: '{n} min de lectura',
@@ -232,6 +242,7 @@ const PL_BLOG: BlogStrings = {
     searchPlaceholder: 'Szukaj we wpisach i stronach…',
     searchLabel: 'Szukaj we wpisach i stronach',
     empty: 'Nie ma jeszcze wpisów.',
+    readMore: 'Czytaj dalej',
   },
   post: {
     readTime: '{n} min czytania',
@@ -268,6 +279,7 @@ const PT_BLOG: BlogStrings = {
     searchPlaceholder: 'Pesquisar em artigos e páginas…',
     searchLabel: 'Pesquisar em artigos e páginas',
     empty: 'Ainda não há artigos.',
+    readMore: 'Ler mais',
   },
   post: {
     readTime: '{n} min de leitura',
@@ -304,6 +316,7 @@ const FR_BLOG: BlogStrings = {
     searchPlaceholder: 'Rechercher dans les articles et les pages…',
     searchLabel: 'Rechercher dans les articles et les pages',
     empty: 'Pas encore d’articles.',
+    readMore: 'Lire la suite',
   },
   post: {
     readTime: '{n} min de lecture',
@@ -340,6 +353,7 @@ const AR_BLOG: BlogStrings = {
     searchPlaceholder: 'ابحث في المقالات والصفحات…',
     searchLabel: 'ابحث في المقالات والصفحات',
     empty: 'لا توجد مقالات بعد.',
+    readMore: 'اقرأ المزيد',
   },
   post: {
     readTime: 'قراءة {n} دقيقة',
@@ -376,6 +390,7 @@ const UR_BLOG: BlogStrings = {
     searchPlaceholder: 'مضامین اور صفحات میں تلاش کریں…',
     searchLabel: 'مضامین اور صفحات میں تلاش کریں',
     empty: 'ابھی کوئی مضمون نہیں۔',
+    readMore: 'مزید پڑھیں',
   },
   post: {
     readTime: '{n} منٹ کا مطالعہ',

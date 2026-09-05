@@ -771,3 +771,22 @@ html[dir="rtl"] .spay-site [data-r="marquee"] > div {
     padding: 0 0 28px !important;
   }
 }
+
+/* Arabic and Urdu need more room under a heading than Latin does.
+
+   The design sets its display headings at line-height 1.0 — tight is the look.
+   Latin glyphs sit inside that; Arabic-script ones do not. Their descenders and
+   the dots below ی and ٹ carry roughly half an em past the baseline, so the ink
+   of a 72px heading runs 40px below the box the layout gave it and lands on the
+   paragraph underneath: the category heading "کرپٹو VISA کارڈ" overlapped its
+   own intro by 18px, which reads as letters with their dots cut off.
+
+   1.45 was measured, not guessed: it is the first value that clears the next
+   element (+7px) on the tightest heading on the site. The padding is for the
+   final descender, which a line-height alone does not reach.
+
+   Scoped to dir="rtl" so the Latin design is untouched. */
+html[dir="rtl"] .spay-site [data-r="page-head"] h1 {
+  line-height: 1.45 !important;
+  padding-bottom: 0.12em;
+}
